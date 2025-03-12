@@ -1,3 +1,7 @@
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+
 /* Reset */
 * {
     padding: 0;
@@ -5,21 +9,100 @@
     box-sizing: border-box;
 }
 
-/* Colors & vars */
+/* Vars */
 :root {
+    --font: "Nunito", sans-serif;
+    --font-logo: "Comfortaa", sans-serif;
+    --fw-regular: 400;
+    --fw-medium: 500;
+    --fw-semibold: 600;
+    --fw-bold: 700;
+    --fw-extrabold: 800;
+    --fw-black: 900;
+    /**/
+    --color-heading: #1A1926;
+    --color-body-light: #637085;
+    --color-body-dark: #28263B;
     --color-background: #F1F3F7;
+    --color-surface: #ffffff;
     --color-accent: #2D99FF;
-    --color-border-200: #E3E5E8;
+    --color-accent-dark: #2582d8;
+    --color-orange: #ff9640;
+    --color-red: #ff663f;
+    --color-yellow: #ffd422;
+    --color-blue: #2cd9d9;
+    --color-green: #30d381;
+    --color-purple: #826af9;
+    --color-dark-green: #23b26a;
+    --color-dark-orange: #ef932f;
+    --color-dark-yellow: #fcbb42;
+    --color-dark-red: #e94d3e;
+    --color-dark-blue: #2d7ccc;
+    --color-dark-purple: #634cd4;
+    --color-grey-100: #f4f6f9;
+    --color-grey-200: #eff1f4;
+    --color-grey-300: #e8eaed;
+    --color-grey-400: #e3e5e8;
+    --color-border-100: #eaedf2;
+    --color-border-200: #e3e5e8;
+    --color-border-300: #c5c8cc;
 }
+
+/* Typography */
+h1, h2, h3 {
+    font-weight: var(--fw-bold);
+}
+
+h4, h5, h6 {
+    font-weight: var(--fw-semibold);
+}
+
+h1 {
+    font-size: 36px;
+}
+
+h2 {
+    font-size: 32px;
+}
+
+h3 {
+    font-size: 28px;
+}
+
+h4 {
+    font-size: 24px;
+}
+
+h5 {
+    font-size: 20px;
+}
+
+h6 {
+    font-size: 18px;
+}
+
 
 body, html {
     height: 100dvh;
+
+    font-size: 16px;
+    font-family: var(--font);
+    font-weight: var(--font-regular);
+    font-style: normal;
+    color
+}
+
+.logo-text {
+    font-family: var(--font-logo);
+    font-size: 26px;
+    font-weight: var(--fw-bold);
 }
 
 .main-container {
+    height: 100%;
+
     background-color: var(--color-background);
 
-    height: 100%;
     display: grid;
     grid-template-areas:
         "sidebar topbar"
@@ -29,22 +112,27 @@ body, html {
 }
 
 .main-topbar {
-/*    border-color: var(--color-border-200);*/
+    grid-area: topbar;
+
     border: 1px solid var(--color-border-200);
     border-width: 0 0 1px 0;
 
-    grid-area: topbar;
     height: 50px;
 }
 
 .main-sidebar {
-    border: 1px solid var(--color-border-200);
-    border-width: 0 1px 0 0;
-
     grid-area: sidebar;
     width: 200px;
+
+    padding-top: 1.75rem;
+    padding-inline: 1rem;
+
+    border: 1px solid var(--color-border-200);
+    border-width: 0 1px 0 0;
 }
 
 .main-content {
     grid-area: content;
+
+    padding: 2.5rem 2rem;
 }
