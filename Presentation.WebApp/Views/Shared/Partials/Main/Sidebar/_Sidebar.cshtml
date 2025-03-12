@@ -4,5 +4,5 @@
 </div>
 
 <div class="items-container">
-    @await Html.PartialAsync("Partials/Main/Sidebar/_SidebarItem")
+    @await Html.PartialAsync("Partials/Main/Sidebar/_SidebarItem", new SidebarItemModel { ImgUrl = "images/icons/project-briefcase.svg", Name = "Projects" })
 </div>

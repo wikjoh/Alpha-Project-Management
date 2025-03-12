@@ -1,6 +1,8 @@
-﻿<div class="sidebar-item">
+﻿@model SidebarItemModel
+
+<div class="sidebar-item">
     <div class="img-container">
-        <img src="images/icons/project-briefcase.svg" class="item-img"/>
+        <img src="@Model.ImgUrl" class="item-img"/>
     </div>
-    <span class="item-name">Projects</span>
+    <span class="item-name">@Model.Name</span>
 </div>
