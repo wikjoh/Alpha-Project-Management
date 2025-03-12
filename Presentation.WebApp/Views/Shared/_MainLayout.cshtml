@@ -12,12 +12,12 @@
     <div class="main-container">
 
         <header class="main-topbar">
-            TOPBAR
+            @await Html.PartialAsync("Partials/Main/Topbar/_Topbar.cshtml")
         </header>
 
 
         <nav class="main-sidebar">
-            SIDEBAR
+            @await Html.PartialAsync("Partials/Main/Sidebar/_Sidebar.cshtml")
         </nav>
 
 

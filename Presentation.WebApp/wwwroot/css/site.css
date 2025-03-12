@@ -24,6 +24,7 @@
     --color-body-light: #637085;
     --color-body-dark: #28263B;
     --color-background: #F1F3F7;
+    --color-background-dark: #151517;
     --color-surface: #ffffff;
     --color-accent: #2D99FF;
     --color-accent-dark: #2582d8;
@@ -49,6 +50,7 @@
 }
 
 /* Typography */
+
 h1, h2, h3 {
     font-weight: var(--fw-bold);
 }
@@ -89,13 +91,19 @@ body, html {
     font-family: var(--font);
     font-weight: var(--font-regular);
     font-style: normal;
-    color
+    color: var(--color-body-dark);
+}
+
+.logo-container {
+    display: flex;
 }
 
 .logo-text {
     font-family: var(--font-logo);
     font-size: 26px;
     font-weight: var(--fw-bold);
+
+    margin-left: .75rem;
 }
 
 .main-container {
