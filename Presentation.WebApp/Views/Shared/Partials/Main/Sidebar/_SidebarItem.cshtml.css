@@ -1,0 +1,16 @@
+﻿.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    background-color: #dbe9f8;
+    height: 56px;
+    border-radius: 16px;
+
+    font-weight: var(--fw-semibold);
+}
+
+.item-img {
+    vertical-align: middle;
+    margin-left: 1.25rem;
+}
