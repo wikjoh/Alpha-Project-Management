@@ -3,11 +3,14 @@
     align-items: center;
     gap: 1rem;
 
-    background-color: #dbe9f8;
     height: 56px;
     border-radius: 16px;
 
     font-weight: var(--fw-semibold);
+}
+
+[data-active="true"] {
+    background-color: #dbe9f8;
 }
 
 .item-img {
