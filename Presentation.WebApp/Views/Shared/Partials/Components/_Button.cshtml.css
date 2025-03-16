@@ -1,0 +1,20 @@
+﻿button {
+    display: flex;
+    align-items: center;
+
+    padding: .75rem 1.5rem;
+    font-weight: 300;
+    background-color: var(--color-accent);
+    color: white;
+
+    border-radius: 14px;
+    border: 2px solid white;
+}
+
+img {
+    margin-right: .5rem;
+}
+
+span {
+    white-space: nowrap;
+}

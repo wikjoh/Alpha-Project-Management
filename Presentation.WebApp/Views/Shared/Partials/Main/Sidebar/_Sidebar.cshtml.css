@@ -1,0 +1,12 @@
+﻿.logo-container {
+    display: flex;
+    padding-left: .625rem;
+    margin-bottom: 1.75rem;
+}
+
+.logo-text {
+    font-family: var(--font-logo);
+    font-size: 26px;
+    font-weight: var(--fw-bold);
+    margin-left: .75rem;
+}
