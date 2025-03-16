@@ -1,0 +1,20 @@
+﻿.search-container {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+img {
+    margin-right: 1rem;
+}
+
+input {
+    height: 100%;
+    width: 100%;
+    border: none;
+    background-color: transparent;
+}
+
+input:focus {
+    outline: none;
+}

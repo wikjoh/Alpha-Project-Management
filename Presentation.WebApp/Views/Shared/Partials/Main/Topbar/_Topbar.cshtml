@@ -1,1 +1,12 @@
-﻿TOPBAR
+﻿<div class="container">
+    <div class="left">
+        @await Html.PartialAsync("Partials/Main/Topbar/_Search")
+    </div>
+
+    <div class="right">
+        @await Html.PartialAsync("Partials/Main/Topbar/_Notifications")
+        @await Html.PartialAsync("Partials/Main/Topbar/_Settings")
+        <span class="divider"></span>
+        @await Html.PartialAsync("Partials/Main/Topbar/_User")
+    </div>
+</div>
