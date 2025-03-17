@@ -1,0 +1,76 @@
+﻿.card {
+    width: 350px;
+    padding: 1.5rem;
+    background-color: var(--color-surface);
+    border-radius: 16px;
+
+    box-shadow: 0px 25px 10px -20px rgba(0,0,0,0.15);
+}
+
+.top {
+    display: grid;
+    grid-template-areas:
+        "project-image project-title project-dots"
+        "project-image project-company project-dots";
+
+    grid-template-columns: auto 1fr auto;
+}
+
+.project-image {
+    grid-area: project-image;
+    margin-right: 1rem;
+}
+
+.project-title {
+    grid-area: project-title;
+}
+
+.project-company {
+    grid-area: project-company;
+    color: var(--color-body-light);
+}
+
+.project-dots {
+    grid-area: project-dots;
+    transform: translateY(-7px);
+    cursor: pointer;
+}
+
+
+.description {
+    margin-top: 1rem;
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 4.5rem;
+}
+
+.duetime-container {
+    display: flex;
+    align-items: center;
+
+    padding: .5rem;
+    background-color: var(--color-grey-200);
+    border-radius: 10px;
+}
+
+.time-remaining {
+    margin-left: .5rem;
+    white-space: nowrap;
+    font-size: 14px;
+
+    color: var(--color-heading);
+}
+
+.user-avatars {
+    display: flex;
+    gap: .5rem;
+
+    img {
+            height: 30px;
+        }
+}

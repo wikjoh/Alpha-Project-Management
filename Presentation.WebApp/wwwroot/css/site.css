@@ -81,6 +81,7 @@ h5 {
 
 h6 {
     font-size: 18px;
+    color: var(--color-heading);
 }
 
 

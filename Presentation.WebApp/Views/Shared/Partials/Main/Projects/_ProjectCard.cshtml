@@ -1,0 +1,24 @@
+﻿@model ProjectCardModel
+
+<div class="card">
+    <div class="top">
+        <img src="images/project-image.svg" class="project-image" />
+        <h6 class="project-title">@Model.Title</h6>
+        <span class="project-company">@Model.Company</span>
+        <img src="images/icons/more-dots.svg" class="project-dots" />
+    </div>
+    <div class="description">
+        <span class="description-text">@Model.Description</span>
+    </div>
+    <div class="bottom">
+        <div class="duetime-container">
+            <img src="images/icons/clock.svg" class="clock" />
+            <span class="time-remaining">@Model.DueTime</span>
+        </div>
+        <div class="user-avatars">
+            <img src="images/icons/usericon.svg" />
+            <img src="images/icons/usericon.svg" />
+        </div>
+    </div>
+
+</div>

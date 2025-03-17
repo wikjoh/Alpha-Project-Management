@@ -9,6 +9,13 @@
 
     border-radius: 14px;
     border: 2px solid white;
+
+    transition: all .2s;
+}
+
+button:hover {
+    background-color: var(--color-border-300);
+    cursor: pointer;
 }
 
 img {

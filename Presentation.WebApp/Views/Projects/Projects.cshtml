@@ -13,3 +13,14 @@
 
     @await Html.PartialAsync("Partials/Components/_Button", new ButtonModel { IconUri = "images/icons/plus.svg", Title = "Add Project" })
 </div>
+
+
+<div class="card">
+    @await Html.PartialAsync("Partials/Main/Projects/_ProjectCard", new ProjectCardModel
+    {
+        Title = "Website Redesign",
+        Company = "GitLab Inc.",
+        Description = "It is necessary to develop a website redesign in a corporate style.",
+        DueTime = "1 week left"
+    })
+</div>
