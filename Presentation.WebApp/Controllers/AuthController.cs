@@ -4,8 +4,8 @@ namespace Presentation.WebApp.Controllers
 {
     public class AuthController : Controller
     {
-        [Route("Auth")]
-        public IActionResult Projects()
+        //[Route("CreateAccount")]
+        public IActionResult CreateAccount()
         {
             return View();
         }

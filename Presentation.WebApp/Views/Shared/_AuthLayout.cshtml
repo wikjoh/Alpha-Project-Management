@@ -9,22 +9,12 @@
     <link rel="stylesheet" href="~/Presentation.WebApp.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <div>
-            HEADER
-        </div>
-    </header>
-    <div class="container">
-        <main role="main">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            FOOTER
-        </div>
-    </footer>
+        <main role="main" class="wrapper">
+            <div class="container">
+                @RenderBody()
+            </div>
+        </main>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
