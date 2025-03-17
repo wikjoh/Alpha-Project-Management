@@ -11,12 +11,12 @@
         Projects
     </h2>
 
-    @await Html.PartialAsync("Partials/Components/_Button", new ButtonModel { IconUri = "~/images/icons/plus.svg", Title = "Add Project" })
+    @await Html.PartialAsync("Components/_Button", new ButtonModel { IconUri = "~/images/icons/plus.svg", Title = "Add Project" })
 </div>
 
 
 <div class="card">
-    @await Html.PartialAsync("Partials/Sections/Projects/_ProjectCard", new ProjectCardModel
+    @await Html.PartialAsync("Sections/Projects/Components/_ProjectCard", new ProjectCardModel
     {
         Title = "Website Redesign",
         Company = "GitLab Inc.",
