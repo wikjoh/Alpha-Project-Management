@@ -9,6 +9,11 @@
     font-weight: var(--fw-semibold);
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 [data-active="true"] {
     background-color: #dbe9f8;
 }

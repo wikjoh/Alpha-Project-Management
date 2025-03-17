@@ -1,8 +1,8 @@
 ﻿@model SidebarItemModel
 
-<div class="sidebar-item" data-active="@(Model.IsActive.ToString().ToLower())">
+<a href="#" class="sidebar-item" data-active="@(Model.IsActive.ToString().ToLower())">
     <div class="img-container">
         <img src="@Url.Content(Model.ImgUrl)" class="item-img"/>
     </div>
     <span class="item-name">@Model.Name</span>
-</div>
+</a>
