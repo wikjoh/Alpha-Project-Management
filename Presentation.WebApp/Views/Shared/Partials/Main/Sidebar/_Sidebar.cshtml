@@ -1,9 +1,0 @@
-﻿<a class="logo" href="#">
-    <img src="~/images/logo.svg" alt="Logo" />
-    <span class="logo-text">alpha</span>
-</a>
-
-<nav class="items-container">
-    @await Html.PartialAsync("Partials/Main/Sidebar/_SidebarItem", new SidebarItemModel { ImgUrl = "~/images/icons/project-briefcase.svg", Name = "Projects", IsActive = true })
-    @await Html.PartialAsync("Partials/Main/Sidebar/_SidebarItem", new SidebarItemModel { ImgUrl = "~/images/icons/project-briefcase.svg", Name = "Team Members" })
-</nav>
