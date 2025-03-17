@@ -2,7 +2,7 @@
 
 <div class="sidebar-item" data-active="@(Model.IsActive.ToString().ToLower())">
     <div class="img-container">
-        <img src="@Model.ImgUrl" class="item-img"/>
+        <img src="@Url.Content(Model.ImgUrl)" class="item-img"/>
     </div>
     <span class="item-name">@Model.Name</span>
 </div>

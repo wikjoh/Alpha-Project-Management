@@ -1,6 +1,6 @@
 ﻿@model ButtonModel
 
 <button>
-    <img src="@Model.IconUri" />
+    <img src="@Url.Content(@Model.IconUri)" />
     <span class="title">@Model.Title</span>
 </button>
