@@ -6,21 +6,21 @@
 
 
 
-<div class="container">
-    <h2>
-        Projects
-    </h2>
+<section id="projects">
+    <header>
+        <div class="header-container">
+            <h2>@ViewData["Title"]</h2>
+            @await Html.PartialAsync("Components/Buttons/_AddButton", "Add Project" )
+        </div>
+    </header>
 
-    @await Html.PartialAsync("Components/_Button", new ButtonModel { IconUri = "~/images/icons/plus.svg", Title = "Add Project" })
-</div>
-
-
-<div class="card">
-    @await Html.PartialAsync("Sections/Projects/Components/_ProjectCard", new ProjectCardModel
-    {
-        Title = "Website Redesign",
-        Company = "GitLab Inc.",
-        Description = "It is necessary to develop a website redesign in a corporate style.",
-        DueTime = "1 week left"
-    })
-</div>
+    <div class="card">
+        @await Html.PartialAsync("Sections/Projects/Components/_ProjectCard", new ProjectCardModel
+        {
+            Title = "Website Redesign",
+            Company = "GitLab Inc.",
+            Description = "It is necessary to develop a website redesign in a corporate style.",
+            DueTime = "1 week left"
+        })
+    </div>
+</section>

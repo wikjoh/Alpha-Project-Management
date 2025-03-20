@@ -1,12 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Presentation.WebApp.Controllers
+namespace Presentation.WebApp.Controllers;
+
+[Route("admin")]
+public class AdminController : Controller
 {
-    public class AdminController : Controller
+    [Route("members")]
+    public IActionResult Members()
     {
-        public IActionResult Members()
-        {
-            return View();
-        }
+        return View();
+    }
+
+    [Route("clients")]
+    public IActionResult Clients()
+    {
+        return View();
     }
 }

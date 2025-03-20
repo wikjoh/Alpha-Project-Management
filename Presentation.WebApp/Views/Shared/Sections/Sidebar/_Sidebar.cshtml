@@ -16,4 +16,12 @@
         AspController = "Admin",
         AspAction = "Members"
     })
+
+    @await Html.PartialAsync("Sections/Sidebar/Components/_SidebarItem", new SidebarItemModel
+    {
+        ImgUrl = "~/images/icons/project-briefcase.svg",
+        Name = "Clients",
+        AspController = "Admin",
+        AspAction = "Clients"
+    })
 </nav>

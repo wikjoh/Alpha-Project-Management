@@ -1,14 +1,14 @@
 ﻿@{
     Layout = "_MainLayout";
-    ViewData["Title"] = "Members";
+    ViewData["Title"] = "Clients";
 }
 
 
-<section id="members">
+<section id="clients">
     <header>
         <div class="header-container">
             <h2>@ViewData["Title"]</h2>
-            @await Html.PartialAsync("Components/Buttons/_AddButton", "Add Member")
+            @await Html.PartialAsync("Components/Buttons/_AddButton", "Add Client")
         </div>
     </header>
 </section>
