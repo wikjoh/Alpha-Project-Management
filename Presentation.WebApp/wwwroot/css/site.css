@@ -9,6 +9,10 @@
     box-sizing: border-box;
 }
 
+img {
+    font-size: 0; /* prevent alt-text from flashing before image load in firefox */
+}
+
 /* Vars */
 :root {
     --font: "Nunito", sans-serif;

@@ -4,7 +4,7 @@
 <div class="css-isolation-wrapper">
     <a class="sidebar-item @(Context.Request.Path == "/" + Model.AspController + "/" + Model.AspAction ? "active" : "")" asp-controller="@Model.AspController" asp-action="@Model.AspAction">
         <div class="img-container">
-            <img src="@Url.Content(Model.ImgUrl)" class="item-img"/>
+            <img src="@Url.Content(Model.ImgUrl)" width="22" height="22" class="item-img"/>
         </div>
         <span class="item-name">@Model.Name</span>
     </a>
