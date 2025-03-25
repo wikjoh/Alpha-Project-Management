@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Business.Dtos;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.WebApp.Controllers;
 
@@ -14,6 +15,25 @@ public class AdminController : Controller
     [Route("clients")]
     public IActionResult Clients()
     {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult AddClient(AddClientForm form)
+    {
+        if (!ModelState.IsValid)
+            return RedirectToAction("Clients");
+
+        return View();
+    }
+
+
+    [HttpPost]
+    public IActionResult EditClient(AddClientForm form)
+    {
+        if (!ModelState.IsValid)
+            return RedirectToAction("Clients");
+
         return View();
     }
 }

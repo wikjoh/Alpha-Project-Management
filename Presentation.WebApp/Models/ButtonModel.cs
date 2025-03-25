@@ -9,4 +9,6 @@ public class ButtonModel
     public bool DataModal { get; set; }
 
     public string? DataTarget { get; set; }
+
+    public string? Type { get; set; } = "button";
 }

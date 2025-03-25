@@ -4,7 +4,7 @@
     string dataTarget = !string.IsNullOrWhiteSpace(Model.DataTarget) ? ("data-target=#" + Model.DataTarget) : "";
 }
 
-<button type="button" @dataModal @dataTarget>
+<button type="@Model.Type" @dataModal @dataTarget>
 @if (!string.IsNullOrWhiteSpace(Model.IconUri))
 {
     <img src="@Url.Content(@Model.IconUri)" />

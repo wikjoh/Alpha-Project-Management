@@ -16,6 +16,7 @@ img {
 /* Vars */
 :root {
     --font: "Nunito", sans-serif;
+    --font-fa: "Font Awesome 6 Free";
     --font-logo: "Comfortaa", sans-serif;
     --fw-regular: 400;
     --fw-medium: 500;
@@ -98,4 +99,10 @@ body, html {
     font-weight: var(--fw-regular);
     font-style: normal;
     color: var(--color-body-dark);
+}
+
+
+/* Helper classes */
+.hide {
+    display: none;
 }
