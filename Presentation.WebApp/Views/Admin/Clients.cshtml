@@ -4,11 +4,17 @@
 }
 
 
+@{
+    ViewData["Title"] = "Clients";
+}
+
+<partial name="Sections/Clients/_AddClientForm" />
+
 <section id="clients">
     <header>
         <div class="header-container">
             <h2>@ViewData["Title"]</h2>
-            @await Html.PartialAsync("Components/Buttons/_AddButton", "Add Client")
+            <partial name="Sections/Clients/Components/_AddClientButton" />
         </div>
     </header>
 

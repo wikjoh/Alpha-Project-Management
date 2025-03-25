@@ -3,11 +3,21 @@
 
         <div class="modal-header">
             <h3>Add Client</h3>
-            <button class="btn-close" data-close="true"></button>
+            <button class="btn-close" data-close="true">X</button>
         </div>
 
         <form novalidate method="post" asp-action="AddClient" asp-controller="Admin">
+            <div class="form-group">
+                <label>Client Name</label>
+                <div class="field-group">
+                    <input type="text" placeholder="Enter client name" />
+                    <span class="field-validation-error"></span>
+                </div>
+            </div>
 
+            <div class="submit-button-container" style="display: contents">
+                <partial name="Components/Buttons/_BaseButton" model="@( new ButtonModel { Title = "Create" } )" />
+            </div>
         </form>
     </div>
 </div>

@@ -1,6 +1,13 @@
 ﻿@model ButtonModel
+@{
+    string dataModal = Model.DataModal ? "data-modal=true" : "";
+    string dataTarget = !string.IsNullOrWhiteSpace(Model.DataTarget) ? ("data-target=#" + Model.DataTarget) : "";
+}
 
-<button>
+<button type="button" @dataModal @dataTarget>
+@if (!string.IsNullOrWhiteSpace(Model.IconUri))
+{
     <img src="@Url.Content(@Model.IconUri)" />
+}
     <span class="title">@Model.Title</span>
 </button>
