@@ -18,22 +18,41 @@ public class AdminController : Controller
         return View();
     }
 
+    [Route("addClient")]
     [HttpPost]
     public IActionResult AddClient(AddClientForm form)
     {
         if (!ModelState.IsValid)
-            return RedirectToAction("Clients");
+        {
+            var errors = ModelState
+                .Where(x => x.Value?.Errors.Count > 0)
+                .ToDictionary(kvp => kvp.Key, kvp => kvp.Value?.Errors.Select(x => x.ErrorMessage).ToArray());
 
-        return View();
+            return BadRequest(new { success = false, errors });
+
+        }
+
+        // send data to service
+
+        return Ok(new { success = true });
     }
 
-
+    [Route("editClient")]
     [HttpPost]
-    public IActionResult EditClient(AddClientForm form)
+    public IActionResult EditClient(EditClientForm form)
     {
         if (!ModelState.IsValid)
-            return RedirectToAction("Clients");
+        {
+            var errors = ModelState
+                .Where(x => x.Value?.Errors.Count > 0)
+                .ToDictionary(kvp => kvp.Key, kvp => kvp.Value?.Errors.Select(x => x.ErrorMessage).ToArray());
 
-        return View();
+            return BadRequest(new { success = false, errors });
+
+        }
+
+        // send data to service
+
+        return Ok(new { success = true });
     }
 }
