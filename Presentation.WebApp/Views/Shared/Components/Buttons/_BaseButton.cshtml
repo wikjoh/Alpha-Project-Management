@@ -1,4 +1,5 @@
-﻿@model ButtonModel
+﻿@using Presentation.WebApp.Models.Components
+@model ButtonModel
 @{
     string dataModal = Model.DataModal ? "data-modal=true" : "";
     string dataTarget = !string.IsNullOrWhiteSpace(Model.DataTarget) ? ("data-target=#" + Model.DataTarget) : "";

@@ -1,4 +1,4 @@
-﻿namespace Presentation.WebApp.Models;
+﻿namespace Presentation.WebApp.Models.Components;
 
 public class ProjectCardModel
 {
