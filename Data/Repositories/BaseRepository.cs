@@ -5,10 +5,11 @@ using System.Linq.Expressions;
 using Data.Contexts;
 using Data.Models;
 using Data.Interfaces;
+using Domain.Extensions;
 
 namespace Data.Repositories;
 
-public abstract class BaseRepository<TEntity>(AppDbContext context) : IBaseRepository<TEntity> where TEntity : class
+public abstract class BaseRepository<TEntity, TMapTo>(AppDbContext context) : IBaseRepository<TEntity, TMapTo> where TEntity : class
 {
     protected readonly AppDbContext _context = context;
     protected readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
@@ -63,21 +64,24 @@ public abstract class BaseRepository<TEntity>(AppDbContext context) : IBaseRepos
 
 
     // READ
-    public virtual async Task<RepositoryResult<IEnumerable<TEntity>>> GetAllAsync()
+    public virtual async Task<RepositoryResult<IEnumerable<TMapTo>>> GetAllAsync()
     {
         var entities = await _dbSet.ToListAsync();
-        return RepositoryResult<IEnumerable<TEntity>>.Ok(entities);
+        var result = entities.Select(entity => entity.MapTo<T>());
+        return RepositoryResult<IEnumerable<TMapTo>>.Ok(result);
     }
 
-    public virtual async Task<RepositoryResult<TEntity>> GetAsync(Expression<Func<TEntity, bool>> expression)
+    public virtual async Task<RepositoryResult<TMapTo>> GetAsync(Expression<Func<TEntity, bool>> expression)
     {
         if (expression == null)
-            return RepositoryResult<TEntity>.BadRequest("Expression cannot be null.");
+            return RepositoryResult<TMapTo>.BadRequest("Expression cannot be null.");
 
         var entity = await _dbSet.FirstOrDefaultAsync(expression);
-        return entity == null
-            ? RepositoryResult<TEntity>.NotFound("Entity not found.")
-            : RepositoryResult<TEntity>.Ok(entity);
+        if (entity == null)
+            return RepositoryResult<TMapTo>.NotFound("Entity not found.");
+
+        var result = entity.MapTo<TMapTo>();
+        return RepositoryResult<TMapTo>.Ok(result);
     }
 
     public virtual async Task<RepositoryResult<bool?>> ExistsAsync(Expression<Func<TEntity, bool>> expression)
