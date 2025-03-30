@@ -3,67 +3,22 @@
 namespace Data.Models;
 
 
-public class RepositoryResult : IRepositoryResult
+public class RepositoryResult<T> : IRepositoryResult<T>
 {
     public bool Success { get; set; }
     public int StatusCode { get; set; }
     public string? ErrorMessage { get; set; }
+    public T? Result { get; set; } = default;
 
 
-    public static RepositoryResult Ok()
+    public static RepositoryResult<T> Ok()
     {
-        return new RepositoryResult
+        return new RepositoryResult<T>
         {
             Success = true,
             StatusCode = 200
         };
     }
-
-    public static RepositoryResult BadRequest(string errorMessage)
-    {
-        return new RepositoryResult
-        {
-            Success = false,
-            StatusCode = 400,
-            ErrorMessage = errorMessage
-        };
-    }
-
-    public static RepositoryResult NotFound(string errorMessage)
-    {
-        return new RepositoryResult
-        {
-            Success = false,
-            StatusCode = 404,
-            ErrorMessage = errorMessage
-        };
-    }
-
-    public static RepositoryResult AlreadyExists(string errorMessage)
-    {
-        return new RepositoryResult
-        {
-            Success = false,
-            StatusCode = 409,
-            ErrorMessage = errorMessage
-        };
-    }
-
-    public static RepositoryResult InternalServerErrror(string errorMessage)
-    {
-        return new RepositoryResult
-        {
-            Success = false,
-            StatusCode = 500,
-            ErrorMessage = errorMessage
-        };
-    }
-}
-
-
-public class RepositoryResult<T> : RepositoryResult, IRepositoryResult<T>
-{
-    public required T Result { get; set; }
 
     public static RepositoryResult<T> Ok(T result)
     {
@@ -82,6 +37,46 @@ public class RepositoryResult<T> : RepositoryResult, IRepositoryResult<T>
             Success = true,
             StatusCode = 201,
             Result = result
+        };
+    }
+
+    public static RepositoryResult<T> BadRequest(string errorMessage)
+    {
+        return new RepositoryResult<T>
+        {
+            Success = false,
+            StatusCode = 400,
+            ErrorMessage = errorMessage
+        };
+    }
+
+    public static RepositoryResult<T> NotFound(string errorMessage)
+    {
+        return new RepositoryResult<T>
+        {
+            Success = false,
+            StatusCode = 404,
+            ErrorMessage = errorMessage
+        };
+    }
+
+    public static RepositoryResult<T> AlreadyExists(string errorMessage)
+    {
+        return new RepositoryResult<T>
+        {
+            Success = false,
+            StatusCode = 409,
+            ErrorMessage = errorMessage
+        };
+    }
+
+    public static RepositoryResult<T> InternalServerErrror(string errorMessage)
+    {
+        return new RepositoryResult<T>
+        {
+            Success = false,
+            StatusCode = 500,
+            ErrorMessage = errorMessage
         };
     }
 }
