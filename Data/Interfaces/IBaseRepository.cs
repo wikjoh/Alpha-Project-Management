@@ -1,17 +1,17 @@
-﻿using System.Linq.Expressions;
+﻿using Data.Models;
+using System.Linq.Expressions;
 
 namespace Data.Interfaces;
-public interface IBaseRepository<TEntity> where TEntity : class
+public interface IBaseRepository<TEntity>
 {
-    Task AddAsync(TEntity entity);
+    Task<RepositoryResult<bool?>> AddAsync(TEntity entity);
     Task BeginTransactionAsync();
     Task CommitTransactionAsync();
-    void Delete(TEntity entity);
-    Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> expression);
-    Task<IEnumerable<TEntity>> GetAllAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>>? includeExpression = null);
-    Task<IEnumerable<TEntity>> GetAllWhereAsync(Expression<Func<TEntity, bool>> expression, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includeExpression = null);
-    Task<TEntity?> GetOneAsync(Expression<Func<TEntity, bool>> expression, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includeExpression = null);
+    RepositoryResult<bool?> Delete(TEntity entity);
+    Task<RepositoryResult<bool?>> ExistsAsync(Expression<Func<TEntity, bool>> expression);
+    Task<RepositoryResult<IEnumerable<TEntity>>> GetAllAsync();
+    Task<RepositoryResult<TEntity>> GetAsync(Expression<Func<TEntity, bool>> expression);
     Task RollbackTransactionAsync();
-    Task<int?> SaveAsync();
-    void Update(TEntity entity);
+    Task<RepositoryResult<bool?>> SaveAsync();
+    RepositoryResult<bool?> Update(TEntity entity);
 }

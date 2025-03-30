@@ -8,7 +8,7 @@ public class RepositoryResult<T> : IRepositoryResult<T>
     public bool Success { get; set; }
     public int StatusCode { get; set; }
     public string? ErrorMessage { get; set; }
-    public T? Result { get; set; } = default;
+    public T? Data { get; set; } = default;
 
 
     public static RepositoryResult<T> Ok()
@@ -20,23 +20,23 @@ public class RepositoryResult<T> : IRepositoryResult<T>
         };
     }
 
-    public static RepositoryResult<T> Ok(T result)
+    public static RepositoryResult<T> Ok(T data)
     {
         return new RepositoryResult<T>
         {
             Success = true,
             StatusCode = 200,
-            Result = result
+            Data = data
         };
     }
 
-    public static RepositoryResult<T> Created(T result)
+    public static RepositoryResult<T> Created(T data)
     {
         return new RepositoryResult<T>
         {
             Success = true,
             StatusCode = 201,
-            Result = result
+            Data = data
         };
     }
 

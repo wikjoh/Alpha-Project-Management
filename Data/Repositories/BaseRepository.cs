@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using Data.Contexts;
+using Data.Models;
 using Data.Interfaces;
 
 namespace Data.Repositories;
@@ -12,7 +13,6 @@ public abstract class BaseRepository<TEntity>(AppDbContext context) : IBaseRepos
     protected readonly AppDbContext _context = context;
     protected readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
     private IDbContextTransaction _transaction = null!;
-
 
 
     #region Transaction Management
@@ -44,125 +44,104 @@ public abstract class BaseRepository<TEntity>(AppDbContext context) : IBaseRepos
 
 
     // CREATE
-    public virtual async Task AddAsync(TEntity entity)
+    public virtual async Task<RepositoryResult<bool?>> AddAsync(TEntity entity)
     {
-        ArgumentNullException.ThrowIfNull(entity);
+        if (entity == null)
+            return RepositoryResult<bool?>.BadRequest("Entity cannot be null.");
 
         try
         {
             await _dbSet.AddAsync(entity);
+            return RepositoryResult<bool?>.Ok();
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error creating {nameof(TEntity)} entity. {ex.Message}");
-            throw;
+            Debug.WriteLine(ex.Message);
+            return RepositoryResult<bool?>.InternalServerErrror(ex.Message);
         }
     }
 
 
     // READ
-    public virtual async Task<IEnumerable<TEntity>> GetAllAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>>? includeExpression = null)
+    public virtual async Task<RepositoryResult<IEnumerable<TEntity>>> GetAllAsync()
     {
-        IQueryable<TEntity> query = _dbSet;
-
-        if (includeExpression != null)
-            query = includeExpression(query);
-
-        var entities = await query.ToListAsync();
-        return entities;
+        var entities = await _dbSet.ToListAsync();
+        return RepositoryResult<IEnumerable<TEntity>>.Ok(entities);
     }
 
-    public virtual async Task<IEnumerable<TEntity>> GetAllWhereAsync(Expression<Func<TEntity, bool>> expression, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includeExpression = null)
+    public virtual async Task<RepositoryResult<TEntity>> GetAsync(Expression<Func<TEntity, bool>> expression)
     {
-        ArgumentNullException.ThrowIfNull(expression);
+        if (expression == null)
+            return RepositoryResult<TEntity>.BadRequest("Expression cannot be null.");
 
-        IQueryable<TEntity> query = _dbSet;
-
-        if (includeExpression != null)
-            query = includeExpression(query);
-
-        var entities = await query
-            .Where(expression)
-            .ToListAsync();
-
-        return entities;
+        var entity = await _dbSet.FirstOrDefaultAsync(expression);
+        return entity == null
+            ? RepositoryResult<TEntity>.NotFound("Entity not found.")
+            : RepositoryResult<TEntity>.Ok(entity);
     }
 
-    public virtual async Task<TEntity?> GetOneAsync(Expression<Func<TEntity, bool>> expression, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includeExpression = null)
+    public virtual async Task<RepositoryResult<bool?>> ExistsAsync(Expression<Func<TEntity, bool>> expression)
     {
-        ArgumentNullException.ThrowIfNull(expression);
+        if (expression == null)
+            return RepositoryResult<bool?>.BadRequest("Expression cannot be null.");
 
-        IQueryable<TEntity> query = _dbSet;
-
-        if (includeExpression != null)
-            query = includeExpression(query);
-
-        var entity = await query.FirstOrDefaultAsync(expression);
-
-        return entity;
-    }
-
-    public virtual async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> expression)
-    {
-        ArgumentNullException.ThrowIfNull(expression);
-
-        try
-        {
-            return await _dbSet.AnyAsync(expression);
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Error checking if {nameof(TEntity)} exists. {ex.Message}");
-            throw;
-        }
+        var exists = await _dbSet.AnyAsync(expression);
+        return !exists
+            ? RepositoryResult<bool?>.NotFound("Entity not found.")
+            : RepositoryResult<bool?>.Ok(exists);
     }
 
 
     // UPDATE
-    public virtual void Update(TEntity entity)
+    public virtual RepositoryResult<bool?> Update(TEntity entity)
     {
-        ArgumentNullException.ThrowIfNull(entity);
+        if (entity == null)
+            return RepositoryResult<bool?>.BadRequest("Entity cannot be null.");
 
         try
         {
             _dbSet.Update(entity);
+            return RepositoryResult<bool?>.Ok();
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error updating {nameof(TEntity)} entity. {ex.Message}");
-            throw;
+            Debug.WriteLine(ex.Message);
+            return RepositoryResult<bool?>.InternalServerErrror(ex.Message);
         }
     }
 
 
     // DELETE
-    public virtual void Delete(TEntity entity)
+    public virtual RepositoryResult<bool?> Delete(TEntity entity)
     {
-        ArgumentNullException.ThrowIfNull(entity);
+        if (entity == null)
+            return RepositoryResult<bool?>.BadRequest("Entity cannot be null.");
 
         try
         {
             _dbSet.Remove(entity);
+            return RepositoryResult<bool?>.Ok();
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error deleting {nameof(TEntity)} entity. {ex.Message}");
-            throw;
+            Debug.WriteLine(ex.Message);
+            return RepositoryResult<bool?>.InternalServerErrror(ex.Message);
         }
     }
 
 
     // SAVE CHANGES
-    public virtual async Task<int?> SaveAsync()
+    public virtual async Task<RepositoryResult<bool?>> SaveAsync()
     {
         try
         {
-            return await _context.SaveChangesAsync();
+            var result = await _context.SaveChangesAsync() > 0;
+            return RepositoryResult<bool?>.Ok();
         }
-        catch (DbUpdateException ex)
+        catch (Exception ex)
         {
-            Debug.WriteLine($"Error saving changes. {ex.Message}");
-            throw;
+            Debug.WriteLine(ex.Message);
+            return RepositoryResult<bool?>.InternalServerErrror(ex.Message);
         }
     }
 }
