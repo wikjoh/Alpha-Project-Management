@@ -1,8 +1,5 @@
-﻿using Domain.Models;
+﻿namespace Business.Models;
 
-namespace Business.Models;
-
-public class UserProjectResult : ServiceResult
+public class UserProjectResult<TData> : ServiceResult<UserProjectResult<TData>, TData>
 {
-    public IEnumerable<UserProjectModel>? Data { get; set; }
 }
