@@ -12,7 +12,7 @@ public class UserProfileEntity
     public DateTime Created { get; set; } = DateTime.Now;
 
     [Column(TypeName = "varchar(200)")]
-    public string? ImageURI { get; set; } = null!;
+    public string? ImageURI { get; set; }
 
     [Column(TypeName = "nvarchar(201)")]
     public string FullName { get; set; } = null!;
@@ -23,6 +23,9 @@ public class UserProfileEntity
     [Column(TypeName = "nvarchar(100)")]
     public string? LastName { get; set; }
 
+    [Column(TypeName = "varchar(20)")]
+    public string? PhoneNumber { get; set; }
+
     [Column(TypeName = "nvarchar(40)")]
     public string? JobTitle { get; set; }
 
@@ -31,6 +34,8 @@ public class UserProfileEntity
 
     [Column(TypeName = "date")]
     public DateTime? DateOfBirth { get; set; }
+
+    public bool? TermsAndConditions { get; set; }
 
 
     public void UpdateFullName()
