@@ -115,12 +115,28 @@ public abstract class BaseRepository<TEntity, TMapTo>(AppDbContext context) : IB
                 query = query.Include(include);
 
 
-        var entity = await _dbSet.FirstOrDefaultAsync(where);
+        var entity = await query.FirstOrDefaultAsync(where);
         if (entity == null)
             return RepositoryResult<TMapTo>.NotFound("Entity not found.");
 
         var result = entity.MapTo<TMapTo>();
         return RepositoryResult<TMapTo>.Ok(result);
+    }
+
+    public virtual async Task<RepositoryResult<TEntity>> GetEntityAsync(Expression<Func<TEntity, bool>> where, params Expression<Func<TEntity, object>>[] includes)
+    {
+        IQueryable<TEntity> query = _dbSet;
+
+        if (includes != null && includes.Length != 0)
+            foreach (var include in includes)
+                query = query.Include(include);
+
+
+        var entity = await query.FirstOrDefaultAsync(where);
+        if (entity == null)
+            return RepositoryResult<TEntity>.NotFound("Entity not found.");
+
+        return RepositoryResult<TEntity>.Ok(entity);
     }
 
     public virtual async Task<RepositoryResult<bool?>> ExistsAsync(Expression<Func<TEntity, bool>> expression)
