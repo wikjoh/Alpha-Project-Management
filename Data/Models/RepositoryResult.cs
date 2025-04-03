@@ -40,6 +40,15 @@ public class RepositoryResult<T> : IRepositoryResult<T>
         };
     }
 
+    public static RepositoryResult<T> NoContent()
+    {
+        return new RepositoryResult<T>
+        {
+            Success = true,
+            StatusCode = 204
+        };
+    }
+
     public static RepositoryResult<T> BadRequest(string errorMessage)
     {
         return new RepositoryResult<T>
