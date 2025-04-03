@@ -11,4 +11,5 @@ public class UserProfileModel
     public string? JobTitle { get; set; }
     public string? Address { get; set; }
     public DateTime? DateOfBirth { get; set; }
+    public bool? TermsAndConditions { get; set; }
 }
