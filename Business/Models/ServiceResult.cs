@@ -1,6 +1,4 @@
-﻿using Data.Models;
-
-namespace Business.Models;
+﻿namespace Business.Models;
 
 public abstract class ServiceResult<TResult, TData> where TResult : ServiceResult<TResult, TData>, new()
 {
