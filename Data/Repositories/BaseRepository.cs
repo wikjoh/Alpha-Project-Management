@@ -145,9 +145,9 @@ public abstract class BaseRepository<TEntity, TMapTo>(AppDbContext context) : IB
             return RepositoryResult<bool?>.BadRequest("Expression cannot be null.");
 
         var exists = await _dbSet.AnyAsync(expression);
-        return !exists
-            ? RepositoryResult<bool?>.NotFound("Entity not found.")
-            : RepositoryResult<bool?>.Ok(exists);
+        return exists
+            ? RepositoryResult<bool?>.NoContent()
+            : RepositoryResult<bool?>.NotFound("Entity not found.");
     }
 
 
