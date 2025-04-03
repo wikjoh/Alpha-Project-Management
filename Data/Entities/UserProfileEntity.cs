@@ -14,7 +14,7 @@ public class UserProfileEntity
     [Column(TypeName = "varchar(200)")]
     public string? ImageURI { get; set; } = null!;
 
-    [Column(TypeName = "nvarchar(200)")]
+    [Column(TypeName = "nvarchar(201)")]
     public string FullName { get; set; } = null!;
 
     [Column(TypeName = "nvarchar(100)")]
@@ -31,4 +31,13 @@ public class UserProfileEntity
 
     [Column(TypeName = "date")]
     public DateTime? DateOfBirth { get; set; }
+
+
+    public void UpdateFullName()
+    {
+        if (string.IsNullOrWhiteSpace(FullName) && (!string.IsNullOrWhiteSpace(FirstName) || !string.IsNullOrWhiteSpace(LastName)))
+        {
+            FullName = $"{FirstName} {LastName}".Trim();
+        }
+    }
 }
