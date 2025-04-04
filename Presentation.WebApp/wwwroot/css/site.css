@@ -95,10 +95,78 @@ body, html {
     height: 100dvh;
 
     font-size: 16px;
-    font-family: var(--font);
     font-weight: var(--fw-regular);
     font-style: normal;
     color: var(--color-body-dark);
+}
+
+* {
+    font-family: var(--font);
+}
+
+/* Forms */
+form {
+    width: 100%;
+}
+
+form .form-group {
+    display: grid;
+    gap: .5rem;
+    margin-bottom: 1.5rem;
+}
+
+form label {
+    font-size: 15px;
+    font-weight: var(--fw-semibold);
+}
+
+form .field-group {
+    position: relative;
+}
+
+form input,
+form select,
+form textarea {
+    width: 100%;
+    font-size: 1em;
+    padding: 0.5rem 1rem;
+    border-radius: 14px;
+    border: 1px solid #ececec;
+    outline: none;
+    transition: border-color 0.15s ease-in-out;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+    border: 1px solid var(--color-accent);
+}
+
+form input::placeholder,
+form select::placeholder,
+form textarea::placeholder {
+    color: var(--color-body-light);
+    font-size: 15px;
+}
+
+form .input-validation-error {
+    border-color: firebrick;
+}
+
+form .field-validation-error {
+    position: absolute;
+    z-index: 1;
+    right: 0.2rem;
+    top: 3px;
+    font-size: .8em;
+    background-color: lightpink;
+    color: firebrick;
+    padding: .4rem 1rem;
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
 }
 
 
@@ -106,3 +174,4 @@ body, html {
 .hide {
     display: none;
 }
+

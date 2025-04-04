@@ -1,0 +1,64 @@
+﻿@model UserSignUpForm
+
+@{
+    Layout = "_AuthLayout";
+    ViewData["Title"] = "Sign Up";
+}
+
+<h1>Create Account</h1>
+
+<div class="google-signup-container">
+    <partial name="Components/Buttons/_BaseButton" model="@( new ButtonModel { Title = "Sign Up with Google", Type = "button" } )" />
+</div>
+
+<div id="signup" class="container">
+    <form asp-action="Signup" asp-controller"Auth" method="post" novalidate>
+        <div class="form-group">
+            <label asp-for="FullName"></label>
+            <div class="field-group">
+                <input asp-for="FullName" />
+                <span asp-validation-for="FullName"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <div class="field-group">
+                <input asp-for="Email" />
+                <span asp-validation-for="Email"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <div class="field-group">
+                <input asp-for="Password" />
+                <span asp-validation-for="Password"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ConfirmPassword"></label>
+            <div class="field-group">
+                <input asp-for="ConfirmPassword" />
+                <span asp-validation-for="ConfirmPassword"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="field-group">
+                <label asp-for="TermsAndConditions"></label>
+                <input asp-for="TermsAndConditions" />
+                <span asp-validation-for="TermsAndConditions"></span>
+            </div>
+        </div>
+
+        <div class="submit-button-container" style="display: contents">
+            <partial name="Components/Buttons/_BaseButton" model="@( new ButtonModel { Title = "Create Account", Type = "submit" } )" />
+        </div>
+    </form>
+</div>
+
+<div class="login-redirect">
+    <span>Already have an account? <a asp-controller="Auth" asp-action="Login">Login</a></span>
+</div>

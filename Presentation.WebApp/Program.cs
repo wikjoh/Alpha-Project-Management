@@ -1,3 +1,5 @@
+using Business.Interfaces;
+using Business.Services;
 using Data.Contexts;
 using Data.Entities;
 using Data.Interfaces;
@@ -24,7 +26,7 @@ builder.Services.ConfigureApplicationCookie(x =>
     x.AccessDeniedPath = "/auth/denied";
     x.Cookie.HttpOnly = true;
     x.Cookie.IsEssential = true;
-    x.Cookie.Expiration = TimeSpan.FromHours(1);
+    x.ExpireTimeSpan = TimeSpan.FromHours(1);
     x.SlidingExpiration = true;
 });
 
@@ -33,6 +35,8 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 builder.Services.AddScoped<IUserProjectRepository, UserProjectRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserProfileService, UserProfileService>();
 
 var app = builder.Build();
 

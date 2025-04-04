@@ -1,0 +1,26 @@
+﻿h1 {
+    text-align: center;
+}
+
+
+
+::deep .submit-button-container button {
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.google-signup-container ::deep button {
+    width: 100%;
+    margin: 2.5rem 0;
+
+    background-color: var(--color-grey-100);
+    color: var(--color-heading);
+    font-size: 15px;
+    font-weight: var(--fw-semibold);
+}
+
+.login-redirect {
+    margin-top: 3.5rem;
+    display: flex;
+    justify-content: center;
+}
