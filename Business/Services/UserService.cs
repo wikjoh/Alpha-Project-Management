@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.Identity;
 using Domain.Dtos;
 using Microsoft.EntityFrameworkCore;
 using Domain.Extensions;
+using Business.Interfaces;
 
 namespace Business.Services;
 
-public class UserService(IUserRepository userRepository, UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager)
+public class UserService(IUserRepository userRepository, UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager, IUserProfileService userProfileService)
 {
     private readonly IUserRepository _userRepository = userRepository;
+    private readonly IUserProfileService _userProfileService = userProfileService;
     private readonly UserManager<UserEntity> _userManager = userManager;
     private readonly SignInManager<UserEntity> _signInManager = signInManager;
 
@@ -30,14 +32,27 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
             Email = form.Email,
         };
 
-        var result = await _userManager.CreateAsync(userEntity, form.Password);
-        if (result.Succeeded)
+        await _userRepository.BeginTransactionAsync();
+
+        var createUserResult = await _userManager.CreateAsync(userEntity, form.Password);
+        if (createUserResult.Succeeded)
         {
-            var createdUser = (await _userManager.FindByIdAsync(userEntity.Id))!.MapTo<UserModel>();
-            return UserResult<UserModel>.Created(createdUser);
+            var createUserProfileResult = await _userProfileService.CreateUserProfileAsync(form.MapTo<AddUserProfileForm>(), userEntity.Id);
+            if (createUserProfileResult.Success)
+            {
+                await _userRepository.CommitTransactionAsync();
+                var createdUser = (await _userManager.FindByIdAsync(userEntity.Id))!.MapTo<UserModel>();
+                return UserResult<UserModel>.Created(createdUser);
+            }
+            else
+            {
+                await _userRepository.RollbackTransactionAsync();
+                return UserResult<UserModel>.InternalServerErrror("Failed creating user profile.");
+            }
         }
         else
         {
+            await _userRepository.RollbackTransactionAsync();
             return UserResult<UserModel>.InternalServerErrror("Failed creating user.");
         }
     }
