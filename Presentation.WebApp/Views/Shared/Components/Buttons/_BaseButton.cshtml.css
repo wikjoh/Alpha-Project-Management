@@ -7,6 +7,8 @@
     font-weight: 300;
     background-color: var(--color-accent);
     color: white;
+    font-size: 15px;
+    font-weight: var(--fw-semibold);
 
     border-radius: 14px;
     border: 2px solid white;
