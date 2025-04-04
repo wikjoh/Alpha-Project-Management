@@ -10,14 +10,14 @@ using Business.Interfaces;
 
 namespace Business.Services;
 
-public class UserService(IUserRepository userRepository, UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager, IUserProfileService userProfileService)
+public class UserService(IUserRepository userRepository, UserManager<UserEntity> userManager, IUserProfileService userProfileService) : IUserService
 {
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IUserProfileService _userProfileService = userProfileService;
     private readonly UserManager<UserEntity> _userManager = userManager;
-    private readonly SignInManager<UserEntity> _signInManager = signInManager;
 
 
+    // CREATE
     public async Task<UserResult<UserModel>> CreateAsync(UserSignUpForm form)
     {
         if (form == null)
@@ -41,7 +41,8 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
             if (createUserProfileResult.Success)
             {
                 await _userRepository.CommitTransactionAsync();
-                var createdUser = (await _userManager.FindByIdAsync(userEntity.Id))!.MapTo<UserModel>();
+                var createdUserEntity = _userManager.Users.Include(u => u.UserProfile).FirstOrDefault(x => x.Id == userEntity.Id);
+                var createdUser = createdUserEntity!.MapTo<UserModel>();
                 return UserResult<UserModel>.Created(createdUser);
             }
             else
@@ -56,4 +57,5 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
             return UserResult<UserModel>.InternalServerErrror("Failed creating user.");
         }
     }
+
 }
