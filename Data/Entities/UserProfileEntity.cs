@@ -35,7 +35,7 @@ public class UserProfileEntity
     [Column(TypeName = "date")]
     public DateTime? DateOfBirth { get; set; }
 
-    public bool? TermsAndConditions { get; set; }
+    public bool TermsAndConditions { get; set; }
 
 
     public void UpdateFullName()

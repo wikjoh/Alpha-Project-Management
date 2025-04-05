@@ -7,6 +7,8 @@ public class AddUserProfileForm
     [DataType(DataType.Upload)]
     public string? ImageURI { get; set; }
 
+    public string? FullName { get; set; }
+
     [Required(ErrorMessage = "Required")]
     [Display(Name = "First Name", Prompt = "Your first name")]
     [DataType(DataType.Text)]
@@ -39,4 +41,6 @@ public class AddUserProfileForm
     [Display(Name = "Date of Birth")]
     [DataType(DataType.Date)]
     public DateTime? DateOfBirth { get; set; }
+
+    public bool TermsAndConditions { get; set; }
 }
