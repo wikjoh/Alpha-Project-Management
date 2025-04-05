@@ -28,7 +28,5 @@ public class UserSignUpForm
     public string ConfirmPassword { get; set; } = null!;
 
     [Required(ErrorMessage = "Required")]
-    [Display(Name = "Terms & Conditions", Prompt = "I accept Terms and Conditions")]
-    [DataType(DataType.Custom)]
     public bool TermsAndConditions { get; set; }
 }
