@@ -156,8 +156,8 @@ form .input-validation-error {
 form .field-validation-error {
     position: absolute;
     z-index: 1;
-    right: 0.2rem;
-    top: 3px;
+    right: 0.25rem;
+    top: 4px;
     font-size: .8em;
     background-color: lightpink;
     color: firebrick;

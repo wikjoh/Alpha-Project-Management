@@ -51,7 +51,7 @@
     })
 
     // handle submit forms
-    const forms = document.querySelectorAll('form')
+    const forms = document.querySelectorAll('form.ajax')
     forms.forEach(form => {
         form.addEventListener('submit', async (e) => {
             e.preventDefault()
