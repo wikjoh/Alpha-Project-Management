@@ -1,8 +1,10 @@
 ﻿using Business.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.WebApp.Controllers;
 
+//[Authorize]
 [Route("admin")]
 public class AdminController : Controller
 {

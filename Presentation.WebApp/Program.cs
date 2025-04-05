@@ -22,7 +22,8 @@ builder.Services.AddIdentity<UserEntity, IdentityRole>(x =>
 
 builder.Services.ConfigureApplicationCookie(x =>
 {
-    x.LoginPath = "/auth/signing";
+    x.LoginPath = "/auth/signin";
+    x.LogoutPath = "/auth/signout";
     x.AccessDeniedPath = "/auth/denied";
     x.Cookie.HttpOnly = true;
     x.Cookie.IsEssential = true;
