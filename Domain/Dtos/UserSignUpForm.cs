@@ -10,7 +10,7 @@ public class UserSignUpForm
     public string FullName { get; set; } = null!;
 
     [Required(ErrorMessage = "Required")]
-    [RegularExpression(@"^[^@\s]+[^@\s]+\.[^@\s]+$", ErrorMessage = "Invalid email")]
+    [RegularExpression(@"^[^@\s]+@[^\s@]+\.[^\s@]+$", ErrorMessage = "Invalid email")]
     [Display(Name = "Email address", Prompt = "Your email address")]
     [DataType(DataType.EmailAddress)]
     public string Email { get; set; } = null!;
@@ -28,5 +28,6 @@ public class UserSignUpForm
     public string ConfirmPassword { get; set; } = null!;
 
     [Required(ErrorMessage = "Required")]
+    [Range(typeof(bool), "true", "true", ErrorMessage = "Required")]
     public bool TermsAndConditions { get; set; }
 }

@@ -169,6 +169,14 @@ form .field-validation-error {
     gap: .5rem;
 }
 
+form div:has(input[type="checkbox"]) .field-validation-error {
+    background-color: transparent;
+    right: unset;
+    left: -15px;
+    top: 15px;
+    font-weight: var(--fw-semibold);
+}
+
 
 /* Helper classes */
 .hide {
