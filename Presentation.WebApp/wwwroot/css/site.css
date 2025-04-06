@@ -56,6 +56,7 @@ img {
 
     --color-notification-bg: #ff663f19;
     --color-notification: var(--color-dark-red);
+    --color-link: var(--color-accent);
 }
 
 /* Typography */
@@ -105,6 +106,16 @@ body, html {
 
 * {
     font-family: var(--font);
+}
+
+/* Base element styling */
+a {
+    color: var(--color-link);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 /* Forms */
