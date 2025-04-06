@@ -1,17 +1,13 @@
 ﻿using Business.Interfaces;
-using Data.Entities;
 using Domain.Dtos;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.Threading.Tasks;
 
 namespace Presentation.WebApp.Controllers
 {
-    public class AuthController(IUserService userService, SignInManager<UserEntity> signInManager) : Controller
+    public class AuthController(IUserService userService, IAuthService authService) : Controller
     {
         private readonly IUserService _userService = userService;
-        private readonly SignInManager<UserEntity> _signInManager = signInManager;
+        private readonly IAuthService _authService = authService;
 
         public IActionResult SignUp()
         {
@@ -57,8 +53,8 @@ namespace Presentation.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(form.Email, form.Password, false, false);
-                if (result.Succeeded)
+                var result = await _authService.LoginAsync(form);
+                if (result.Success)
                 {
                     if (Url.IsLocalUrl(returnUrl))
                         return Redirect(returnUrl);

@@ -47,6 +47,16 @@ public abstract class ServiceResult<TResult, TData> where TResult : ServiceResul
         };
     }
 
+    public static TResult Unauthorized(string errorMessage)
+    {
+        return new TResult
+        {
+            Success = false,
+            StatusCode = 401,
+            ErrorMessage = errorMessage
+        };
+    }
+
     public static TResult NotFound(string errorMessage)
     {
         return new TResult
