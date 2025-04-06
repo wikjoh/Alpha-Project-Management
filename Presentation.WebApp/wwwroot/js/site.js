@@ -98,6 +98,12 @@
         })
     })
 
+    // hide form notification errors if they do not have an inner text
+    const span = document.querySelector('form .notification-error span');
+    if (!span.innerText.trim()) {
+        span.closest('.notification-error').style.display = 'none';
+    }
+
 })
 
 function clearErrorMessages(form) {
