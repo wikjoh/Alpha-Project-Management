@@ -53,6 +53,9 @@ img {
     --color-border-100: #eaedf2;
     --color-border-200: #e3e5e8;
     --color-border-300: #c5c8cc;
+
+    --color-notification-bg: #ff663f19;
+    --color-notification: var(--color-dark-red);
 }
 
 /* Typography */
@@ -150,7 +153,7 @@ form textarea::placeholder {
 }
 
 form .input-validation-error {
-    border-color: firebrick;
+    border-color: var(--color-notification);
 }
 
 form .field-validation-error {
@@ -159,8 +162,8 @@ form .field-validation-error {
     right: 0.25rem;
     top: 4px;
     font-size: .8em;
-    background-color: lightpink;
-    color: firebrick;
+    background-color: var(--color-notification-bg);
+    color: var(--color-notification);
     padding: .4rem 1rem;
     border-radius: 14px;
     display: flex;

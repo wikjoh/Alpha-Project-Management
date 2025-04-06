@@ -41,7 +41,7 @@ namespace Presentation.WebApp.Controllers
         }
 
 
-        public IActionResult SignIn(string returnUrl = "/")
+        public IActionResult SignIn(string returnUrl = "")
         {
             ViewBag.ReturnUrl = returnUrl;
             ViewBag.ErrorMessage = "";
@@ -49,21 +49,32 @@ namespace Presentation.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignIn(UserSignInForm form, string returnUrl = "/")
+        public async Task<IActionResult> SignIn(UserSignInForm form, string returnUrl = "/Projects/Projects")
         {
+            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.ErrorMessage = "";
+
+
+
+
             if (ModelState.IsValid)
             {
                 var result = await _authService.LoginAsync(form);
+                if (result == null)
+                {
+                    ViewBag.ErrorMessage = "Unable to handle login. Please try later.";
+                    return View(form);
+                }
+
                 if (result.Success)
                 {
                     if (Url.IsLocalUrl(returnUrl))
                         return Redirect(returnUrl);
 
-                    return RedirectToAction("Projects", "Projects");
+                    return Redirect("/");
                 }
             }
 
-            ViewBag.ReturnUrl = returnUrl;
             ViewBag.ErrorMessage = "Incorrect email or password";
             return View(form);
         }

@@ -34,13 +34,6 @@
     display: flex;
     align-items: center;
     justify-content: left;
-    input
-
-{
-    width: unset;
-    margin-right: .5rem;
-}
-
 }
 
 .tac-modal-trigger {
@@ -51,4 +44,9 @@
     margin-top: 3.5rem;
     display: flex;
     justify-content: center;
+}
+
+
+::deep .notification-error {
+    text-align: center;
 }

@@ -1,0 +1,6 @@
+﻿.notification-error {
+    padding: .5rem 1rem;
+    border-radius: 10px;
+    background-color: var(--color-notification-bg);
+    color: var(--color-notification);
+}
