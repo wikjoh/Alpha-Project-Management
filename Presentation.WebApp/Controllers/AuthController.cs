@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.WebApp.Controllers
 {
-    public class AuthController(IUserService userService, IAuthService authService) : Controller
+    public class AuthController(IAuthService authService) : Controller
     {
-        private readonly IUserService _userService = userService;
         private readonly IAuthService _authService = authService;
 
         public IActionResult SignUp()
@@ -20,7 +19,7 @@ namespace Presentation.WebApp.Controllers
             if (!ModelState.IsValid)
                 return View(form);
 
-            var result = await _userService.CreateAsync(form);
+            var result = await _authService.SignUpAsync(form);
             switch (result.StatusCode)
             {
                 case 201:
