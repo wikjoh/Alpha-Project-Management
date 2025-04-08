@@ -57,6 +57,7 @@ img {
     --color-notification-bg: #ff663f19;
     --color-notification: var(--color-dark-red);
     --color-link: var(--color-accent);
+    --color-notification-item-bg: #f5f7fa;
 }
 
 /* Typography */

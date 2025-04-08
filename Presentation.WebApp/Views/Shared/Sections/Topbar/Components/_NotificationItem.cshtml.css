@@ -1,0 +1,63 @@
+﻿.notification-item {
+    height: 76px;
+    border-radius: 14px;
+    padding-inline: 10px;
+
+    display: grid;
+    grid-template-columns: 3.5rem 1fr auto;
+    grid-template-areas: "image title delete"
+        "image time delete";
+    grid-column-gap: .75rem;
+    grid-row-gap: .25rem;
+    align-items: center;
+
+    transition: background-color ease-in-out .2s;
+}
+
+.notification-item:hover {
+    background-color: var(--color-notification-item-bg);
+}
+
+.notification-image {
+    grid-area: image;
+    justify-self: center;
+    border-radius: 50%;
+    width: 100%;
+    aspect-ratio: 1;
+    border-color: black;
+
+    position: relative;
+    overflow: hidden;
+
+    img {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        }
+}
+
+.notification-title {
+    grid-area: title;
+    align-self: end;
+
+    font-size: 15px;
+    font-weight: var(--fw-semibold);
+    color: var(--color-heading);
+}
+
+.notification-time {
+    grid-area: time;
+    align-self: start;
+
+    font-size: 14px;
+    color: var(--color-body-light);
+}
+
+.notification-delete {
+    grid-area: delete;
+    padding: .5rem;
+    margin-right: .5rem;
+    cursor: pointer;
+    font-weight: var(--fw-semibold);
+}
