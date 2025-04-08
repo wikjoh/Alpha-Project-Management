@@ -1,0 +1,28 @@
+﻿.button-notification {
+    position: relative;
+    background-color: transparent;
+    border: none;
+    height: 22px;
+    width: 22px;
+}
+
+.notification-alert {
+    width: 10px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    position: absolute;
+    top: -2px;
+    right: 0;
+    background-color: var(--color-background);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notification-dot {
+    width: 6px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: var(--color-red);
+}
