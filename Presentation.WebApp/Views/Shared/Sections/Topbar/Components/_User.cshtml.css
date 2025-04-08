@@ -1,0 +1,18 @@
+﻿.button-user {
+    position: relative;
+    height: 40px;
+    width: 40px;
+    background-color: transparent;
+    border-radius: 50%;
+    overflow: hidden;
+    border: none;
+    cursor: pointer;
+}
+
+img {
+    position: absolute;
+    object-fit: contain;
+    height: 100%;
+    width: 100%;
+    transform: translate3d(-50%, -50%, 0); /* offset origin to center of picture */
+}

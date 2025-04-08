@@ -5,10 +5,11 @@
 }
 
 img {
-    margin-right: 1rem;
+    margin-right: 0;
 }
 
 input {
+    font-size: 15px;
     height: 100%;
     width: 100%;
     border: none;
@@ -16,5 +17,6 @@ input {
 }
 
 input:focus {
+    border: none;
     outline: none;
 }
