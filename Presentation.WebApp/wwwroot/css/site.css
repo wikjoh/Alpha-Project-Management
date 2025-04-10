@@ -53,11 +53,11 @@ img {
     --color-border-100: #eaedf2;
     --color-border-200: #e3e5e8;
     --color-border-300: #c5c8cc;
-
     --color-notification-bg: #ff663f19;
     --color-notification: var(--color-dark-red);
     --color-link: var(--color-accent);
     --color-notification-item-bg: #f5f7fa;
+    --color-settings-header-bg: #f5f7fa;
 }
 
 /* Typography */

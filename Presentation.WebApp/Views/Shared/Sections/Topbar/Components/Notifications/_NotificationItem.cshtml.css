@@ -5,7 +5,8 @@
 
     display: grid;
     grid-template-columns: 3.5rem 1fr auto;
-    grid-template-areas: "image title delete"
+    grid-template-areas:
+        "image title delete"
         "image time delete";
     grid-column-gap: .75rem;
     grid-row-gap: .25rem;
@@ -30,7 +31,6 @@
     overflow: hidden;
 
     img {
-        position: absolute;
         height: 100%;
         width: 100%;
         object-fit: contain;

@@ -1,18 +1,19 @@
 ﻿<div id="notification-container">
     <button type="button" data-type="dropdown" data-target="#notification-dropdown" class="button-notification">
-        <img src="@Url.Content("~/images/icons/bell.svg")" width="22" height="22" />
+        <img src="@Url.Content("~/images/icons/bell.svg")" />
         <div class="notification-alert">
             <div class="notification-dot"></div>
         </div>
     </button>
-    <div id="notification-dropdown" class="dropdown">
+
+    <div id="notification-dropdown" class="dropdown hide">
         <div class="dropdown-header">
             <h5>Notifications</h5>
             <span class="notification-count">3</span>
         </div>
         <div class="divider"></div>
         <div class="notifications-list">
-            <partial name="Sections/Topbar/Components/_NotificationItem" />
+            <partial name="Sections/Topbar/Components/Notifications/_NotificationItem" />
         </div>
     </div>
 </div>

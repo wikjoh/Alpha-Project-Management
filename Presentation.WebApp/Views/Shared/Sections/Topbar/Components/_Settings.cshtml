@@ -1,1 +1,31 @@
-﻿<img src="@Url.Content("~/images/icons/cogwheel.svg")" widht="22" height="22" />
+﻿<div id="settings-container">
+    <button type="button" data-type="dropdown" data-target="#settings-dropdown" class="button-settings">
+        <img src="@Url.Content("~/images/icons/cogwheel.svg")" />
+    </button>
+
+    <div id="settings-dropdown" class="dropdown">
+        <div class="dropdown-header">
+            <div class="img-container">
+                <img src="@Url.Content("~/images/icons/usersquare.jpg")" />
+            </div>
+            <h6 class="name">Wiktor Johnsson</h6>
+        </div>
+
+        <div class="darkmode item">
+            <div class="item-left">
+                <img src="@Url.Content("~/images/icons/cogwheel.svg")" />
+                <span class="title">Dark Mode</span>
+            </div>
+            <input type="checkbox" />
+        </div>
+        <div class="divider"></div>
+        <div class="darkmode item">
+            <div class="item-left" style="display: contents">
+                <a asp-controller="" asp-action="">
+                    <img src="@Url.Content("~/images/icons/logout.svg")" />
+                    <span class="title">Logout</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
