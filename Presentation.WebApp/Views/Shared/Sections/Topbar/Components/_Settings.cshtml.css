@@ -24,6 +24,7 @@
     padding: .5rem .5rem 0 .5rem;
     border-radius: 14px;
     box-shadow: 0px 0px 40px 0px rgba(0,0,0,0.25);
+    z-index: 10;
 }
 
 .dropdown-header {
@@ -71,11 +72,13 @@
     margin: 1.25rem .75rem;
     color: var(--color-body-dark);
     font-size: 15px;
+    user-select: none;
 }
 
 .item-left, ::deep .item-left a {
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     .title {
         margin-left: 1rem;
@@ -88,4 +91,53 @@
     width: 100%;
     background-color: var(--color-grey-200);
     margin-block: 1.25rem;
+}
+
+
+
+/* darkmode toggle switch */
+.darkmode-switch {
+    position: relative;
+    display: inline-block;
+    width: 42px;
+    height: 24px;
+}
+
+.darkmode-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #d9d9d9;
+    transition: 0.4s;
+    border-radius: 12px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    transform: translate3d(-50%, -50%, 0); /* offset origin to center of dot */
+    top: 50%;
+    left: 30%;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--color-accent);
+}
+
+input:checked + .slider:before {
+    left: 70%;
 }

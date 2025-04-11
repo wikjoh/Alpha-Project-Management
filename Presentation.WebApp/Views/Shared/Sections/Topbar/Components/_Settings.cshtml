@@ -12,14 +12,17 @@
         </div>
 
         <div class="darkmode item">
-            <div class="item-left">
+            <label class="item-left darkmode-label" for="darkmode-toggle">
                 <img src="@Url.Content("~/images/icons/cogwheel.svg")" />
                 <span class="title">Dark Mode</span>
-            </div>
-            <input type="checkbox" />
+            </label>
+            <label class="darkmode-switch">
+                <input type="checkbox" id="darkmode-toggle" data-type="toggle" data-func="darkmode" />
+                <span class="slider"></span>
+            </label>
         </div>
         <div class="divider"></div>
-        <div class="darkmode item">
+        <div class="item">
             <div class="item-left" style="display: contents">
                 <a asp-controller="" asp-action="">
                     <img src="@Url.Content("~/images/icons/logout.svg")" />
