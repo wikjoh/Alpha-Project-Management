@@ -58,6 +58,7 @@ img {
     --color-link: var(--color-accent);
     --color-notification-item-bg: #f5f7fa;
     --color-settings-header-bg: #f5f7fa;
+    --color-deletebutton-bg: #ff663faa;
 }
 
 /* Typography */
@@ -198,3 +199,6 @@ form div:has(input[type="checkbox"]) .field-validation-error {
     display: none;
 }
 
+.dropdown-show {
+    display: block !important;
+}

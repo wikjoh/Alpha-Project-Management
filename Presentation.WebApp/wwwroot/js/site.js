@@ -1,6 +1,36 @@
 ﻿document.addEventListener('DOMContentLoaded', () => {
     const previewSize = 150
 
+    // handle dropdown menus
+    const dropdowns = document.querySelectorAll('[data-type="dropdown"]')
+
+    document.addEventListener('click', (e) => {
+        let clickedDropdown = null
+
+        dropdowns.forEach(dropdown => {
+            const targetId = dropdown.getAttribute('data-target')
+            const targetElement = document.querySelector(targetId)
+
+            if (dropdown.contains(e.target)) {
+                clickedDropdown = targetElement
+
+                document.querySelectorAll('.dropdown-show').forEach(openDropdown => {
+                    if (openDropdown !== targetElement) {
+                        openDropdown.classList.remove('dropdown-show')
+                    }
+                })
+
+                targetElement.classList.toggle('dropdown-show')
+            }
+        })
+
+        if (!clickedDropdown && !e.target.closest('.dropdown')) {
+            document.querySelectorAll('.dropdown-show').forEach(openDropdown => {
+                openDropdown.classList.remove('dropdown-show')
+            })
+        }
+    })
+
     // open modal
     const modalButtons = document.querySelectorAll('[data-modal="true"]')
     modalButtons.forEach(button => {

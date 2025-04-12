@@ -56,8 +56,19 @@
 
 .notification-delete {
     grid-area: delete;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: .5rem;
     margin-right: .5rem;
     cursor: pointer;
     font-weight: var(--fw-semibold);
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+    transition: background-color ease-in-out .2s;
 }
+
+    .notification-delete:hover {
+        background-color: var(--color-deletebutton-bg);
+    }
