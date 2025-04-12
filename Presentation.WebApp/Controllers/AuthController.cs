@@ -47,6 +47,13 @@ namespace Presentation.WebApp.Controllers
             return View();
         }
 
+
+        public async Task<IActionResult> Logout()
+        {
+            await _authService.LogoutAsync();
+            return LocalRedirect("~/");
+        }
+
         [HttpPost]
         public async Task<IActionResult> SignIn(UserSignInForm form, string returnUrl = "/Projects/Projects")
         {

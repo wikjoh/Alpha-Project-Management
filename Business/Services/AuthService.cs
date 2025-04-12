@@ -25,6 +25,19 @@ public class AuthService(SignInManager<UserEntity> signInManager, IUserService u
         return AuthResult<string>.Unauthorized("User authentication failed.");
     }
 
+    public async Task<AuthResult<string?>> LogoutAsync()
+    {
+        try
+        {
+            await _signInManager.SignOutAsync();
+            return AuthResult<string?>.Ok();
+        }
+        catch (Exception ex)
+        {
+            return AuthResult<string?>.InternalServerErrror(ex.Message);
+        }
+    }
+
     public async Task<AuthResult<UserModel>> SignUpAsync(UserSignUpForm form)
     {
         var result = await _userService.CreateAsync(form);
