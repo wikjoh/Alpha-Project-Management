@@ -1,7 +1,7 @@
 ﻿using Business.Interfaces;
 using Business.Models;
 using Data.Entities;
-using Domain.Dtos;
+using Business.Dtos;
 using Domain.Extensions;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;

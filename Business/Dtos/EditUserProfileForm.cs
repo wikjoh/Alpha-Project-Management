@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Dtos;
+namespace Business.Dtos;
 
-public class AddUserProfileForm
+public class EditUserProfileForm
 {
+    [Required]
+    public string UserId { get; set; } = null!;
+
     [DataType(DataType.Upload)]
     public string? ImageURI { get; set; }
-
-    public string? FullName { get; set; }
 
     [Required(ErrorMessage = "Required")]
     [Display(Name = "First Name", Prompt = "Your first name")]
@@ -41,6 +42,4 @@ public class AddUserProfileForm
     [Display(Name = "Date of Birth")]
     [DataType(DataType.Date)]
     public DateTime? DateOfBirth { get; set; }
-
-    public bool TermsAndConditions { get; set; }
 }

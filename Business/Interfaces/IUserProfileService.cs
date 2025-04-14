@@ -1,5 +1,5 @@
 ﻿using Business.Models;
-using Domain.Dtos;
+using Business.Dtos;
 using Domain.Models;
 
 namespace Business.Interfaces;
