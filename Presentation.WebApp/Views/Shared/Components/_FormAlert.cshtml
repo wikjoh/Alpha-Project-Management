@@ -1,5 +1,16 @@
-﻿<div class="form-group">
-    <div class="notification-error">
-        <span>@ViewBag.ErrorMessage</span>
+﻿@if (ViewBag.ErrorMessage != null)
+{
+    <div class="form-group">
+        <div class="notification-error">
+            <span>@ViewBag.ErrorMessage</span>
+        </div>
     </div>
-</div>
+}
+else if (!ViewData.ModelState.IsValid && ViewData.ModelState.Values.Any(value => value.Errors.Count > 0))
+{
+    <div class="form-group">
+        <div class="notification-error">
+            <span>@Html.ValidationSummary(true, "")</span>
+        </div>
+    </div>
+}

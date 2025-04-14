@@ -129,10 +129,12 @@
     })
 
     // hide form notification errors if they do not have an inner text
-    const span = document.querySelector('form .notification-error span');
-    if (!span.innerText.trim()) {
-        span.closest('.notification-error').style.display = 'none';
-    }
+    const errorSpans = document.querySelectorAll('form .notification-error span');
+    errorSpans.forEach(span => {
+        if (!span.innerText.trim()) {
+            span.closest('.notification-error').style.display = 'none';
+        }
+    })
 
 })
 

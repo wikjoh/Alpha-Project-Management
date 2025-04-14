@@ -1,5 +1,5 @@
 ﻿using Business.Interfaces;
-using Domain.Dtos;
+using Business.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.WebApp.Controllers
@@ -26,15 +26,15 @@ namespace Presentation.WebApp.Controllers
                     return RedirectToAction("SignIn", "Auth");
 
                 case 400:
-                    ModelState.AddModelError("Invalid Fields", "Required field(s) not valid.");
+                    ModelState.AddModelError("", "Required field(s) invalid.");
                     return View(form);
 
                 case 409:
-                    ModelState.AddModelError("Exists", "User already exists.");
+                    ModelState.AddModelError("Email", "User already exists.");
                     return View(form);
 
                 default:
-                    ModelState.AddModelError("Unexpected Error", "An Unexpected Error Occured.");
+                    ModelState.AddModelError("", "An Unexpected Error Occured.");
                     return View(form);
             }
         }
