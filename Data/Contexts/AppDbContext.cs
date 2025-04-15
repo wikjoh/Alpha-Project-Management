@@ -12,21 +12,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     public DbSet<UserProjectEntity> UserProjects { get; set; }
 
 
-    /* Since registration form accepts FullName and add-team-member form accepts FirstName + LastName,
-    // override method to automatically set FullName to FirstName + LastName if FullName is empty. */
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        foreach (var entry in ChangeTracker.Entries<UserProfileEntity>())
-        {
-            if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
-            {
-                entry.Entity.UpdateFullName();
-            }
-        }
-
-        return await base.SaveChangesAsync(cancellationToken);
-    }
-
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

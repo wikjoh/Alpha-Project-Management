@@ -45,13 +45,4 @@ public class UserProfileEntity
     public DateTime? DateOfBirth { get; set; }
 
     public bool TermsAndConditions { get; set; }
-
-
-    public void UpdateFullName()
-    {
-        if (string.IsNullOrWhiteSpace(FullName) && (!string.IsNullOrWhiteSpace(FirstName) || !string.IsNullOrWhiteSpace(LastName)))
-        {
-            FullName = $"{FirstName} {LastName}".Trim();
-        }
-    }
 }
