@@ -1,6 +1,8 @@
 ﻿using Business.Interfaces;
 using Business.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.WebApp.Models;
+using Domain.Extensions;
 
 namespace Presentation.WebApp.Controllers
 {
@@ -14,12 +16,13 @@ namespace Presentation.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignUp(UserSignUpForm form)
+        public async Task<IActionResult> SignUp(SignUpViewModel form)
         {
             if (!ModelState.IsValid)
                 return View(form);
 
-            var result = await _authService.SignUpAsync(form);
+
+            var result = await _authService.SignUpAsync(form.MapTo<UserSignUpForm>());
             switch (result.StatusCode)
             {
                 case 201:
