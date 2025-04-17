@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Business.Dtos;
+﻿namespace Business.Dtos;
 
 public class UserSignUpForm
 {
 
-    public string FullName { get; set; } = null!;
+    public string FirstName { get; set; } = null!;
+    public string LastName { get; set; } = null!;
     public string Email { get; set; } = null!;
     public string Password { get; set; } = null!;
-    public bool TermsAndConditions { get; set; }
 }

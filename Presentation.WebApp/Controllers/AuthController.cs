@@ -16,7 +16,7 @@ namespace Presentation.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignUp(SignUpViewModel form)
+        public async Task<IActionResult> SignUp(UserSignUpViewModel form)
         {
             if (!ModelState.IsValid)
                 return View(form);

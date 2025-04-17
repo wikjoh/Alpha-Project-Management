@@ -1,4 +1,4 @@
-﻿@model SignUpViewModel
+﻿@model UserSignUpViewModel
 
 @{
     Layout = "_AuthLayout";
@@ -15,11 +15,21 @@
 
 <div id="signup" class="container">
     <form asp-action="SignUp" asp-controller="Auth" method="post" novalidate>
-        <div class="form-group">
-            <label asp-for="FullName"></label>
-            <div class="field-group">
-                <input asp-for="FullName" />
-                <span asp-validation-for="FullName"></span>
+        <div class="name-container">
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <div class="field-group">
+                    <input asp-for="FirstName" />
+                    <span asp-validation-for="FirstName"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <div class="field-group">
+                    <input asp-for="LastName" />
+                    <span asp-validation-for="LastName"></span>
+                </div>
             </div>
         </div>
 

@@ -10,10 +10,8 @@ using Business.Interfaces;
 
 namespace Business.Services;
 
-public class UserService(IUserRepository userRepository, UserManager<UserEntity> userManager, IUserProfileService userProfileService) : IUserService
+public class UserService(UserManager<UserEntity> userManager) : IUserService
 {
-    private readonly IUserRepository _userRepository = userRepository;
-    private readonly IUserProfileService _userProfileService = userProfileService;
     private readonly UserManager<UserEntity> _userManager = userManager;
 
 
@@ -26,36 +24,23 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
         if (await _userManager.Users.AnyAsync(u => u.Email == form.Email))
             return UserResult<UserModel>.AlreadyExists("User with given email address already exists.");
 
-        var userEntity = new UserEntity
-        {
-            UserName = form.Email,
-            Email = form.Email,
-        };
+        var userEntity = form.MapTo<UserEntity>();
+        userEntity.UserName = form.Email;
+        userEntity.Email = form.Email;
 
-        await _userRepository.BeginTransactionAsync();
+        var result = await _userManager.CreateAsync(userEntity, form.Password);
 
-        var createUserResult = await _userManager.CreateAsync(userEntity, form.Password);
-        if (createUserResult.Succeeded)
+        if (result.Succeeded)
         {
-            var createUserProfileResult = await _userProfileService.CreateUserProfileAsync(form.MapTo<AddUserProfileForm>(), userEntity.Id);
-            if (createUserProfileResult.Success)
-            {
-                await _userRepository.CommitTransactionAsync();
-                var createdUserEntity = _userManager.Users.Include(u => u.UserProfile).FirstOrDefault(x => x.Id == userEntity.Id);
-                var createdUser = createdUserEntity!.MapTo<UserModel>();
-                return UserResult<UserModel>.Created(createdUser);
-            }
-            else
-            {
-                await _userRepository.RollbackTransactionAsync();
-                return UserResult<UserModel>.InternalServerErrror("Failed creating user profile.");
-            }
+            var createdUserEntity = _userManager.Users.FirstOrDefault(x => x.Id == userEntity.Id);
+            if (createdUserEntity == null)
+                return UserResult<UserModel>.InternalServerErrror("Failed retrieving user entity after creation");
+
+            var createdUser = createdUserEntity.MapTo<UserModel>();
+            return UserResult<UserModel>.Created(createdUser);
         }
-        else
-        {
-            await _userRepository.RollbackTransactionAsync();
-            return UserResult<UserModel>.InternalServerErrror("Failed creating user.");
-        }
+
+        else return UserResult<UserModel>.InternalServerErrror("Failed creating user.");
     }
 
 }

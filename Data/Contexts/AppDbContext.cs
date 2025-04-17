@@ -6,10 +6,12 @@ namespace Data.Contexts;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<UserEntity>(options)
 {
-    public DbSet<UserProfileEntity> UserProfiles { get; set; }
-    public DbSet<ClientEntity> Clients { get; set; }
+    public DbSet<MemberProfileEntity> MemberProfiles { get; set; }
+    public DbSet<MemberAddressEntity> MemberAdresses { get; set; }
+    public DbSet<ProjectMemberEntity> ProjectMembers { get; set; }
     public DbSet<ProjectEntity> Projects { get; set; }
-    public DbSet<UserProjectEntity> UserProjects { get; set; }
+    public DbSet<ClientEntity> Clients { get; set; }
+    public DbSet<ClientAddressEntity> ClientAddresses { get; set; }
 
 
 
@@ -17,31 +19,37 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
     {
         base.OnModelCreating(modelBuilder);
 
-        // Users
-        modelBuilder.Entity<UserEntity>()
-            .HasOne(u => u.UserProfile)
-            .WithOne(up => up.User);
+        // MemberProfiles
+        modelBuilder.Entity<MemberProfileEntity>()
+            .HasOne(mp => mp.User)
+            .WithOne(u => u.MemberProfile);
 
-        modelBuilder.Entity<UserEntity>()
-            .HasMany(u => u.UserProjects)
-            .WithOne(up => up.User)
-            .HasForeignKey(up => up.UserId);
+        modelBuilder.Entity<MemberProfileEntity>()
+            .HasOne(mp => mp.MemberAddress)
+            .WithOne(ma => ma.MemberProfile)
+            .HasForeignKey<MemberAddressEntity>(ma => ma.UserId);
 
+        modelBuilder.Entity<MemberProfileEntity>()
+            .HasMany(mp => mp.ProjectMembers)
+            .WithOne(pm => pm.MemberProfile);
+
+        // ProjectMembers
+        modelBuilder.Entity<ProjectMemberEntity>()
+            .HasKey(up => new { up.UserId, up.ProjectId });
 
         // Projects
         modelBuilder.Entity<ProjectEntity>()
-            .HasMany(p => p.UserProjects)
-            .WithOne(up => up.Project)
-            .HasForeignKey(up => up.ProjectId);
+            .HasMany(p => p.ProjectMembers)
+            .WithOne(pm => pm.Project);
 
-        modelBuilder.Entity<ProjectEntity>()
-            .HasOne(p => p.Client)
-            .WithMany(c => c.Projects)
-            .HasForeignKey(p => p.ClientId);
+        // Clients
+        modelBuilder.Entity<ClientEntity>()
+            .HasMany(c => c.Projects)
+            .WithOne(p => p.Client);
 
-
-        // User-Projects
-        modelBuilder.Entity<UserProjectEntity>()
-            .HasKey(up => new { up.UserId, up.ProjectId });
+        // ClientAddresses
+        modelBuilder.Entity<ClientAddressEntity>()
+            .HasOne(ca => ca.Client)
+            .WithOne(c => c.ClientAddress);
     }
 }

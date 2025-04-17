@@ -8,7 +8,7 @@ namespace Data.Entities;
 public class ClientEntity
 {
     [Key]
-    public string Id { get; set; } = null!;
+    public int Id { get; set; }
     public DateTime Created { get; set; } = DateTime.Now;
 
     [Column(TypeName = "varchar(200)")]
@@ -23,8 +23,6 @@ public class ClientEntity
     [Column(TypeName = "varchar(20)")]
     public string PhoneNumber { get; set; } = null!;
 
-    [Column(TypeName = "nvarchar(200)")]
-    public string Address { get; set; } = null!;
-
-    public ICollection<ProjectEntity> Projects { get; set; } = [];
+    public ICollection<ProjectEntity>? Projects { get; set; }
+    public ClientAddressEntity ClientAddress { get; set; } = null!;
 }

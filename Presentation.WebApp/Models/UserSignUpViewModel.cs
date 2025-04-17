@@ -2,12 +2,17 @@
 
 namespace Presentation.WebApp.Models;
 
-public class SignUpViewModel
+public class UserSignUpViewModel
 {
     [Required(ErrorMessage = "Required")]
-    [Display(Name = "Full Name", Prompt = "Your full name")]
+    [Display(Name = "First Name", Prompt = "Your first name")]
     [DataType(DataType.Text)]
-    public string FullName { get; set; } = null!;
+    public string FirstName { get; set; } = null!;
+
+    [Required(ErrorMessage = "Required")]
+    [Display(Name = "Last Name", Prompt = "Your last name")]
+    [DataType(DataType.Text)]
+    public string LastName { get; set; } = null!;
 
     [Required(ErrorMessage = "Required")]
     [RegularExpression(@"^[^@\s]+@[^\s@]+\.[^\s@]+$", ErrorMessage = "Invalid email")]

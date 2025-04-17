@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250406211135_UpdateUserProfileEntity_SetPersonalData")]
-    partial class UpdateUserProfileEntity_SetPersonalData
+    [Migration("20250417232051_Restructure-Entities")]
+    partial class RestructureEntities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,14 +25,34 @@ namespace Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Data.Entities.ClientAddressEntity", b =>
+                {
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("PostalCode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StreetAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("ClientId");
+
+                    b.ToTable("ClientAddresses");
+                });
+
             modelBuilder.Entity("Data.Entities.ClientEntity", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
@@ -60,6 +80,50 @@ namespace Data.Migrations
                     b.ToTable("Clients");
                 });
 
+            modelBuilder.Entity("Data.Entities.MemberAddressEntity", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("PostalCode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StreetAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("MemberAdresses");
+                });
+
+            modelBuilder.Entity("Data.Entities.MemberProfileEntity", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ImageURI")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("JobTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("varchar(200)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("MemberProfiles");
+                });
+
             modelBuilder.Entity("Data.Entities.ProjectEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -71,9 +135,8 @@ namespace Data.Migrations
                     b.Property<decimal?>("Budget")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
@@ -101,6 +164,21 @@ namespace Data.Migrations
                     b.ToTable("Projects");
                 });
 
+            modelBuilder.Entity("Data.Entities.ProjectMemberEntity", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "ProjectId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("ProjectMembers");
+                });
+
             modelBuilder.Entity("Data.Entities.UserEntity", b =>
                 {
                     b.Property<string>("Id")
@@ -113,12 +191,23 @@ namespace Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -164,62 +253,6 @@ namespace Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.UserProfileEntity", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateOfBirth")
-                        .HasColumnType("date");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(201)");
-
-                    b.Property<string>("ImageURI")
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("JobTitle")
-                        .HasColumnType("nvarchar(40)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<bool>("TermsAndConditions")
-                        .HasColumnType("bit");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("UserProfiles");
-                });
-
-            modelBuilder.Entity("Data.Entities.UserProjectEntity", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "ProjectId");
-
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("UserProjects");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -355,6 +388,39 @@ namespace Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Data.Entities.ClientAddressEntity", b =>
+                {
+                    b.HasOne("Data.Entities.ClientEntity", "Client")
+                        .WithOne("ClientAddress")
+                        .HasForeignKey("Data.Entities.ClientAddressEntity", "ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("Data.Entities.MemberAddressEntity", b =>
+                {
+                    b.HasOne("Data.Entities.MemberProfileEntity", "MemberProfile")
+                        .WithOne("MemberAddress")
+                        .HasForeignKey("Data.Entities.MemberAddressEntity", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MemberProfile");
+                });
+
+            modelBuilder.Entity("Data.Entities.MemberProfileEntity", b =>
+                {
+                    b.HasOne("Data.Entities.UserEntity", "User")
+                        .WithOne("MemberProfile")
+                        .HasForeignKey("Data.Entities.MemberProfileEntity", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Data.Entities.ProjectEntity", b =>
                 {
                     b.HasOne("Data.Entities.ClientEntity", "Client")
@@ -366,34 +432,23 @@ namespace Data.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("Data.Entities.UserProfileEntity", b =>
-                {
-                    b.HasOne("Data.Entities.UserEntity", "User")
-                        .WithOne("UserProfile")
-                        .HasForeignKey("Data.Entities.UserProfileEntity", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Data.Entities.UserProjectEntity", b =>
+            modelBuilder.Entity("Data.Entities.ProjectMemberEntity", b =>
                 {
                     b.HasOne("Data.Entities.ProjectEntity", "Project")
-                        .WithMany("UserProjects")
+                        .WithMany("ProjectMembers")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.UserEntity", "User")
-                        .WithMany("UserProjects")
+                    b.HasOne("Data.Entities.MemberProfileEntity", "MemberProfile")
+                        .WithMany("ProjectMembers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Project");
+                    b.Navigation("MemberProfile");
 
-                    b.Navigation("User");
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -449,20 +504,27 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.ClientEntity", b =>
                 {
+                    b.Navigation("ClientAddress")
+                        .IsRequired();
+
                     b.Navigation("Projects");
+                });
+
+            modelBuilder.Entity("Data.Entities.MemberProfileEntity", b =>
+                {
+                    b.Navigation("MemberAddress");
+
+                    b.Navigation("ProjectMembers");
                 });
 
             modelBuilder.Entity("Data.Entities.ProjectEntity", b =>
                 {
-                    b.Navigation("UserProjects");
+                    b.Navigation("ProjectMembers");
                 });
 
             modelBuilder.Entity("Data.Entities.UserEntity", b =>
                 {
-                    b.Navigation("UserProfile")
-                        .IsRequired();
-
-                    b.Navigation("UserProjects");
+                    b.Navigation("MemberProfile");
                 });
 #pragma warning restore 612, 618
         }
