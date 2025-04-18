@@ -138,3 +138,9 @@ form {
     .image-previewer.square {
         border-radius: 16px;
     }
+
+
+.city-postalcode-container {
+    display: flex;
+    gap: 2rem;
+}

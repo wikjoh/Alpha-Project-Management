@@ -1,4 +1,4 @@
-﻿@model AddClientForm
+﻿@model AddClientViewModel
 
 <div id="addClientModal" class="modal">
     <div class="modal-content">
@@ -16,10 +16,10 @@
 
 
             <div class="form-group">
-                <label asp-for="ClientName">Client Name</label>
+                <label asp-for="Name">Name</label>
                 <div class="field-group">
-                    <input asp-for="ClientName" />
-                    <span asp-validation-for="ClientName"></span>
+                    <input asp-for="Name" />
+                    <span asp-validation-for="Name"></span>
                 </div>
             </div>
             <div class="form-group">
@@ -30,17 +30,44 @@
                 </div>
             </div>
             <div class="form-group">
-                <label asp-for="Location">Location</label>
+                <label asp-for="PhoneNumber">Phone</label>
                 <div class="field-group">
-                    <input asp-for="Location" />
-                    <span asp-validation-for="Location"></span>
+                    <input asp-for="PhoneNumber" />
+                    <span asp-validation-for="PhoneNumber"></span>
                 </div>
             </div>
+
             <div class="form-group">
-                <label asp-for="Phone">Phone</label>
+                <label asp-for="ClientAddress.StreetAddress">Street Address</label>
                 <div class="field-group">
-                    <input asp-for="Phone" />
-                    <span asp-validation-for="Phone"></span>
+                    <input asp-for="ClientAddress.StreetAddress" />
+                    <span asp-validation-for="ClientAddress.StreetAddress"></span>
+                </div>
+            </div>
+
+            <div class="city-postalcode-container">
+                <div class="form-group">
+                    <label asp-for="ClientAddress.PostalCode">Postal Code</label>
+                    <div class="field-group">
+                        <input asp-for="ClientAddress.PostalCode" />
+                        <span asp-validation-for="ClientAddress.PostalCode"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ClientAddress.City">City</label>
+                    <div class="field-group">
+                        <input asp-for="ClientAddress.City" />
+                        <span asp-validation-for="ClientAddress.City"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ClientAddress.Country">Country</label>
+                <div class="field-group">
+                    <input asp-for="ClientAddress.Country" />
+                    <span asp-validation-for="ClientAddress.Country"></span>
                 </div>
             </div>
 

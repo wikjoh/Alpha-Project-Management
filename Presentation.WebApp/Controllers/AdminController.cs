@@ -1,13 +1,20 @@
 ﻿using Business.Dtos;
+using Business.Interfaces;
+using Domain.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.WebApp.Models;
+using System.Threading.Tasks;
 
 namespace Presentation.WebApp.Controllers;
 
 //[Authorize]
 [Route("admin")]
-public class AdminController : Controller
+public class AdminController(IClientService clientService) : Controller
 {
+    private readonly IClientService _clientService = clientService;
+
     [Route("members")]
     public IActionResult Members()
     {
@@ -22,7 +29,7 @@ public class AdminController : Controller
 
     [Route("addClient")]
     [HttpPost]
-    public IActionResult AddClient(AddClientForm form)
+    public async Task<IActionResult> AddClient(AddClientViewModel vm)
     {
         if (!ModelState.IsValid)
         {
@@ -31,12 +38,15 @@ public class AdminController : Controller
                 .ToDictionary(kvp => kvp.Key, kvp => kvp.Value?.Errors.Select(x => x.ErrorMessage).ToArray());
 
             return BadRequest(new { success = false, errors });
-
         }
 
-        // send data to service
+        var clientForm = vm.MapTo<AddClientForm>();
+        clientForm.ClientAddress = vm.ClientAddress.MapTo<ClientAddressForm>();
+        var result = await _clientService.CreateClientAsync(clientForm);
 
-        return Ok(new { success = true });
+        return result.Success
+           ? CreatedAtAction(nameof(AddClient), result.Data)
+           : StatusCode(result.StatusCode, result.ErrorMessage);
     }
 
     [Route("editClient")]

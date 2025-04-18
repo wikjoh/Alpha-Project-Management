@@ -40,6 +40,8 @@ builder.Services.AddScoped<IProjectMemberRepository, ProjectMemberRepository>();
 //builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IClientAddressService, ClientAddressService>();
+builder.Services.AddScoped<IClientService, ClientService>();
 
 var app = builder.Build();
 

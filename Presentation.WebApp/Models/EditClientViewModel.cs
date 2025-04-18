@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Business.Dtos;
+namespace Presentation.WebApp.Models;
 
-public class EditClientForm
+public class EditClientViewModel
 {
-    public string Id { get; set; } = null!;
+    public int Id { get; set; }
+    public string? ImageURI { get; set; }
 
     [Display(Name = "Client Image", Prompt = "Select an image")]
     [DataType(DataType.Upload)]
@@ -14,7 +14,7 @@ public class EditClientForm
     [Display(Name = "Client Name", Prompt = "Enter client name")]
     [DataType(DataType.Text)]
     [Required(ErrorMessage = "Required")]
-    public string ClientName { get; set; } = null!;
+    public string Name { get; set; } = null!;
 
     [Display(Name = "Email", Prompt = "Enter email address")]
     [DataType(DataType.EmailAddress)]
@@ -22,11 +22,9 @@ public class EditClientForm
     [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Invalid email")]
     public string Email { get; set; } = null!;
 
-    [Display(Name = "Location", Prompt = "Enter location")]
-    [DataType(DataType.Text)]
-    public string? Location { get; set; }
-
     [Display(Name = "PhoneNumber", Prompt = "Enter phone number")]
     [DataType(DataType.PhoneNumber)]
     public string? PhoneNumber { get; set; }
+
+    public ClientAddressViewModel Address { get; set; } = null!;
 }

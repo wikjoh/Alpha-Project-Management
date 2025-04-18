@@ -1,9 +1,7 @@
-﻿namespace Domain.Models;
+﻿namespace Business.Dtos;
 
-public class ClientAddressModel
+public class ClientAddressForm
 {
-    public int ClientId { get; set; }
-    public ClientModel? Client { get; set; }
     public string StreetAddress { get; set; } = null!;
     public int PostalCode { get; set; }
     public string City { get; set; } = null!;

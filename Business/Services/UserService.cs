@@ -16,7 +16,7 @@ public class UserService(UserManager<UserEntity> userManager) : IUserService
 
 
     // CREATE
-    public async Task<UserResult<UserModel>> CreateAsync(UserSignUpForm form)
+    public async Task<UserResult<UserModel>> CreateUserAsync(UserSignUpForm form)
     {
         if (form == null)
             return UserResult<UserModel>.BadRequest("Form cannot be null.");
