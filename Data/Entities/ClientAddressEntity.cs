@@ -20,4 +20,8 @@ public class ClientAddressEntity
     [ProtectedPersonalData]
     [Column(TypeName = "nvarchar(20)")]
     public string City { get; set; } = null!;
+
+    [ProtectedPersonalData]
+    [Column(TypeName = "nvarchar(60)")]
+    public string Country { get; set; } = null!;
 }
