@@ -10,6 +10,7 @@ public class ClientEntity
     [Key]
     public int Id { get; set; }
     public DateTime Created { get; set; } = DateTime.Now;
+    public bool IsActive { get; set; } = true;
 
     [Column(TypeName = "varchar(200)")]
     public string? ImageURI { get; set; }
