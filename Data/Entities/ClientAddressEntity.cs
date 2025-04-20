@@ -8,7 +8,7 @@ public class ClientAddressEntity
 {
     [Key]
     public int ClientId { get; set; }
-    public ClientEntity? Client { get; set; }
+    public ClientEntity Client { get; set; } = null!;
 
     [ProtectedPersonalData]
     [Column(TypeName = "nvarchar(100)")]

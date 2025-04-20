@@ -3,7 +3,6 @@ using Business.Interfaces;
 using Business.Models;
 using Data.Entities;
 using Data.Interfaces;
-using Data.Repositories;
 using Domain.Extensions;
 using Domain.Models;
 
@@ -25,7 +24,7 @@ public class ClientService(IClientRepository clientRepository, IClientAddressSer
             return ClientResult<ClientModel>.AlreadyExists($"Client with email {form.Email} or name {form.Name} already exists.");
 
         var clientEntity = form.MapTo<ClientEntity>();
-        var clientAddressForm = form.ClientAddress.MapTo<ClientAddressForm>();
+        //var clientAddressForm = form.ClientAddress.MapTo<ClientAddressForm>();
 
 
         await _clientRepository.BeginTransactionAsync();
@@ -40,17 +39,19 @@ public class ClientService(IClientRepository clientRepository, IClientAddressSer
                 return ClientResult<ClientModel>.InternalServerErrror($"Failed creating client entity for client {form.Name}.");
             }
 
-            var createAddressResult = await _clientAddressService.CreateClientAddressAsync(clientAddressForm, clientEntity.Id);
-            if (!createAddressResult.Success)
-            {
-                await _clientRepository.RollbackTransactionAsync();
-                return ClientResult<ClientModel>.InternalServerErrror($"Failed creating client address entity for client {form.Name}.");
-            }
+            // ClientAddresEntity created automatically through navigation prop relation, no need to create manually
+            //var createAddressResult = await _clientAddressService.CreateClientAddressAsync(clientAddressForm, clientEntity.Id);
+            //if (!createAddressResult.Success)
+            //{
+            //    await _clientRepository.RollbackTransactionAsync();
+            //    return ClientResult<ClientModel>.InternalServerErrror($"Failed creating client address entity for client {form.Name}.");
+            //}
+
+            await _clientRepository.CommitTransactionAsync();
 
             var createdClientEntityWithAddress = await _clientRepository.GetAsync(x => x.Id == clientEntity.Id, x => x.ClientAddress);
             var createdClientWithAddress = createdClientEntityWithAddress.MapTo<ClientModel>();
 
-            await _clientRepository.CommitTransactionAsync();
             return ClientResult<ClientModel>.Created(createdClientWithAddress);
         }
         catch (Exception ex)
@@ -58,5 +59,15 @@ public class ClientService(IClientRepository clientRepository, IClientAddressSer
             await _clientRepository.RollbackTransactionAsync();
             return ClientResult<ClientModel>.InternalServerErrror($"Unexpected error occurred. {ex.Message}");
         }
+    }
+
+
+    // READ
+    public async Task<ClientResult<IEnumerable<ClientModel>>> GetAllClients()
+    {
+        var repositoryResult = await _clientRepository.GetAllAsync(includes: x => x.ClientAddress);
+        var serviceResult = repositoryResult.MapTo<ClientResult<IEnumerable<ClientModel>>>();
+
+        return serviceResult;
     }
 }

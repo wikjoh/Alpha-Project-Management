@@ -44,7 +44,7 @@ namespace Data.Migrations
 
                     b.HasKey("ClientId");
 
-                    b.ToTable("ClientAddresses");
+                    b.ToTable("ClientAddresses", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entities.ClientEntity", b =>
@@ -84,7 +84,7 @@ namespace Data.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entities.MemberAddressEntity", b =>
@@ -105,7 +105,7 @@ namespace Data.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("MemberAdresses");
+                    b.ToTable("MemberAdresses", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entities.MemberProfileEntity", b =>
@@ -128,7 +128,7 @@ namespace Data.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("MemberProfiles");
+                    b.ToTable("MemberProfiles", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entities.ProjectEntity", b =>
@@ -168,7 +168,7 @@ namespace Data.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Projects");
+                    b.ToTable("Projects", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entities.ProjectMemberEntity", b =>
@@ -183,7 +183,7 @@ namespace Data.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("ProjectMembers");
+                    b.ToTable("ProjectMembers", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entities.UserEntity", b =>

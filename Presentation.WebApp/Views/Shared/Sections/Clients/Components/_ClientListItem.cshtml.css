@@ -1,0 +1,111 @@
+﻿.client-check {
+    grid-area: check;
+}
+
+.client-info {
+    grid-area: info;
+}
+
+.client-location {
+    grid-area: location;
+}
+
+.client-phone {
+    grid-area: phone;
+}
+
+client-date {
+    grid-area: date;
+}
+
+.client-status {
+    grid-area: status;
+}
+
+.client-actions {
+    grid-area: actions;
+    transform: translateY(4px);
+}
+
+/* Use ::deep to set grid-area on img since helper tag overwrites classes */
+::deep .client-info img {
+    grid-area: image;
+}
+
+.client-name {
+    grid-area: name;
+    font-weight: var(--fw-semibold);
+}
+
+.client-email {
+    grid-area: email;
+    opacity: .5;
+}
+
+.client-list {
+    background-color: white;
+    border-radius: 16px;
+    padding: 2rem;
+    height: 100%;
+}
+
+    .client-list .client-info {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-areas: "image name" "image email";
+        column-gap: 1rem;
+        align-items: center;
+    }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    table thead, table tbody {
+        display: contents;
+    }
+
+        table thead > tr {
+            background-color: var(--color-grey-100);
+        }
+
+        table tbody > tr {
+            padding: .7rem 1rem;
+            margin: .5rem 0;
+        }
+
+        table tbody tr:hover {
+            background-color: var(--color-accent-10);
+        }
+
+    table td img {
+        width: 40px;
+        height: 40px;
+    }
+
+    table tr {
+        display: grid;
+        grid-template-areas: "check info location phone date status actions";
+        grid-template-columns: auto 3fr 3fr 2fr 2fr 2fr 50px;
+        align-items: center;
+        width: 100%;
+        border-radius: 16px;
+        padding: 1rem;
+    }
+
+    table th, table td {
+        width: 100%;
+        padding: 0 1rem;
+        text-align: left;
+    }
+
+input[type="checkbox"] {
+    height: 15px;
+    width: 15px;
+}
+
+
+.client-actions ::deep img {
+    cursor: pointer;
+}

@@ -1,0 +1,24 @@
+﻿@model ClientModel
+
+@if (Model != null && Model.ClientAddress != null)
+{
+    <tr>
+        <td class="client-check"><input type="checkbox" /></td>
+        <td class="client-info">
+            <img class="client-image" src="~/images/icons/usericon.svg" alt="" />
+            <div class="client-name">@Model.Name</div>
+            <div class="client-email">@Model.Email</div>
+        </td>
+        <td class="client-location">@Model.ClientAddress.City, @Model.ClientAddress.Country</td>
+        <td class="client-phone">@Model.PhoneNumber</td>
+        <td class="client-date">@Model.Created</td>
+        <td class="client-status">
+            <div class="client-status-container">
+                @(Model.IsActive ? "active" : "inactive")
+            </div>
+        </td>
+        <td class="client-actions">
+            <img class="client-actions-dots" src="~/images/icons/more-dots.svg" data-modal="true" data-target="#editClientModal" />
+        </td>
+    </tr>
+}

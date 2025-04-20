@@ -1,15 +1,13 @@
-﻿@{
+﻿@model IEnumerable<ClientModel>
+
+@{
     Layout = "_MainLayout";
     ViewData["Title"] = "Clients";
 }
 
 
-@{
-    ViewData["Title"] = "Clients";
-}
-
-<partial name="Sections/Clients/_AddClientForm" />
-<partial name="Sections/Clients/_EditClientForm" />
+<partial name="Sections/Clients/_AddClientForm" model="new AddClientViewModel()" />
+<partial name="Sections/Clients/_EditClientForm" model="new EditClientViewModel()" />
 
 <section id="clients">
     <header>
@@ -19,5 +17,5 @@
         </div>
     </header>
 
-    <partial name="Sections/Clients/Components/_ClientList" />
+    <partial name="Sections/Clients/Components/_ClientList" model="@Model" />
 </section>

@@ -2,12 +2,13 @@
 
 public class ClientModel
 {
-    public string Id { get; set; } = null!;
+    public int Id { get; set; }
     public DateTime Created { get; set; }
     public string? ImageURI { get; set; }
     public string Name { get; set; } = null!;
     public string Email { get; set; } = null!;
 
     public string PhoneNumber { get; set; } = null!;
-    public ClientAddressModel? ClientAddress { get; set; }
+    public ClientAddressModel ClientAddress { get; set; } = null!;
+    public bool IsActive { get; set; }
 }

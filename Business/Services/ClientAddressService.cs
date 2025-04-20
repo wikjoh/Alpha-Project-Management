@@ -6,6 +6,7 @@ using Data.Interfaces;
 using Data.Repositories;
 using Domain.Extensions;
 using Domain.Models;
+using System.Diagnostics;
 
 namespace Business.Services;
 
@@ -19,9 +20,12 @@ public class ClientAddressService(IClientAddressRepository clientAddressReposito
         if (form == null || clientId == null)
             return ClientAddressResult<ClientAddressModel>.BadRequest("Parameters cannot be null.");
 
-        var exists = (await _clientAddressRepository.ExistsAsync(x => x.ClientId == clientId)).Success;
-        if (exists)
+        var exists = (await _clientAddressRepository.ExistsAsync(x => x.ClientId == (int)clientId));
+        if (exists.StatusCode == 204)
+        {
+            Console.WriteLine($"Address for client with id {clientId} already exists.");
             return ClientAddressResult<ClientAddressModel>.AlreadyExists($"Address for client with id {clientId} already exists.");
+        }
 
         var clientAddressEntity = form.MapTo<ClientAddressEntity>();
         clientAddressEntity.ClientId = (int)clientId;
@@ -45,5 +49,16 @@ public class ClientAddressService(IClientAddressRepository clientAddressReposito
         {
             return ClientAddressResult<ClientAddressModel>.InternalServerErrror($"Unexpected error occurred. {ex.Message}");
         }
+    }
+
+    // READ
+    public async Task<ClientAddressResult<ClientAddressModel>> GetClientAddressAsync(int? id)
+    {
+        if (id == null)
+            return ClientAddressResult<ClientAddressModel>.BadRequest("Id cannot be null");
+
+        var result = await _clientAddressRepository.GetAsync(x => x.ClientId == id);
+        var resultMapped = result.MapTo<ClientAddressResult<ClientAddressModel>>();
+        return resultMapped;
     }
 }

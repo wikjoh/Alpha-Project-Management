@@ -63,7 +63,7 @@ public abstract class BaseRepository<TEntity, TMapTo>(AppDbContext context) : IB
     }
 
 
-    // READ
+    //READ
     public virtual async Task<RepositoryResult<IEnumerable<TMapTo>>> GetAllAsync(bool orderByDescending = false, Expression<Func<TEntity, object>>? sortBy = null, Expression<Func<TEntity, bool>>? where = null, params Expression<Func<TEntity, object>>[] includes)
     {
         IQueryable<TEntity> query = _dbSet;
@@ -85,26 +85,26 @@ public abstract class BaseRepository<TEntity, TMapTo>(AppDbContext context) : IB
         return RepositoryResult<IEnumerable<TMapTo>>.Ok(result);
     }
 
-    public virtual async Task<RepositoryResult<IEnumerable<TSelect>>> GetAllAsync<TSelect>(Expression<Func<TEntity, TSelect>> selector, bool orderByDescending = false, Expression<Func<TEntity, object>>? sortBy = null, Expression<Func<TEntity, bool>>? where = null, params Expression<Func<TEntity, object>>[] includes)
-    {
-        IQueryable<TEntity> query = _dbSet;
+    //public virtual async Task<RepositoryResult<IEnumerable<TMapTo>>> GetAllAsync(Expression<Func<TEntity, TSelect>> selector, bool orderByDescending = false, Expression<Func<TEntity, object>>? sortBy = null, Expression<Func<TEntity, bool>>? where = null, params Expression<Func<TEntity, object>>[] includes)
+    //{
+    //    IQueryable<TEntity> query = _dbSet;
 
-        if (where != null)
-            query = query.Where(where);
+    //    if (where != null)
+    //        query = query.Where(where);
 
-        if (includes != null && includes.Length != 0)
-            foreach (var include in includes)
-                query = query.Include(include);
+    //    if (includes != null && includes.Length != 0)
+    //        foreach (var include in includes)
+    //            query = query.Include(include);
 
-        if (sortBy != null)
-            query = orderByDescending
-                ? query.OrderByDescending(sortBy)
-                : query.OrderBy(sortBy);
+    //    if (sortBy != null)
+    //        query = orderByDescending
+    //            ? query.OrderByDescending(sortBy)
+    //            : query.OrderBy(sortBy);
 
-        var entities = await query.Select(selector).ToListAsync();
-        var result = entities.Select(entity => entity!.MapTo<TSelect>());
-        return RepositoryResult<IEnumerable<TSelect>>.Ok(result);
-    }
+    //    var entities = await query.Select(selector).ToListAsync();
+    //    var result = entities.Select(entity => entity!.MapTo<TMapTo>());
+    //    return RepositoryResult<IEnumerable<TMapTo>>.Ok(result);
+    //}
 
     public virtual async Task<RepositoryResult<TMapTo>> GetAsync(Expression<Func<TEntity, bool>> where, params Expression<Func<TEntity, object>>[] includes)
     {
@@ -143,7 +143,7 @@ public abstract class BaseRepository<TEntity, TMapTo>(AppDbContext context) : IB
     {
         if (expression == null)
             return RepositoryResult<bool?>.BadRequest("Expression cannot be null.");
-
+        
         var exists = await _dbSet.AnyAsync(expression);
         return exists
             ? RepositoryResult<bool?>.NoContent()

@@ -22,9 +22,11 @@ public class AdminController(IClientService clientService) : Controller
     }
 
     [Route("clients")]
-    public IActionResult Clients()
+    public async Task<IActionResult> Clients()
     {
-        return View();
+        var clientList = (await _clientService.GetAllClients()).Data;
+
+        return View(clientList);
     }
 
     [Route("addClient")]

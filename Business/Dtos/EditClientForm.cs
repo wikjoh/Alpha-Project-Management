@@ -5,7 +5,7 @@ namespace Business.Dtos;
 
 public class EditClientForm
 {
-    public string Id { get; set; } = null!;
+    public int Id { get; set; }
 
     [Display(Name = "Client Image", Prompt = "Select an image")]
     [DataType(DataType.Upload)]
