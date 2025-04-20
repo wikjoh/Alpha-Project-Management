@@ -2,7 +2,7 @@
 @model ButtonModel
 @{
     string dataModal = Model.DataModal ? "data-modal=true" : "";
-    string dataTarget = !string.IsNullOrWhiteSpace(Model.DataTarget) ? ("data-target=#" + Model.DataTarget) : "";
+    string dataTarget = !string.IsNullOrWhiteSpace(Model.DataTarget) ? ("data-target=" + Model.DataTarget) : "";
 }
 
 <button type="@Model.Type" @dataModal @dataTarget>

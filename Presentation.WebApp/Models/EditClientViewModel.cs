@@ -26,5 +26,5 @@ public class EditClientViewModel
     [DataType(DataType.PhoneNumber)]
     public string? PhoneNumber { get; set; }
 
-    public ClientAddressViewModel Address { get; set; } = null!;
+    public ClientAddressViewModel ClientAddress { get; set; } = null!;
 }

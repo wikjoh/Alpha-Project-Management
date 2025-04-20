@@ -24,7 +24,7 @@ public class AdminController(IClientService clientService) : Controller
     [Route("clients")]
     public async Task<IActionResult> Clients()
     {
-        var clientList = (await _clientService.GetAllClients()).Data;
+        var clientList = (await _clientService.GetAllClientsAsync()).Data;
 
         return View(clientList);
     }
@@ -68,5 +68,18 @@ public class AdminController(IClientService clientService) : Controller
         // send data to service
 
         return Ok(new { success = true });
+    }
+
+    [Route("getClient")]
+    [HttpGet("getClient/id/{id}")]
+    public async Task<IActionResult> GetClient(int id)
+    {
+        var result = await _clientService.GetClientByIdAsync(id);
+        if (!result.Success || result.Data == null)
+            return NotFound();
+
+        var clientViewModel = result.Data.MapTo<EditClientViewModel>();
+
+        return Ok(clientViewModel);
     }
 }

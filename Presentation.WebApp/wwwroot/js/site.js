@@ -31,12 +31,25 @@
         }
     })
 
-    // open modal
+    // open modal (and populate if needed)
     const modalButtons = document.querySelectorAll('[data-modal="true"]')
     modalButtons.forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', async () => {
             const modalTarget = button.getAttribute('data-target')
             const modal = document.querySelector(modalTarget)
+
+            const clientId = button.getAttribute('data-client-id')
+            if (clientId) {
+                try {
+                    const response = await fetch(`/admin/getClient/id/${clientId}`);
+                    if (response.ok) {
+                        const clientData = await response.json();
+                        populateEditClientModal(clientData, modal);
+                    }
+                } catch (error) {
+                    console.error('Error fetching client data: ', error);
+                }
+            }
 
             if (modal)
                 modal.style.display = 'flex';
@@ -182,5 +195,34 @@ async function processImage(file, imagePreview, previewer, previewSize = 150) {
     }
     catch (error) {
         console.error('Failed on image processing: ', error)
+    }
+}
+
+// Function to populate the edit client modal with data
+function populateEditClientModal(client, modal) {
+    const form = modal.querySelector('form');
+    if (!form) return;
+
+    // Set form values
+    form.querySelector('input[name="Id"]').value = client.id;
+    form.querySelector('input[name="Name"]').value = client.name;
+    form.querySelector('input[name="Email"]').value = client.email;
+    form.querySelector('input[name="PhoneNumber"]').value = client.phoneNumber || '';
+
+    // Address fields
+    if (client.clientAddress) {
+        form.querySelector('input[name="ClientAddress.StreetAddress"]').value = client.clientAddress.streetAddress || '';
+        form.querySelector('input[name="ClientAddress.PostalCode"]').value = client.clientAddress.postalCode || '';
+        form.querySelector('input[name="ClientAddress.City"]').value = client.clientAddress.city || '';
+        form.querySelector('input[name="ClientAddress.Country"]').value = client.clientAddress.country || '';
+    }
+
+    // If client has an image, display it
+    if (client.imageURI) {
+        const imagePreview = form.querySelector('.image-preview');
+        if (imagePreview) {
+            imagePreview.src = client.imageURI;
+            form.querySelector('.image-previewer').classList.add('selected');
+        }
     }
 }

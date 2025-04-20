@@ -63,11 +63,23 @@ public class ClientService(IClientRepository clientRepository, IClientAddressSer
 
 
     // READ
-    public async Task<ClientResult<IEnumerable<ClientModel>>> GetAllClients()
+    public async Task<ClientResult<IEnumerable<ClientModel>>> GetAllClientsAsync()
     {
         var repositoryResult = await _clientRepository.GetAllAsync(includes: x => x.ClientAddress);
-        var serviceResult = repositoryResult.MapTo<ClientResult<IEnumerable<ClientModel>>>();
+        if (!repositoryResult.Success)
+            return ClientResult<IEnumerable<ClientModel>>.InternalServerErrror("Failed retrieving clients.");
 
+        var serviceResult = repositoryResult.MapTo<ClientResult<IEnumerable<ClientModel>>>();
         return serviceResult;
+    }
+
+    public async Task<ClientResult<ClientModel>> GetClientByIdAsync(int id)
+    {
+        var repositoryResult = await _clientRepository.GetAsync(x => x.Id == id, includes: x => x.ClientAddress);
+        if (!repositoryResult.Success || repositoryResult.Data == null)
+            return ClientResult<ClientModel>.NotFound($"Client with Id {id} not found.");
+
+        var clientModel = repositoryResult.Data.MapTo<ClientModel>();
+        return ClientResult<ClientModel>.Ok(clientModel);
     }
 }

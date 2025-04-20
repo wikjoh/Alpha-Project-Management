@@ -6,5 +6,6 @@ namespace Business.Interfaces;
 public interface IClientService
 {
     Task<ClientResult<ClientModel>> CreateClientAsync(AddClientForm form);
-    Task<ClientResult<IEnumerable<ClientModel>>> GetAllClients();
+    Task<ClientResult<IEnumerable<ClientModel>>> GetAllClientsAsync();
+    Task<ClientResult<ClientModel>> GetClientByIdAsync(int id);
 }
