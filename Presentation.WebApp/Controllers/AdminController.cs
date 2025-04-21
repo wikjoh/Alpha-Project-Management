@@ -21,6 +21,7 @@ public class AdminController(IClientService clientService) : Controller
         return View();
     }
 
+
     [Route("clients")]
     public async Task<IActionResult> Clients()
     {
@@ -28,6 +29,7 @@ public class AdminController(IClientService clientService) : Controller
 
         return View(clientList);
     }
+
 
     [Route("addClient")]
     [HttpPost]
@@ -43,7 +45,6 @@ public class AdminController(IClientService clientService) : Controller
         }
 
         var clientForm = vm.MapTo<AddClientForm>();
-        clientForm.ClientAddress = vm.ClientAddress.MapTo<ClientAddressForm>();
         var result = await _clientService.CreateClientAsync(clientForm);
 
         return result.Success
@@ -51,9 +52,10 @@ public class AdminController(IClientService clientService) : Controller
            : StatusCode(result.StatusCode, result.ErrorMessage);
     }
 
+
     [Route("editClient")]
     [HttpPost]
-    public IActionResult EditClient(EditClientForm form)
+    public async Task<IActionResult> EditClient(EditClientViewModel vm)
     {
         if (!ModelState.IsValid)
         {
@@ -65,10 +67,14 @@ public class AdminController(IClientService clientService) : Controller
 
         }
 
-        // send data to service
+        var clientForm = vm.MapTo<EditClientForm>();
+        var result = await _clientService.UpdateClientAsync(clientForm);
 
-        return Ok(new { success = true });
+        return result.Success
+           ? Ok(nameof(EditClient))
+           : StatusCode(result.StatusCode, result.ErrorMessage);
     }
+
 
     [Route("getClient")]
     [HttpGet("getClient/id/{id}")]

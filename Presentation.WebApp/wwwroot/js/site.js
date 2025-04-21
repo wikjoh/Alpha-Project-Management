@@ -205,6 +205,7 @@ function populateEditClientModal(client, modal) {
 
     // Set form values
     form.querySelector('input[name="Id"]').value = client.id;
+    form.querySelector('input[name="IsActive"]').value = client.isActive;
     form.querySelector('input[name="Name"]').value = client.name;
     form.querySelector('input[name="Email"]').value = client.email;
     form.querySelector('input[name="PhoneNumber"]').value = client.phoneNumber || '';

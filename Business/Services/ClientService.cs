@@ -82,4 +82,33 @@ public class ClientService(IClientRepository clientRepository, IClientAddressSer
         var clientModel = repositoryResult.Data.MapTo<ClientModel>();
         return ClientResult<ClientModel>.Ok(clientModel);
     }
+
+
+    // UPDATE
+    public async Task<ClientResult<ClientModel>> UpdateClientAsync(EditClientForm form)
+    {
+        if (form == null)
+            return ClientResult<ClientModel>.BadRequest("Form cannot be null.");
+
+        var client = (await _clientRepository.GetEntityAsync(x => x.Id == form.Id, includes: x => x.ClientAddress)).Data;
+        if (client == null)
+            return ClientResult<ClientModel>.NotFound("Client not found.");
+
+        client.IsActive = form.IsActive;
+        client.ImageURI = form.ImageURI;
+        client.Name = form.Name;
+        client.Email = form.Email;
+        client.PhoneNumber = form.PhoneNumber!;
+        client.ClientAddress = form.ClientAddress.MapTo<ClientAddressEntity>();
+
+        _clientRepository.Update(client);
+        var result = await _clientRepository.SaveAsync();
+        if (!result.Success)
+            return ClientResult<ClientModel>.InternalServerErrror("Failed updating client.");
+
+        var updatedClient = (await _clientRepository.GetAsync(x => x.Id == form.Id, includes: x => x.ClientAddress)).Data;
+        return updatedClient != null
+            ? ClientResult<ClientModel>.Ok(updatedClient)
+            : ClientResult<ClientModel>.InternalServerErrror("Failed retrieving client after update.");
+    }
 }

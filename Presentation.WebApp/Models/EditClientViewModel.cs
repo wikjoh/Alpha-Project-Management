@@ -5,6 +5,7 @@ namespace Presentation.WebApp.Models;
 public class EditClientViewModel
 {
     public int Id { get; set; }
+    public bool IsActive { get; set; }
     public string? ImageURI { get; set; }
 
     [Display(Name = "Client Image", Prompt = "Select an image")]
