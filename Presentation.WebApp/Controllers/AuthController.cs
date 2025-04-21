@@ -22,7 +22,7 @@ namespace Presentation.WebApp.Controllers
                 return View(form);
 
 
-            var result = await _authService.SignUpAsync(form.MapTo<UserSignUpForm>());
+            var result = await _authService.SignUpAsync(form.MapTo<UserSignUpForm>(), form.Password);
             switch (result.StatusCode)
             {
                 case 201:

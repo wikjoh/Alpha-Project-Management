@@ -7,5 +7,5 @@ public interface IAuthService
 {
     Task<AuthResult<string>> LoginAsync(UserSignInForm form);
     Task<AuthResult<string?>> LogoutAsync();
-    Task<AuthResult<UserModel>> SignUpAsync(UserSignUpForm form);
+    Task<AuthResult<UserModel>> SignUpAsync(UserSignUpForm form, string password);
 }

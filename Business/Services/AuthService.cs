@@ -38,9 +38,9 @@ public class AuthService(SignInManager<UserEntity> signInManager, IUserService u
         }
     }
 
-    public async Task<AuthResult<UserModel>> SignUpAsync(UserSignUpForm form)
+    public async Task<AuthResult<UserModel>> SignUpAsync(UserSignUpForm form, string password)
     {
-        var result = await _userService.CreateUserAsync(form);
+        var result = await _userService.CreateUserAsync(form, password);
         return result.MapTo<AuthResult<UserModel>>();
     }
 }
