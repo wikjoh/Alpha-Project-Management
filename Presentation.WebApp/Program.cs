@@ -1,3 +1,4 @@
+using Business.Data;
 using Business.Interfaces;
 using Business.Services;
 using Data.Contexts;
@@ -37,13 +38,21 @@ builder.Services.AddScoped<IMemberProfileRepository, MemberProfileRepository>();
 builder.Services.AddScoped<IMemberAddressRepository, MemberAddressRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IProjectMemberRepository, ProjectMemberRepository>();
-//builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IClientAddressService, ClientAddressService>();
 builder.Services.AddScoped<IClientService, ClientService>();
 
 var app = builder.Build();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await DbInitializer.AddDefaultRoles(services);
+}
+
 
 if (!app.Environment.IsDevelopment())
 {
