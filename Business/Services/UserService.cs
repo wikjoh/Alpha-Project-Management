@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Domain.Extensions;
 using Business.Interfaces;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Business.Services;
 
@@ -48,7 +49,7 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
                 return UserResult<UserModel>.InternalServerErrror("Failed retrieving user entity after creation.");
             }
 
-            var addToRoleResult = await AddUserToRole(userEntity.Id, "User");
+            var addToRoleResult = await AddUserToRoleAsync(userEntity.Id, "User");
             if (!addToRoleResult.Success)
             {
                 await _userRepository.RollbackTransactionAsync();
@@ -96,7 +97,7 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
                 return UserResult<UserModel>.InternalServerErrror("Failed retrieving user entity after creation.");
             }
 
-            var addToRoleResult = await AddUserToRole(userEntity.Id, "User");
+            var addToRoleResult = await AddUserToRoleAsync(userEntity.Id, "User");
             if (!addToRoleResult.Success)
             {
                 await _userRepository.RollbackTransactionAsync();
@@ -114,7 +115,7 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
         }
     }
 
-    public async Task<UserResult<string?>> AddUserToRole(string userId, string role)
+    public async Task<UserResult<string?>> AddUserToRoleAsync(string userId, string role)
     {
         if (!await _roleManager.RoleExistsAsync(role))
             return UserResult<string?>.NotFound($"Role {role} does not exist.");
@@ -131,5 +132,17 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
 
 
     // READ
+    public async Task<UserResult<UserModel>> GetUserByEmailAsync(string email)
+    {
+        if (email.Trim().IsNullOrEmpty())
+            return UserResult<UserModel>.BadRequest("Email parameter cannot be empty.");
+
+        var userEntity = await _userManager.FindByEmailAsync(email);
+        if (userEntity == null)
+            return UserResult<UserModel>.NotFound($"User with email {email} not found.");
+
+        var user = userEntity.MapTo<UserModel>();
+        return UserResult<UserModel>.Ok(user);
+    }
 
 }
