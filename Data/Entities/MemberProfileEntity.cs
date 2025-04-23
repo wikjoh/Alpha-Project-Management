@@ -8,7 +8,7 @@ public class MemberProfileEntity
 {
     [Key]
     public string UserId { get; set; } = null!;
-    public UserEntity? User { get; set; }
+    public UserEntity User { get; set; } = null!;
 
     [ProtectedPersonalData]
     [Column(TypeName = "varchar(200)")]

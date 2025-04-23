@@ -12,12 +12,13 @@ public class MemberAddressEntity
 
     [ProtectedPersonalData]
     [Column(TypeName = "nvarchar(100)")]
-    public string StreetAddress { get; set; } = null!;
+    public string? StreetAddress { get; set; }
 
     [ProtectedPersonalData]
-    public int PostalCode { get; set; }
+    [Column(TypeName = "varchar(10)")]
+    public string? PostalCode { get; set; }
 
     [ProtectedPersonalData]
     [Column(TypeName = "nvarchar(20)")]
-    public string City { get; set; } = null!;
+    public string? City { get; set; }
 }

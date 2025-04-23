@@ -28,7 +28,7 @@ public static class DbInitializer
         var defaultAdmin = new AddMemberForm {
             UserForm = new UserSignUpForm { Email = "hans@poweruser.ec", FirstName = "Hans", LastName = "Poweruser" },
             JobTitle = "CTO",
-            MemberAddress = new MemberAddressForm { StreetAddress = "Testroad 00", PostalCode = 12345, City = "TestCity"}
+            MemberAddress = new MemberAddressForm { StreetAddress = "Testroad 00", PostalCode = "12345", City = "TestCity"}
         };
 
         var exists = await userManager.Users.AnyAsync(x => x.Email == defaultAdmin.UserForm.Email);

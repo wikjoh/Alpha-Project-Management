@@ -13,5 +13,5 @@ public class AddMemberForm
     public string JobTitle { get; set; } = null!;
     public DateTime? DateOfBirth { get; set; }
 
-    public MemberAddressForm? MemberAddress { get; set; }
+    public MemberAddressForm MemberAddress { get; set; } = null!;
 }

@@ -5,7 +5,7 @@ namespace Domain.Models;
 public class MemberProfileModel
 {
     public string UserId { get; set; } = null!;
-    public UserModel? User { get; set; }
+    public UserModel User { get; set; } = null!;
     public string? ImageURI { get; set; }
     public string? PhoneNumber { get; set; }
     public string JobTitle { get; set; } = null!;
