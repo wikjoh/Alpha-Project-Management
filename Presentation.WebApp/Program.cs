@@ -43,6 +43,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IClientAddressService, ClientAddressService>();
 builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IMemberProfileService, MemberProfileService>();
+builder.Services.AddScoped<IMemberService, MemberService>();
 
 var app = builder.Build();
 
@@ -51,6 +53,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     await DbInitializer.AddDefaultRoles(services);
+    await DbInitializer.AddDefaultAdmin(services);
 }
 
 
