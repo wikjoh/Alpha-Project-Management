@@ -13,6 +13,5 @@ public class AddMemberForm
     public string JobTitle { get; set; } = null!;
     public DateTime? DateOfBirth { get; set; }
 
-    public MemberAddressEntity? MemberAddress { get; set; }
-    public ICollection<ProjectMemberEntity>? ProjectMembers { get; set; }
+    public MemberAddressForm? MemberAddress { get; set; }
 }
