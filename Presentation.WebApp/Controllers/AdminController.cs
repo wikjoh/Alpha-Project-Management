@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.WebApp.Controllers;
 
-//[Authorize]
+[Authorize(Roles = "Admin")]
 [Route("admin")]
 public class AdminController(IClientService clientService) : Controller
 {

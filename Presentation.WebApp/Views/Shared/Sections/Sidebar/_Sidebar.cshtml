@@ -1,27 +1,46 @@
 ﻿@await Html.PartialAsync("Components/_Logo")
 
 <nav class="items-container">
-    @await Html.PartialAsync("Sections/Sidebar/Components/_SidebarItem", new SidebarItemModel
-    {
-        ImgUrl = "~/images/icons/project-briefcase.svg",
-        Name = "Projects",
-        AspController = "Projects",
-        AspAction = "Projects"
-    })
+    <div class="top">
+        @await Html.PartialAsync("Sections/Sidebar/Components/_SidebarItem", new SidebarItemModel
+        {
+            ImgUrl = "~/images/icons/project-briefcase.svg",
+            Name = "Projects",
+            AspController = "Projects",
+            AspAction = "Projects"
+        })
 
-    @await Html.PartialAsync("Sections/Sidebar/Components/_SidebarItem", new SidebarItemModel
-    {
-        ImgUrl = "~/images/icons/project-briefcase.svg",
-        Name = "Team Members",
-        AspController = "Admin",
-        AspAction = "Members"
-    })
+        @if (User.IsInRole("Admin"))
+        {
+            @await Html.PartialAsync("Sections/Sidebar/Components/_SidebarItem", new SidebarItemModel
+            {
+                ImgUrl = "~/images/icons/project-briefcase.svg",
+                Name = "Team Members",
+                AspController = "Admin",
+                AspAction = "Members"
+            })
 
-    @await Html.PartialAsync("Sections/Sidebar/Components/_SidebarItem", new SidebarItemModel
-    {
-        ImgUrl = "~/images/icons/project-briefcase.svg",
-        Name = "Clients",
-        AspController = "Admin",
-        AspAction = "Clients"
-    })
+            @await Html.PartialAsync("Sections/Sidebar/Components/_SidebarItem", new SidebarItemModel
+            {
+                ImgUrl = "~/images/icons/project-briefcase.svg",
+                Name = "Clients",
+                AspController = "Admin",
+                AspAction = "Clients"
+            })
+        }
+    </div>
+
+
+    <div class="bottom">
+        @if (!User.IsInRole("Admin"))
+        {
+            @await Html.PartialAsync("Sections/Sidebar/Components/_SidebarItem", new SidebarItemModel
+            {
+                ImgUrl = "~/images/icons/project-briefcase.svg",
+                Name = "Admin-Login",
+                AspController = "Admin",
+                AspAction = "Login"
+            })
+        }
+    </div>
 </nav>

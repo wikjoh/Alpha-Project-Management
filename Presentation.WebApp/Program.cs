@@ -65,7 +65,6 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -83,7 +82,6 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Auth}/{action=CreateAccount}/{id?}");
-
+    pattern: "{controller=Projects}/{action=Projects}");
 
 app.Run();

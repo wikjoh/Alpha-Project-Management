@@ -3,11 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.WebApp.Controllers;
 
-//[Authorize]
-[Route("projects")]
+[Authorize]
 public class ProjectsController : Controller
 {
-    [Route("projects")]
     public IActionResult Projects()
     {
         return View();

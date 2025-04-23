@@ -3,6 +3,7 @@ using Business.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.WebApp.Models;
 using Domain.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Presentation.WebApp.Controllers
 {
@@ -50,7 +51,7 @@ namespace Presentation.WebApp.Controllers
             return View();
         }
 
-
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await _authService.LogoutAsync();
