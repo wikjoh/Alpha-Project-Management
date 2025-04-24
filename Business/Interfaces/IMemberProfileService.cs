@@ -7,4 +7,5 @@ public interface IMemberProfileService
 {
     Task<MemberProfileResult<MemberProfileModel>> CreateMemberProfileAsync(AddMemberForm form, string userId);
     Task<MemberProfileResult<bool?>> ExistsByIdAsync(string id);
+    Task<MemberProfileResult<IEnumerable<MemberProfileModel>>> GetAllMemberProfilesAsync();
 }

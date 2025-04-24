@@ -11,14 +11,18 @@ namespace Presentation.WebApp.Controllers;
 
 [Authorize(Roles = "Admin")]
 [Route("admin")]
-public class AdminController(IClientService clientService) : Controller
+public class AdminController(IClientService clientService, IMemberProfileService memberProfileService) : Controller
 {
     private readonly IClientService _clientService = clientService;
+    private readonly IMemberProfileService _memberProfileService = memberProfileService;
 
     [Route("members")]
-    public IActionResult Members()
+    public async Task<IActionResult> Members()
     {
-        return View();
+        var result = await _memberProfileService.GetAllMemberProfilesAsync();
+        var memberProfiles = result.Data;
+
+        return View(memberProfiles);
     }
 
 

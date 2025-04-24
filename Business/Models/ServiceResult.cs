@@ -1,4 +1,6 @@
-﻿namespace Business.Models;
+﻿using Data.Models;
+
+namespace Business.Models;
 
 public abstract class ServiceResult<TResult, TData> where TResult : ServiceResult<TResult, TData>, new()
 {
@@ -34,6 +36,15 @@ public abstract class ServiceResult<TResult, TData> where TResult : ServiceResul
             Success = true,
             StatusCode = 201,
             Data = data
+        };
+    }
+
+    public static TResult NoContent()
+    {
+        return new TResult
+        {
+            Success = true,
+            StatusCode = 204
         };
     }
 

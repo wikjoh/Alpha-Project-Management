@@ -42,6 +42,7 @@ public class MemberProfileService(IMemberProfileRepository memberProfileReposito
         }
     }
 
+
     // READ
     public async Task<MemberProfileResult<bool?>> ExistsByIdAsync(string id)
     {
@@ -50,5 +51,17 @@ public class MemberProfileService(IMemberProfileRepository memberProfileReposito
 
         var result = await _memberProfileRepository.ExistsAsync(x => x.UserId == id);
         return result.MapTo<MemberProfileResult<bool?>>();
+    }
+
+    public async Task<MemberProfileResult<IEnumerable<MemberProfileModel>>> GetAllMemberProfilesAsync()
+    {
+        var result = await _memberProfileRepository.GetAllAsync(false, null, null, x => x.User, x => x.MemberAddress!);
+        if (!result.Success)
+            return MemberProfileResult<IEnumerable<MemberProfileModel>>.InternalServerErrror("Failed retrieving member profiles.");
+
+        var memberProfiles = result.Data;
+        return memberProfiles != null
+            ? MemberProfileResult<IEnumerable<MemberProfileModel>>.Ok(memberProfiles)
+            : MemberProfileResult<IEnumerable<MemberProfileModel>>.NoContent();
     }
 }

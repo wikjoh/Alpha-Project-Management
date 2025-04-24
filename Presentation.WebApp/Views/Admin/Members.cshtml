@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<MemberProfileModel>
+
+@{
     Layout = "_MainLayout";
     ViewData["Title"] = "Members";
 }
@@ -11,4 +13,14 @@
             @await Html.PartialAsync("Components/Buttons/_AddButton", "Add Member")
         </div>
     </header>
+
+    <div class="member-list">
+        @if (Model != null)
+        {
+            @foreach (var member in Model)
+            {
+                <partial name="Sections/Members/_MemberCard" model="member" />
+            }
+        }
+    </div>
 </section>

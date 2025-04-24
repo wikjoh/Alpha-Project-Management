@@ -1,0 +1,19 @@
+﻿@model MemberProfileModel
+
+<div class="card">
+    <div class="more-dots">
+        <img class="client-actions-dots" src="~/images/icons/more-dots.svg" />
+    </div>
+    <div class="profile-img-container">
+        <img class="profile-img" src="~/images/avatar150px.svg" />
+    </div>
+    <div class="name">
+        <h4>
+            @Model.User.FullName
+        </h4>
+    </div>
+    <div class="job-title">@Model.JobTitle</div>
+    <div class="email">@Model.User.Email</div>
+    <div class="phonenumber">@Model.PhoneNumber</div>
+    <button class="message-button" type="button">Message</button>
+</div>

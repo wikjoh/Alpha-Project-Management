@@ -1,0 +1,46 @@
+﻿.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 300px;
+    padding: 1.5rem;
+    background-color: var(--color-surface);
+    border-radius: 16px;
+    box-shadow: 0px 25px 10px -20px rgba(0,0,0,0.15);
+}
+
+.more-dots {
+    align-self: end;
+}
+
+.name {
+    margin-top: .5rem;
+}
+
+.job-title {
+    margin-top: .5rem;
+    font-size: 12px;
+    background-color: var(--color-grey-200);
+    padding: .5rem 1rem;
+    border-radius: .5rem;
+}
+
+.email {
+    margin-top: 1rem;
+    font-size: 15px;
+}
+
+.phonenumber {
+    margin-top: .5rem;
+    font-size: 15px;
+}
+
+.message-button {
+    margin-top: 1.5rem;
+    font-size: 15px;
+    width: 100%;
+    border-style: none;
+    border-radius: 1rem;
+    padding: 1rem 1.5rem;
+}
