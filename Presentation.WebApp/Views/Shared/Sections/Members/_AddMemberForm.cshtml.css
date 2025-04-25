@@ -1,10 +1,10 @@
 ﻿.modal {
-display: none;
-background-color: #e3e5e8cc;
-position: fixed;
-inset: 0 0 0 0;
-justify-content: center;
-align-items: center;
+    display: none;
+    background-color: #e3e5e8cc;
+    position: fixed;
+    inset: 0 0 0 0;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
@@ -13,6 +13,9 @@ align-items: center;
     border-radius: 16px;
     box-shadow: 0 4px 4px 3px rgba(196);
     padding: 2rem;
+
+    max-height: 90%;
+    overflow-y: auto;
 }
 
 .modal-header {
@@ -20,7 +23,6 @@ align-items: center;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
-
 }
 
 .btn-close {
@@ -34,7 +36,7 @@ align-items: center;
     align-items: center;
 }
 
-::deep .submit-button-container button{
+::deep .submit-button-container button {
     width: 100%;
     margin-top: 2rem;
 }
@@ -43,15 +45,15 @@ form {
     width: 100%;
 }
 
-form .form-group {
-    display: grip;
-    gap: 0.2rem;
-    margin-bottom: 1.2rem;
-}
+    form .form-group {
+        display: grip;
+        gap: 0.2rem;
+        margin-bottom: 1.2rem;
+    }
 
-form .field-group {
-    position: relative;
-}
+    form .field-group {
+        position: relative;
+    }
 
 ::deep form input,
 ::deep form select,
@@ -65,18 +67,18 @@ form .field-group {
     transition: border-color 0.15s ease-in-out;
 }
 
-::deep form input:focus,
-::deep form select:focus,
-::deep form textarea:focus {
-    border: 1px solid var(--color-accent);
-}
+    ::deep form input:focus,
+    ::deep form select:focus,
+    ::deep form textarea:focus {
+        border: 1px solid var(--color-accent);
+    }
 
-::deep form input::placeholder,
-::deep form select::placeholder,
-::deep form textarea::placeholder {
-    opacity: .5;
-    font-size: .9em;
-}
+    ::deep form input::placeholder,
+    ::deep form select::placeholder,
+    ::deep form textarea::placeholder {
+        opacity: .5;
+        font-size: .9em;
+    }
 
 ::deep form .input-validation-error {
     border-color: firebrick;
@@ -111,33 +113,38 @@ form .field-group {
     position: relative;
 }
 
-.image-previewer::after {
-    content: '\f030';
-    font-family: var(--font-fa);
-    font-weight: var(--fw-bold);
-    background-color: darkgrey;
-    color: white;
-    padding: 1rem;
-    border-radius: 50%;
-    position: relative;
-    bottom: 0;
-}
+    .image-previewer::after {
+        content: '\f030';
+        font-family: var(--font-fa);
+        font-weight: var(--fw-bold);
+        background-color: darkgrey;
+        color: white;
+        padding: 1rem;
+        border-radius: 50%;
+        position: relative;
+        bottom: 0;
+    }
 
-.image-previewer.selected::after {
-    content: '\f044';
-    position: absolute;
-    bottom: 5px;
-}
+    .image-previewer.selected::after {
+        content: '\f044';
+        position: absolute;
+        bottom: 5px;
+    }
 
-.image-previewer.circle {
-    border-radius: 50%;
-}
+    .image-previewer.circle {
+        border-radius: 50%;
+    }
 
-.image-previewer.square {
-    border-radius: 16px;
-}
+    .image-previewer.square {
+        border-radius: 16px;
+    }
 
 .city-postalcode-container {
     display: flex;
     gap: 2rem;
+}
+
+.name-container {
+    display: flex;
+    gap: 1rem;
 }

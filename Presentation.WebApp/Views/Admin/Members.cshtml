@@ -5,12 +5,14 @@
     ViewData["Title"] = "Members";
 }
 
+<partial name="Sections/Members/_AddMemberForm" model="new AddMemberViewModel()" />
+
 
 <section id="members">
     <header>
         <div class="header-container">
             <h2>@ViewData["Title"]</h2>
-            @await Html.PartialAsync("Components/Buttons/_AddButton", "Add Member")
+            <partial name="Sections/Members/Components/_AddMemberButton" />
         </div>
     </header>
 
