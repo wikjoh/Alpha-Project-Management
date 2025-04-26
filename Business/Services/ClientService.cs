@@ -65,7 +65,7 @@ public class ClientService(IClientRepository clientRepository, IClientAddressSer
     // READ
     public async Task<ClientResult<IEnumerable<ClientModel>>> GetAllClientsAsync()
     {
-        var repositoryResult = await _clientRepository.GetAllAsync(includes: x => x.ClientAddress);
+        var repositoryResult = await _clientRepository.GetAllAsync(false, x => x.Created, includes: x => x.ClientAddress);
         if (!repositoryResult.Success)
             return ClientResult<IEnumerable<ClientModel>>.InternalServerErrror("Failed retrieving clients.");
 

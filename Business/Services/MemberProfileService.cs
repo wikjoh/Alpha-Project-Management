@@ -55,7 +55,7 @@ public class MemberProfileService(IMemberProfileRepository memberProfileReposito
 
     public async Task<MemberProfileResult<IEnumerable<MemberProfileModel>>> GetAllMemberProfilesAsync()
     {
-        var result = await _memberProfileRepository.GetAllAsync(false, null, null, x => x.User, x => x.MemberAddress!);
+        var result = await _memberProfileRepository.GetAllAsync(false, x => x.User.Created, null, x => x.User, x => x.MemberAddress!);
         if (!result.Success)
             return MemberProfileResult<IEnumerable<MemberProfileModel>>.InternalServerErrror("Failed retrieving member profiles.");
 
