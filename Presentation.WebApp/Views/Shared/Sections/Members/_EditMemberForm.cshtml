@@ -1,0 +1,100 @@
+﻿@model EditMemberViewModel
+
+<div id="editMemberModal" class="modal">
+    <div class="modal-content hide-scrollbar">
+
+        <div class="modal-header">
+            <h3>Edit Member</h3>
+            <button class="btn-close" data-close="true">X</button>
+        </div>
+
+        <form class="ajax" novalidate method="post" asp-action="EditMember" asp-controller="Admin">
+            <div class="image-previewer circle">
+                <img src="" class="image-preview" />
+                <input asp-for="MemberImage" accept="image/*" class="hide" />
+            </div>
+
+            <input asp-for="UserId" readonly type="hidden" />
+
+            <div class="name-container">
+                <div class="form-group">
+                    <label asp-for="User.FirstName">First Name</label>
+                    <div class="field-group">
+                        <input asp-for="User.FirstName" />
+                        <span asp-validation-for="User.FirstName"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="User.LastName">Last Name</label>
+                    <div class="field-group">
+                        <input asp-for="User.LastName" />
+                        <span asp-validation-for="User.LastName"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="User.Email">Email</label>
+                <div class="field-group">
+                    <input asp-for="User.Email" />
+                    <span asp-validation-for="User.Email"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PhoneNumber">Phone</label>
+                <div class="field-group">
+                    <input asp-for="PhoneNumber" />
+                    <span asp-validation-for="PhoneNumber"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="JobTitle">Job Title</label>
+                <div class="field-group">
+                    <input asp-for="JobTitle" />
+                    <span asp-validation-for="JobTitle"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MemberAddress.StreetAddress">Street Address</label>
+                <div class="field-group">
+                    <input asp-for="MemberAddress.StreetAddress" />
+                    <span asp-validation-for="MemberAddress.StreetAddress"></span>
+                </div>
+            </div>
+
+            <div class="city-postalcode-container">
+                <div class="form-group">
+                    <label asp-for="MemberAddress.PostalCode">Postal Code</label>
+                    <div class="field-group">
+                        <input asp-for="MemberAddress.PostalCode" />
+                        <span asp-validation-for="MemberAddress.PostalCode"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="MemberAddress.City">City</label>
+                    <div class="field-group">
+                        <input asp-for="MemberAddress.City" />
+                        <span asp-validation-for="MemberAddress.City"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DateOfBirth">Date of Birth</label>
+                <div class="field-group">
+                    <input asp-for="DateOfBirth" />
+                    <span asp-validation-for="DateOfBirth"></span>
+                </div>
+            </div>
+
+            <div class="submit-button-container" style="display: contents">
+                <partial name="Components/Buttons/_BaseButton" model="@( new ButtonModel { Title = "Update Member", Type = "submit" } )" />
+            </div>
+        </form>
+    </div>
+</div>

@@ -51,6 +51,19 @@
                 }
             }
 
+            const memberId = button.getAttribute('data-user-id')
+            if (memberId) {
+                try {
+                    const response = await fetch(`/admin/getMember/id/${memberId}`);
+                    if (response.ok) {
+                        const memberData = await response.json();
+                        populateEditMemberModal(memberData, modal)
+                    }
+                } catch (error) {
+                    console.error('Error fetching member data: ', error);
+                }
+            }
+
             if (modal)
                 modal.style.display = 'flex';
         })
@@ -223,6 +236,36 @@ function populateEditClientModal(client, modal) {
         const imagePreview = form.querySelector('.image-preview');
         if (imagePreview) {
             imagePreview.src = client.imageURI;
+            form.querySelector('.image-previewer').classList.add('selected');
+        }
+    }
+}
+
+// Function to populate the edit member modal with data
+function populateEditMemberModal(member, modal) {
+    const form = modal.querySelector('form');
+    if (!form) return;
+
+    // Set form values
+    form.querySelector('input[name="UserId"]').value = member.userId;
+    form.querySelector('input[name="User.FirstName"]').value = member.user.firstName;
+    form.querySelector('input[name="User.LastName"]').value = member.user.lastName;
+    form.querySelector('input[name="User.Email"]').value = member.user.email;
+    form.querySelector('input[name="PhoneNumber"]').value = member.phoneNumber || '';
+    form.querySelector('input[name="JobTitle"]').value = member.jobTitle;
+
+    // Address fields
+    if (member.memberAddress) {
+        form.querySelector('input[name="MemberAddress.StreetAddress"]').value = member.memberAddress.streetAddress || '';
+        form.querySelector('input[name="MemberAddress.PostalCode"]').value = member.memberAddress.postalCode || '';
+        form.querySelector('input[name="MemberAddress.City"]').value = member.memberAddress.city || '';
+    }
+
+    // If client has an image, display it
+    if (client.imageURI) {
+        const imagePreview = form.querySelector('.image-preview');
+        if (imagePreview) {
+            imagePreview.src = member.imageURI;
             form.querySelector('.image-previewer').classList.add('selected');
         }
     }

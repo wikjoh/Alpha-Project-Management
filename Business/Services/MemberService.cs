@@ -2,6 +2,7 @@
 using Business.Interfaces;
 using Business.Models;
 using Data.Interfaces;
+using Domain.Extensions;
 using Domain.Models;
 
 namespace Business.Services;
@@ -99,5 +100,49 @@ public class MemberService(IMemberProfileRepository memberProfileRepository, IUs
             await _memberProfileRepository.RollbackTransactionAsync();
             return MemberProfileResult<MemberProfileModel>.InternalServerErrror($"Unexpected error occured. {ex.Message}");
         }
+    }
+
+
+    // READ
+    public async Task<MemberProfileResult<MemberProfileModel>> GetMemberByIdAsync(string id)
+    {
+        var repositoryResult = await _memberProfileRepository.GetAsync(x => x.UserId == id, x => x.User, x => x.MemberAddress!, x => x.ProjectMembers!);
+        if (!repositoryResult.Success || repositoryResult.Data == null)
+            return MemberProfileResult<MemberProfileModel>.NotFound($"Member with userid {id} not found.");
+
+        var memberProfileModel = repositoryResult.Data.MapTo<MemberProfileModel>();
+        return MemberProfileResult<MemberProfileModel>.Ok(memberProfileModel);
+    }
+
+    // UPDATE
+    public async Task<MemberProfileResult<MemberProfileModel>> UpdateMemberAsync(EditMemberForm form)
+    {
+        if (form == null)
+            return MemberProfileResult<MemberProfileModel>.BadRequest("Form cannot be null.");
+
+        var member = (await _memberProfileRepository.GetEntityAsync(x => x.UserId == form.UserId, x => x.User, x => x.MemberAddress!)).Data;
+        if (member == null)
+            return MemberProfileResult<MemberProfileModel>.NotFound("Member not found.");
+
+        member.User.Email = form.User.Email;
+        member.User.UserName = form.User.Email;
+        member.User.FirstName = form.User.FirstName;
+        member.User.LastName = form.User.LastName;
+        member.PhoneNumber = form.PhoneNumber;
+        member.JobTitle = form.JobTitle;
+        member.DateOfBirth = form.DateOfBirth;
+        member.MemberAddress!.StreetAddress = form.MemberAddress.StreetAddress;
+        member.MemberAddress!.PostalCode = form.MemberAddress.PostalCode;
+        member.MemberAddress.City = form.MemberAddress.City;
+
+        _memberProfileRepository.Update(member);
+        var result = await _memberProfileRepository.SaveAsync();
+        if (!result.Success)
+            return MemberProfileResult<MemberProfileModel>.InternalServerErrror("Failed updating member.");
+
+        var updatedMember = (await _memberProfileRepository.GetAsync(x => x.UserId == form.UserId, x => x.User, x => x.MemberAddress!, x => x.ProjectMembers!)).Data;
+        return updatedMember != null
+            ? MemberProfileResult<MemberProfileModel>.Ok(updatedMember)
+            : MemberProfileResult<MemberProfileModel>.InternalServerErrror("Failed retrieving member after update.");
     }
 }

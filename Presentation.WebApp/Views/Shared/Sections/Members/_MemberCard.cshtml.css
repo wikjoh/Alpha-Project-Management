@@ -12,6 +12,10 @@
 
 .more-dots {
     align-self: end;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .name {

@@ -4,7 +4,8 @@ using Domain.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Presentation.WebApp.Models;
+using Presentation.WebApp.Models.Client;
+using Presentation.WebApp.Models.Member;
 using System.Threading.Tasks;
 
 namespace Presentation.WebApp.Controllers;
@@ -45,6 +46,41 @@ public class AdminController(IClientService clientService, IMemberProfileService
         return result.Success
            ? CreatedAtAction(nameof(AddMember), result.Data)
            : StatusCode(result.StatusCode, result.ErrorMessage);
+    }
+
+    [Route("editMember")]
+    [HttpPost]
+    public async Task<IActionResult> EditMember(EditMemberViewModel vm)
+    {
+        if (!ModelState.IsValid)
+        {
+            var errors = ModelState
+                .Where(x => x.Value?.Errors.Count > 0)
+                .ToDictionary(kvp => kvp.Key, kvp => kvp.Value?.Errors.Select(x => x.ErrorMessage).ToArray());
+
+            return BadRequest(new { success = false, errors });
+
+        }
+
+        var memberForm = vm.MapTo<EditMemberForm>();
+        var result = await _memberService.UpdateMemberAsync(memberForm);
+
+        return result.Success
+           ? Ok(nameof(EditMember))
+           : StatusCode(result.StatusCode, result.ErrorMessage);
+    }
+
+    [Route("getMember")]
+    [HttpGet("getMember/id/{id}")]
+    public async Task<IActionResult> GetMember(string id)
+    {
+        var result = await _memberService.GetMemberByIdAsync(id);
+        if (!result.Success || result.Data == null)
+            return NotFound();
+
+        var memberViewModel = result.Data.MapTo<EditMemberViewModel>();
+
+        return Ok(memberViewModel);
     }
 
 
