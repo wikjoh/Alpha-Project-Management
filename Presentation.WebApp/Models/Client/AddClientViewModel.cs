@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Presentation.WebApp.Models;
+namespace Presentation.WebApp.Models.Client;
 
 public class AddClientViewModel
 {
