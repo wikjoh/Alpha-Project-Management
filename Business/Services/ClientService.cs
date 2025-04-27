@@ -1,4 +1,5 @@
 ﻿using Business.Dtos;
+using Business.Dtos.API;
 using Business.Interfaces;
 using Business.Models;
 using Data.Entities;
@@ -81,6 +82,16 @@ public class ClientService(IClientRepository clientRepository, IClientAddressSer
 
         var clientModel = repositoryResult.Data.MapTo<ClientModel>();
         return ClientResult<ClientModel>.Ok(clientModel);
+    }
+
+    public async Task<ClientResult<IEnumerable<ClientIdName>>> GetActiveClientsIdNameBySearchTerm(string searchTerm)
+    {
+        var repositoryResult = await _clientRepository.GetAllAsync<ClientIdName>(c => new ClientIdName { Name = c.Name, Id = c.Id }, true, c => c.Created, c => c.IsActive == true && c.Name.Contains(searchTerm));
+        if (!repositoryResult.Success)
+            return ClientResult<IEnumerable<ClientIdName>>.InternalServerErrror("Failed retriveing clients.");
+
+        var clientIdNameList = repositoryResult.Data!;
+        return ClientResult<IEnumerable<ClientIdName>>.Ok(clientIdNameList);
     }
 
 
