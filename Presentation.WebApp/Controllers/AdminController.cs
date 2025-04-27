@@ -70,6 +70,7 @@ public class AdminController(IClientService clientService, IMemberProfileService
            : StatusCode(result.StatusCode, result.ErrorMessage);
     }
 
+    [Route("getMember")]
     [HttpGet("getMember/id/{id}")]
     public async Task<IActionResult> GetMember(string id)
     {
@@ -91,6 +92,7 @@ public class AdminController(IClientService clientService, IMemberProfileService
         return View(clientList);
     }
 
+
     [Route("addClient")]
     [HttpPost]
     public async Task<IActionResult> AddClient(AddClientViewModel vm)
@@ -111,6 +113,7 @@ public class AdminController(IClientService clientService, IMemberProfileService
            ? CreatedAtAction(nameof(AddClient), result.Data)
            : StatusCode(result.StatusCode, result.ErrorMessage);
     }
+
 
     [Route("editClient")]
     [HttpPost]
@@ -134,6 +137,8 @@ public class AdminController(IClientService clientService, IMemberProfileService
            : StatusCode(result.StatusCode, result.ErrorMessage);
     }
 
+
+    [Route("getClient")]
     [HttpGet("getClient/id/{id}")]
     public async Task<IActionResult> GetClient(int id)
     {

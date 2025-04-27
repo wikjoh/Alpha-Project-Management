@@ -1,5 +1,4 @@
 ﻿using Business.Dtos;
-using Business.Dtos.API;
 using Business.Interfaces;
 using Business.Models;
 using Data.Interfaces;
@@ -114,17 +113,6 @@ public class MemberService(IMemberProfileRepository memberProfileRepository, IUs
         var memberProfileModel = repositoryResult.Data.MapTo<MemberProfileModel>();
         return MemberProfileResult<MemberProfileModel>.Ok(memberProfileModel);
     }
-
-    public async Task<MemberProfileResult<IEnumerable<MemberUseridName>>> GetMembersUseridNameBySearchTerm(string searchTerm)
-    {
-        var repositoryResult = await _memberProfileRepository.GetAllAsync<MemberUseridName>(m => new MemberUseridName { FullName = m.User.FullName, UserId = m.UserId }, true, m => m.User.Created, m => (m.User.FirstName + " " + m.User.LastName).Contains(searchTerm), x => x.User);
-        if (!repositoryResult.Success)
-            return MemberProfileResult<IEnumerable<MemberUseridName>>.InternalServerErrror("Failed retrieving members.");
-
-        var memberUseridNameList = repositoryResult.Data!;
-        return MemberProfileResult<IEnumerable<MemberUseridName>>.Ok(memberUseridNameList);
-    }
-
 
     // UPDATE
     public async Task<MemberProfileResult<MemberProfileModel>> UpdateMemberAsync(EditMemberForm form)

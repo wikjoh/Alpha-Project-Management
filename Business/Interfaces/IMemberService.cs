@@ -1,5 +1,4 @@
 ﻿using Business.Dtos;
-using Business.Dtos.API;
 using Business.Models;
 using Domain.Models;
 
@@ -8,6 +7,5 @@ public interface IMemberService
 {
     Task<MemberProfileResult<MemberProfileModel>> AddMemberAsync(AddMemberForm form);
     Task<MemberProfileResult<MemberProfileModel>> GetMemberByIdAsync(string id);
-    Task<MemberProfileResult<IEnumerable<MemberUseridName>>> GetMembersUseridNameBySearchTerm(string searchTerm);
     Task<MemberProfileResult<MemberProfileModel>> UpdateMemberAsync(EditMemberForm form);
 }
