@@ -16,7 +16,7 @@ public class ProjectEntity
     public string Name { get; set; } = null!;
 
     public int ClientId { get; set; }
-    public ClientEntity Client { get; set; } = null!;
+    public ClientEntity? Client { get; set; } = null!;
 
     [Column(TypeName = "nvarchar(max)")]
     public string? Description { get; set; }

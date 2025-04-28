@@ -7,7 +7,7 @@ namespace Data.Contexts;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<UserEntity>(options)
 {
     public DbSet<MemberProfileEntity> MemberProfiles { get; set; }
-    public DbSet<MemberAddressEntity> MemberAdresses { get; set; }
+    public DbSet<MemberAddressEntity> MemberAddresses { get; set; }
     public DbSet<ProjectMemberEntity> ProjectMembers { get; set; }
     public DbSet<ProjectEntity> Projects { get; set; }
     public DbSet<ClientEntity> Clients { get; set; }
@@ -17,8 +17,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
-
         // MemberProfiles
         modelBuilder.Entity<MemberProfileEntity>()
             .HasOne(mp => mp.User)
@@ -31,7 +29,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
 
         modelBuilder.Entity<MemberProfileEntity>()
             .HasMany(mp => mp.ProjectMembers)
-            .WithOne(pm => pm.MemberProfile);
+            .WithOne(pm => pm.MemberProfile)
+            .HasForeignKey(pm => pm.UserId);
 
         // ProjectMembers
         modelBuilder.Entity<ProjectMemberEntity>()
@@ -40,7 +39,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         // Projects
         modelBuilder.Entity<ProjectEntity>()
             .HasMany(p => p.ProjectMembers)
-            .WithOne(pm => pm.Project);
+            .WithOne(pm => pm.Project)
+            .HasForeignKey(pm => pm.ProjectId);
 
         // Clients
         modelBuilder.Entity<ClientEntity>()
@@ -51,5 +51,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         modelBuilder.Entity<ClientAddressEntity>()
             .HasOne(ca => ca.Client)
             .WithOne(c => c.ClientAddress);
+
+
+
+        base.OnModelCreating(modelBuilder);
     }
 }
