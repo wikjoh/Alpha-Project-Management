@@ -1,11 +1,15 @@
 ﻿function initTagSelector(config) {
     let activeIndex = -1;
-    let selectedIds = [];
 
     const tagContainer = document.getElementById(config.containerId);
     const input = document.getElementById(config.inputId);
     const results = document.getElementById(config.resultsId);
-    const selectedInputIds = document.getElementById(config.selectedInputIds);
+
+    let selectedInputIdsContainer = document.createElement('div');
+    selectedInputIdsContainer.classList.add('selected-input-ids-container');
+    selectedInputIdsContainer.setAttribute('style', 'display:none;');
+    tagContainer.appendChild(selectedInputIdsContainer);
+    selectedInputIdsContainer = Array.from(tagContainer.children).find(c => c.classList.contains('selected-input-ids-container'));
 
     if (Array.isArray(config.preselected)) {
         config.preselected.forEach(item => addTag(item));
@@ -91,13 +95,13 @@
             results.appendChild(noResult);
         } else {
             data.forEach(item => {
-                if (!selectedIds.includes(item.id)) {
+                if (!Array.from(selectedInputIdsContainer.querySelectorAll('input')).some(input => input.value === item.id)) {
                     const resultItem = document.createElement('div');
                     resultItem.classList.add('search-item');
                     resultItem.dataset.id = item.id;
 
                     if (config.tagClass === 'user-tag') {
-                        result.innerHTML = `
+                        resultItem.innerHTML = `
                             <img class="user-avatar" src="${config.avatarFolder || ''}${item[config.imageProperty]}">
                             <span>${item[config.displayProperty]}</span>
                             `;
@@ -119,9 +123,17 @@
     function addTag(item) {
         const idKeyName = config.idKeyName || 'id';
         const id = (config.idIsDataTypeInt) ? parseInt(item[idKeyName]) : item[idKeyName];
-        if (selectedIds.includes(id)) return;
 
-        selectedIds.push(id);
+        if (Array.from(selectedInputIdsContainer.querySelectorAll('input')).some(input => input.value === id)) return;
+
+        // if not multiSelect, wipe previous tags
+        if (!config.multiSelect) singleSelectWipePreviousTags();
+
+        let selectedInputItem = document.createElement('input');
+        selectedInputItem.setAttribute("type", "text");
+        selectedInputItem.setAttribute("name", [config.viewModelProperty]);
+        selectedInputItem.setAttribute("value", id);
+        selectedInputIdsContainer.appendChild(selectedInputItem);
 
         const tag = document.createElement('div');
         tag.classList.add(config.tagClass || 'tag');
@@ -131,6 +143,10 @@
                 <img class="user-avatar" src="${config.avatarFolder || ''}${item[config.imageProperty]}">
                 <span>${item[config.displayProperty]}</span>
             `;
+        } else {
+            tag.innerHTML = `
+            <span>${item[config.displayProperty]}</span>
+            `;
         }
 
         const removeBtn = document.createElement('span');
@@ -138,9 +154,8 @@
         removeBtn.classList.add('btn-remove');
         removeBtn.dataset.id = id;
         removeBtn.addEventListener('click', (e) => {
-            selectedIds = selectedIds.filter(i => i !== id);
+            Array.from(selectedInputIdsContainer.querySelectorAll('input')).find(input => input.value === id).remove();
             tag.remove();
-            updateSelectedIdsInput();
             e.stopPropagation();
         });
 
@@ -150,8 +165,6 @@
         input.value = '';
         results.innerHTML = '';
         results.style.display = 'none';
-
-        updateSelectedIdsInput();
     }
 
     function removeLastTag() {
@@ -163,13 +176,12 @@
 
         selectedIds = selectedIds.filter(id => id !== lastId);
         lastTag.remove();
-        updateSelectedIdsInput();
     }
 
-    function updateSelectedIdsInput() {
-        const hiddenInput = selectedInputIds;
-        if (hiddenInput) {
-            hiddenInput.value = JSON.stringify(selectedIds);
-        }
+    function singleSelectWipePreviousTags() {
+        tagContainer.querySelectorAll('.tag').forEach(e => {
+            e.remove();
+        });
+        selectedInputIdsContainer.innerHTML = '';
     }
 }
