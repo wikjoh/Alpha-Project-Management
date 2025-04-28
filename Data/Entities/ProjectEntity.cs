@@ -28,5 +28,5 @@ public class ProjectEntity
     public DateTime? EndDate { get; set; }
     public decimal? Budget { get; set; }
 
-    public ICollection<ProjectMemberEntity>? ProjectMembers { get; set; }
+    public ICollection<ProjectMemberEntity> ProjectMembers { get; set; } = [];
 }

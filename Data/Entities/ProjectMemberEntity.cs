@@ -4,9 +4,9 @@ namespace Data.Entities;
 
 public class ProjectMemberEntity
 {
-    [Key]
+    [Key] // Composite key set via fluent API
     public string UserId { get; set; } = null!;
-    [Key]
+    [Key] // Composite key set via fluent API
     public int ProjectId { get; set; }
 
     public MemberProfileEntity? MemberProfile { get; set; } = null!;
