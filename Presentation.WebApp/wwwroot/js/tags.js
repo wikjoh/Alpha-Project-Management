@@ -27,19 +27,23 @@
         }, 100);
     });
 
+    let timeout;
     input.addEventListener('input', () => {
-        const query = input.value.trim();
-        activeIndex = -1;
+        clearTimeout(timeout);
+        timeout = setTimeout(async (U) => {
+            const query = input.value.trim();
+            activeIndex = -1;
 
-        if (query.length === 0) {
-            results.style.display = 'none';
-            results.innerHTML = '';
-            return;
-        }
+            if (query.length === 0) {
+                results.style.display = 'none';
+                results.innerHTML = '';
+                return;
+            }
 
-        fetch(config.searchUrl(query))
-            .then(r => r.json())
-            .then(data => renderSearchResults(data));
+            fetch(config.searchUrl(query))
+                .then(r => r.json())
+                .then(data => renderSearchResults(data));
+        }, 300);
     });
 
     input.addEventListener('keydown', (e) => {
@@ -74,8 +78,25 @@
                     removeLastTag();
                 }
                 break;
+
+            // Hide results and clear input when pressing escape
+            case 'Escape':
+                clearResults();
         }
     });
+
+    // Hide results and clear input when clicking outside tagContainer or results
+    document.addEventListener('click', (e) => {
+        if (!tagContainer.contains(e.target) && !results.contains(e.target)) {
+            clearResults();
+        }
+    })
+
+    function clearResults() {
+        results.style.display = 'none';
+        results.innerHTML = '';
+        input.value = '';
+    }
 
     function updateActiveItem(items) {
         items.forEach(item => item.classList.remove('active'));
@@ -95,7 +116,7 @@
             results.appendChild(noResult);
         } else {
             data.forEach(item => {
-                if (!Array.from(selectedInputIdsContainer.querySelectorAll('input')).some(input => input.value === item.id)) {
+                if (!Array.from(selectedInputIdsContainer.querySelectorAll('input')).some(input => input.value == item.id)) {
                     const resultItem = document.createElement('div');
                     resultItem.classList.add('search-item');
                     resultItem.dataset.id = item.id;
@@ -124,7 +145,7 @@
         const idKeyName = config.idKeyName || 'id';
         const id = (config.idIsDataTypeInt) ? parseInt(item[idKeyName]) : item[idKeyName];
 
-        if (Array.from(selectedInputIdsContainer.querySelectorAll('input')).some(input => input.value === id)) return;
+        if (Array.from(selectedInputIdsContainer.querySelectorAll('input')).some(input => input.value == id)) return;
 
         // if not multiSelect, wipe previous tags
         if (!config.multiSelect) singleSelectWipePreviousTags();
@@ -154,7 +175,7 @@
         removeBtn.classList.add('btn-remove');
         removeBtn.dataset.id = id;
         removeBtn.addEventListener('click', (e) => {
-            Array.from(selectedInputIdsContainer.querySelectorAll('input')).find(input => input.value === id).remove();
+            Array.from(selectedInputIdsContainer.querySelectorAll('input')).find(input => input.value == id).remove();
             tag.remove();
             e.stopPropagation();
         });
@@ -174,7 +195,7 @@
         const lastTag = tags[tags.length - 1];
         const lastId = parseInt(lastTag.querySelector('.btn-remove').dataset.id);
 
-        selectedIds = selectedIds.filter(id => id !== lastId);
+        Array.from(selectedInputIdsContainer.querySelectorAll('input')).find(input => input.value == lastId).remove();
         lastTag.remove();
     }
 
