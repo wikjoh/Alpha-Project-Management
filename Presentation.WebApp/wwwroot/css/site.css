@@ -194,6 +194,34 @@ form div:has(input[type="checkbox"]) .field-validation-error {
     font-weight: var(--fw-semibold);
 }
 
+.wysiwyg-container {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+
+    textarea {
+        display: none;
+    }
+
+    .ql-toolbar.ql-snow,
+    .ql-container.ql-snow {
+        width: 100%;
+        font-size: 1em;
+        border: 1px solid #ececec;
+        outline: none;
+        transition: border-color 0.15s ease-in-out;
+    }
+
+    .ql-toolbar.ql-snow {
+        border-top: none;
+        border-radius: 0 0 14px 14px;
+    }
+
+    .ql-container.ql-snow {
+        border-radius: 14px 14px 0 0;
+    }
+}
+
 /* Modals */
 .modal {
    z-index: 50;

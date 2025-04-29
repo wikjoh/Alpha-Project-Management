@@ -16,15 +16,13 @@ public class AddProjectViewModel
     [Required]
     public int SelectedClientId { get; set; }
 
-    [Display(Name = "Description", Prompt = "Type something")]
+    [Display(Name = "Description")]
     [DataType(DataType.Text)]
     public string? Description { get; set; }
 
-    [DisplayFormat(DataFormatString = "{0:MMMM dd, yyyy}", ApplyFormatInEditMode = true)]
     [DataType(DataType.Date)]
     public DateTime StartDate { get; set; }
 
-    [DisplayFormat(DataFormatString = "{0:MMMM dd, yyyy}", ApplyFormatInEditMode = true)]
     [DataType(DataType.Date)]
     public DateTime? EndDate { get; set; }
 

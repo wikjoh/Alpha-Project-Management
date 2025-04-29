@@ -162,6 +162,21 @@
         }
     })
 
+    // load QuillJS
+    const addProjectDescriptionTextarea = document.querySelector('.add-project-description-model-field')
+    const addProjectDescriptionQuill = new Quill('#add-project-description-wysiwyg-editor', {
+        modules: {
+            syntax: true,
+            toolbar: '#add-project-description-wysiwyg-toolbar'
+        },
+        theme: 'snow',
+        placeholder: 'Type something...'
+    });
+
+    addProjectDescriptionQuill.on('text-change', () => {
+        addProjectDescriptionTextarea.value = addProjectDescriptionQuill.root.innerHTML
+    });
+
 })
 
 function clearErrorMessages(form) {
