@@ -193,7 +193,7 @@
         if (tags.length === 0) return;
 
         const lastTag = tags[tags.length - 1];
-        const lastId = parseInt(lastTag.querySelector('.btn-remove').dataset.id);
+        const lastId = lastTag.querySelector('.btn-remove').dataset.id;
 
         Array.from(selectedInputIdsContainer.querySelectorAll('input')).find(input => input.value == lastId).remove();
         lastTag.remove();
