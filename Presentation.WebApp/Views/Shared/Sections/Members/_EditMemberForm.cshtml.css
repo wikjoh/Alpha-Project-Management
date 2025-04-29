@@ -13,7 +13,7 @@
     border-radius: 16px;
     box-shadow: 0 4px 4px 3px rgba(196);
     padding: 2rem;
-    max-height: 90%;
+    max-height: 95dvh;
     overflow-y: auto;
 }
 

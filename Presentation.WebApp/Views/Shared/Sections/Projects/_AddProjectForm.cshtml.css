@@ -138,12 +138,109 @@ form {
         border-radius: 16px;
     }
 
-.city-postalcode-container {
+.date-container {
     display: flex;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
-.name-container {
+/* Tags CSS */
+
+::deep .form-tag-select {
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem;
+    border: 1px solid #ececec;
+    border-radius: 16px;
+    position: relative;
+}
+
+::deep .form-tag-select label {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+::deep .form-tag-input {
+    flex: 1;
+    min-width: 120px;
+    background: transparent;
+    border: none;
+    font-size: 1em;
+    outline: none;
+}
+::deep .form-tag-input:focus {
+    border: none;
+}
+
+
+.form-tag-select.focused,
+.search-results.focused {
+/*    border-color: aquamarine;*/
+}
+
+::deep .search-results {
+    box-sizing: content-box;
+    background-color: #ffffff;
+    border: 1px solid #ececec;
+    border-top: none;
+    border-radius: 0 0 14px 14px;
+    height: 100px;
+    width: 100%;
+    position: absolute;
+    z-index: 20;
+    top: 85%;
+    left: 0;
+    display: none;
+    overflow-y: auto;
+}
+
+::deep .search-item {
+    padding: .5rem 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: .8em;
+}
+
+    ::deep .search-item:hover {
+        background-color: var(--color-accent);
+        border-radius: 12px;
+    }
+
+    ::deep .search-item.active {
+        background-color: var(--color-accent);
+        border-radius: 12px;
+    }
+
+.user-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #cecece;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #fff;
+    font-size: .8rem;
+}
+
+::deep .btn-remove {
+    cursor: pointer;
+    color: gray;
+    transition: all .1s ease-in-out;
+}
+
+::deep .tag {
+    display: inline-block;
+    align-items: center;
+    gap: .5rem;
+    background-color: var(--color-tag-bg);
+    border-radius: 12px;
+    padding: .3rem .6rem;
+    font-size: .9em;
+    flex-grow: 0;
 }

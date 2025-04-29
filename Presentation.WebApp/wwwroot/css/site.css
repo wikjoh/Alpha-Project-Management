@@ -59,6 +59,7 @@ img {
     --color-notification-item-bg: #f5f7fa;
     --color-settings-header-bg: #f5f7fa;
     --color-deletebutton-bg: #ff663faa;
+    --color-tag-bg: var(--color-grey-100);
 }
 
 /* Typography */
@@ -193,6 +194,10 @@ form div:has(input[type="checkbox"]) .field-validation-error {
     font-weight: var(--fw-semibold);
 }
 
+/* Modals */
+.modal {
+   z-index: 50;
+}
 
 /* Helper classes */
 .hide {

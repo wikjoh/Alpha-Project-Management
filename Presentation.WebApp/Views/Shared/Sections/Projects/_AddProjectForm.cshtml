@@ -1,0 +1,122 @@
+﻿@model AddProjectViewModel
+
+<div id="addProjectModal" class="modal">
+    <div class="modal-content hide-scrollbar">
+
+        <div class="modal-header">
+            <h3>Add Project</h3>
+            <button class="btn-close" data-close="true">X</button>
+        </div>
+
+        <form class="ajax" novalidate method="post" asp-action="AddProject" asp-controller="Projects">
+            <div class="image-previewer circle">
+                <img src="" class="image-preview" />
+                <input asp-for="ProjectImage" accept="image/*" class="hide" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Name">Project Name</label>
+                <div class="field-group">
+                    <input asp-for="Name" />
+                    <span asp-validation-for="Name"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-label">Client</div>
+                <div id="tagged-clients" class="form-input form-tag-select">
+                    <input type="text" id="client-search" class="form-tag-input" placeholder="Select client..." autocomplete="off" />
+                    <label for="client-search"></label>
+                    <div id="client-search-results" class="search-results"></div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="Description">Description</label>
+                <div class="field-group">
+                    <input asp-for="Description" />
+                    <span asp-validation-for="Description"></span>
+                </div>
+            </div>
+
+            <div class="date-container">
+                <div class="form-group">
+                    <label asp-for="StartDate">Start Date</label>
+                    <div class="field-group">
+                        <input asp-for="StartDate" />
+                        <span asp-validation-for="StartDate"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="EndDate">End Date</label>
+                    <div class="field-group">
+                        <input asp-for="EndDate" />
+                        <span asp-validation-for="EndDate"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-label">Members</div>
+                <div id="tagged-members" class="form-input form-tag-select">
+                    <input type="text" id="member-search" class="form-tag-input" placeholder="Add members..." autocomplete="off" />
+                    <label for="member-search"></label>
+                    <div id="member-search-results" class="search-results"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Budget">Budget</label>
+                <div class="field-group">
+                    <input asp-for="Budget" />
+                    <span asp-validation-for="Budget"></span>
+                </div>
+            </div>
+
+            <div class="submit-button-container" style="display: contents">
+                <partial name="Components/Buttons/_BaseButton" model="@( new ButtonModel { Title = "Add Project", Type = "submit" } )" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const preselectedMemberTags = [];
+
+        initTagSelector({
+            containerId: 'tagged-members',
+            inputId: 'member-search',
+            resultsId: 'member-search-results',
+            idKeyName: 'userId',
+            idIsDataTypeInt: false,
+            multiSelect: true,
+            searchUrl: (query) => '@Url.Action("SearchMembers", "Projects")' + '/' + encodeURIComponent(query),
+            displayProperty: 'fullName',
+            tagClass: 'tag',
+            emptyMessage: 'No members found.',
+            preselected: preselectedMemberTags,
+            viewModelProperty: 'SelectedProjectMemberIds',
+        });
+
+        const preselectedClientTag = [];
+
+        initTagSelector({
+            containerId: 'tagged-clients',
+            inputId: 'client-search',
+            resultsId: 'client-search-results',
+            idKeyName: 'id',
+            idIsDataTypeInt: true,
+            multiSelect: false,
+            searchUrl: (query) => '@Url.Action("SearchClients", "Projects")' + '/' + encodeURIComponent(query),
+            displayProperty: 'name',
+            tagClass: 'tag',
+            emptyMessage: 'No members found.',
+            preselected: preselectedClientTag,
+            viewModelProperty: 'SelectedClientId',
+        });
+    });
+</script>

@@ -3,14 +3,14 @@
     ViewData["Title"] = "Projects";
 }
 
-
+<partial name="Sections/Projects/_AddProjectForm" model="new AddProjectViewModel()" />
 
 
 <section id="projects">
     <header>
         <div class="header-container">
             <h2>@ViewData["Title"]</h2>
-            @await Html.PartialAsync("Components/Buttons/_AddButton", "Add Project" )
+            <partial name="Sections/Projects/Components/_AddProjectButton" />
         </div>
     </header>
 
