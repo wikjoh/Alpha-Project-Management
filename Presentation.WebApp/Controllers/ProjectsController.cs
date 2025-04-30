@@ -44,7 +44,7 @@ public class ProjectsController(IMemberService memberService, IClientService cli
 
         return result.Success
            ? CreatedAtAction(nameof(AddProject), result.Data)
-           : StatusCode(result.StatusCode, result.ErrorMessage);
+           : Problem("Failed handling submit.");
     }
 
     [HttpGet("Projects/SearchClients/{searchTerm}")]

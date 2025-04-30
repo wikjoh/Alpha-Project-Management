@@ -45,7 +45,7 @@ public class AdminController(IClientService clientService, IMemberProfileService
 
         return result.Success
            ? CreatedAtAction(nameof(AddMember), result.Data)
-           : StatusCode(result.StatusCode, result.ErrorMessage);
+           : Problem("Failed handling submit.");
     }
 
     [Route("editMember")]
@@ -67,7 +67,7 @@ public class AdminController(IClientService clientService, IMemberProfileService
 
         return result.Success
            ? Ok(nameof(EditMember))
-           : StatusCode(result.StatusCode, result.ErrorMessage);
+           : Problem("Failed handling submit.");
     }
 
     [HttpGet("getMember/id/{id}")]
@@ -109,7 +109,7 @@ public class AdminController(IClientService clientService, IMemberProfileService
 
         return result.Success
            ? CreatedAtAction(nameof(AddClient), result.Data)
-           : StatusCode(result.StatusCode, result.ErrorMessage);
+           : Problem("Failed handling submit.");
     }
 
     [Route("editClient")]
@@ -131,7 +131,7 @@ public class AdminController(IClientService clientService, IMemberProfileService
 
         return result.Success
            ? Ok(nameof(EditClient))
-           : StatusCode(result.StatusCode, result.ErrorMessage);
+           : Problem("Failed handling submit.");
     }
 
     [HttpGet("getClient/id/{id}")]
