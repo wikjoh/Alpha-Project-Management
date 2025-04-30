@@ -60,6 +60,8 @@ img {
     --color-settings-header-bg: #f5f7fa;
     --color-deletebutton-bg: #ff663faa;
     --color-tag-bg: var(--color-grey-100);
+    --color-duetime-day-bg: #ff663f1a;
+    --color-duetime-day-text: var(--color-dark-red);
 }
 
 /* Typography */

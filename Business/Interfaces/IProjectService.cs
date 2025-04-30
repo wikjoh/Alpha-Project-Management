@@ -6,4 +6,5 @@ namespace Business.Interfaces;
 public interface IProjectService
 {
     Task<ProjectResult<ProjectModel>> AddProjectAsync(AddProjectForm form);
+    Task<ProjectResult<IEnumerable<ProjectModel>>> GetAllProjectsAsync();
 }

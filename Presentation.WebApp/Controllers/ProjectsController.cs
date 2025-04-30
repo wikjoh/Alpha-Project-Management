@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.WebApp.Models.Project;
+using System.Threading.Tasks;
 
 namespace Presentation.WebApp.Controllers;
 
@@ -15,9 +16,11 @@ public class ProjectsController(IMemberService memberService, IClientService cli
     private readonly IMemberService _memberService = memberService;
     private readonly IClientService _clientService = clientService;
 
-    public IActionResult Projects()
+    public async Task<IActionResult> Projects()
     {
-        return View();
+        var projects = (await _projectService.GetAllProjectsAsync()).Data;
+
+        return View(projects);
     }
 
     [Route("addProject")]

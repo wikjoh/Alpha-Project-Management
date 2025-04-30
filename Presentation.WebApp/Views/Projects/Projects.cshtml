@@ -1,7 +1,10 @@
-﻿@{
+﻿@using Domain.Extensions
+@{
     Layout = "_MainLayout";
     ViewData["Title"] = "Projects";
 }
+
+@model IEnumerable<ProjectModel>
 
 <partial name="Sections/Projects/_AddProjectForm" model="new AddProjectViewModel()" />
 
@@ -14,13 +17,21 @@
         </div>
     </header>
 
-    <div class="card">
-        @await Html.PartialAsync("Sections/Projects/Components/_ProjectCard", new ProjectCardModel
+    <div class="project-list">
+        @foreach (var project in @Model)
         {
-            Title = "Website Redesign",
-            Company = "GitLab Inc.",
-            Description = "It is necessary to develop a website redesign in a corporate style.",
-            DueTime = "1 week left"
-        })
+            <div class="card">
+                @await Html.PartialAsync("Sections/Projects/Components/_ProjectCard", project.MapTo<ProjectCardViewModel>())
+            </div>
+        }
+        @* <div class="card"> *@
+        @*     @await Html.PartialAsync("Sections/Projects/Components/_ProjectCard", new ProjectCardViewModel *@
+        @*     { *@
+        @*         Name = "Website Redesign", *@
+        @*         Client = "GitLab Inc.", *@
+        @*         Description = "It is necessary to develop a website redesign in a corporate style.", *@
+        @*         DueTime = "1 week left" *@
+        @*     }) *@
+        @* </div> *@
     </div>
 </section>

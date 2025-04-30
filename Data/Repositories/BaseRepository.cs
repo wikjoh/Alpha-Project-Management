@@ -106,6 +106,17 @@ public abstract class BaseRepository<TEntity, TMapTo>(AppDbContext context) : IB
         return RepositoryResult<IEnumerable<TSelect>>.Ok(result);
     }
 
+    public virtual async Task<RepositoryResult<IEnumerable<TEntity>>> GetAllEntitiesByQueryAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>>? queryBuilder = null)
+    {
+        IQueryable<TEntity> query = _dbSet;
+
+        if (queryBuilder != null)
+            query = queryBuilder(query);
+
+        var entities = await query.ToListAsync();
+        return RepositoryResult<IEnumerable<TEntity>>.Ok(entities);
+    }
+
     public virtual async Task<RepositoryResult<TMapTo>> GetAsync(Expression<Func<TEntity, bool>> where, params Expression<Func<TEntity, object>>[] includes)
     {
         IQueryable<TEntity> query = _dbSet;

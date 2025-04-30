@@ -5,6 +5,8 @@ using Data.Entities;
 using Data.Interfaces;
 using Domain.Extensions;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Business.Services;
 
@@ -48,5 +50,31 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
         {
             return ProjectResult<ProjectModel>.InternalServerErrror($"Unexpected error occured. {ex.Message}");
         }
+    }
+
+
+    // READ
+    public async Task<ProjectResult<IEnumerable<ProjectModel>>> GetAllProjectsAsync()
+    {
+        var repositoryResult = await _projectRepository.GetAllEntitiesByQueryAsync(query => query
+            .Include(x => x.Client)
+            .Include(x => x.ProjectMembers)
+            .ThenInclude(x => x.MemberProfile)
+            .OrderByDescending(x => x.Created));
+
+        if (!repositoryResult.Success)
+            return ProjectResult<IEnumerable<ProjectModel>>.InternalServerErrror("Failed retrieving project entities.");
+
+        var entities = repositoryResult.Data ?? [];
+        var projects = entities.Select(entity => entity.MapTo<ProjectModel>()).ToList();
+        // Add specific mapping of ProjectMembers since MapTo only handles mapping one include level deep
+        for (int i = 0; i < projects.Count; i++)
+        {
+            var project = projects[i];
+            var entity = entities.ElementAt(i);
+            project.ProjectMembers = entity.ProjectMembers.Select(pm => pm.MapTo<ProjectMemberModel>()).ToList();
+        }
+
+        return ProjectResult<IEnumerable<ProjectModel>>.Ok(projects);
     }
 }

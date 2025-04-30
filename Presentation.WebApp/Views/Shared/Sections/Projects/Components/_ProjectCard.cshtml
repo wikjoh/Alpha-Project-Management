@@ -1,25 +1,70 @@
-﻿@using Presentation.WebApp.Models.Components
-@model ProjectCardModel
+﻿@model ProjectCardViewModel
 
 <div class="card">
     <div class="top">
         <img src="@Url.Content("~/images/project-image.svg")" width="56" height="56" class="project-image" />
-        <h6 class="project-title">@Model.Title</h6>
-        <span class="project-company">@Model.Company</span>
+        <h6 class="project-title">@Model.Name</h6>
+        <span class="project-company">@Model.Client.Name</span>
         <img src="@Url.Content("~/images/icons/more-dots.svg")" width="24" height="24" class="project-dots" />
     </div>
-    <div class="description">
-        <span class="description-text">@Model.Description</span>
-    </div>
-    <div class="bottom">
-        <div class="duetime-container">
-            <img src="@Url.Content("~/images/icons/clock.svg")" width="20" height="20" class="clock" />
-            <span class="time-remaining">@Model.DueTime</span>
-        </div>
-        <div class="user-avatars">
-            <img src="@Url.Content("~/images/icons/usericon.svg")" width="30" height="30" />
-            <img src="@Url.Content("~/images/icons/usericon.svg")" width="30" height="30" />
-        </div>
-    </div>
 
+    <div class="content-spacer">
+        <div class="description">
+            <span class="description-text">@HtmlUtils.StripHtml(Model.Description!)</span>
+        </div>
+
+        <div class="bottom">
+            <div class="duetime-container">
+                <svg class="clock-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="clock-bg" d="M18 10C18 14.4192 14.4184 18 10 18C5.5816 18 2 14.4192 2 10C2 5.5824 5.5816 2 10 2C14.4184 2 18 5.5824 18 10Z" fill="rgb(197, 197, 201)" />
+                    <path class="clock-hands" d="M12.8578 13.0514C12.753 13.0514 12.6474 13.0242 12.5506 12.9674L9.4098 11.0938C9.229 10.985 9.1178 10.789 9.1178 10.5778V6.54019C9.1178 6.20899 9.3866 5.94019 9.7178 5.94019C10.049 5.94019 10.3178 6.20899 10.3178 6.54019V10.237L13.1658 11.9354C13.4498 12.1058 13.5434 12.4738 13.3738 12.7586C13.261 12.9466 13.0618 13.0514 12.8578 13.0514Z" fill="rgb(26, 25, 38)" />
+                </svg>
+
+                @if (Model.DueTime().unit == null)
+                {
+                    <span class="time-remaining">@Model.DueTime().value</span>
+                }
+                else
+                {
+                    <span class="time-remaining">@Model.DueTime().value @Model.DueTime().unit</span>   
+                }
+            </div>
+
+            <div class="user-avatars">
+                <img src="@Url.Content("~/images/icons/usericon.svg")" width="30" height="30" />
+                <img src="@Url.Content("~/images/icons/usericon.svg")" width="30" height="30" />
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dueTime = document.querySelectorAll('.time-remaining');
+
+        dueTime.forEach(e => {
+            const parent = e.parentElement;
+            const clock = parent.parentElement.querySelector('.clock-icon');
+            const clockBg = clock.querySelector('.clock-bg');
+            const clockHands = clock.querySelector('.clock-hands');
+
+            if (e.textContent.includes('day')) {
+                e.style.color = 'var(--color-duetime-day-text)';
+                parent.style.backgroundColor = 'var(--color-duetime-day-bg)';
+
+                clockBg.setAttribute('fill', 'rgb(255, 199, 185)')
+                clockHands.setAttribute('fill', 'var(--color-red)')
+            }
+
+            if (e.textContent.includes('Completed')) {
+                parent.style.backgroundColor = 'rgba(152, 253, 198, 50%)';
+            }
+
+            if (e.textContent.includes('Unscheduled')) {
+                parent.style.backgroundColor = 'rgba(255, 200, 0, 15%)';
+            }
+        });
+    });
+</script>
