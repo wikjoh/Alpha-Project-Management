@@ -5,16 +5,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.WebApp.Models.Project;
+using Presentation.WebApp.Services.Interfaces;
 using System.Threading.Tasks;
 
 namespace Presentation.WebApp.Controllers;
 
 [Authorize]
-public class ProjectsController(IMemberService memberService, IClientService clientService, IProjectService projectService) : Controller
+public class ProjectsController(IMemberService memberService, IClientService clientService, IProjectService projectService, IImageUploadService imageUploadService) : Controller
 {
     private readonly IProjectService _projectService = projectService;
     private readonly IMemberService _memberService = memberService;
     private readonly IClientService _clientService = clientService;
+    private readonly IImageUploadService _imageUploadService = imageUploadService;
 
     public async Task<IActionResult> Projects()
     {
@@ -36,15 +38,33 @@ public class ProjectsController(IMemberService memberService, IClientService cli
             return BadRequest(new { success = false, errors });
         }
 
-        var projectForm = vm.MapTo<AddProjectForm>();
-        projectForm.ClientId = vm.SelectedClientId;
-        projectForm.ProjectMembers = vm.SelectedProjectMemberIds;
+        string? imagePath = null;
 
-        var result = await _projectService.AddProjectAsync(projectForm);
+        // Wrap in trycatch in order to delete image in case something unexpected occurs
+        try
+        {
+            imagePath = await _imageUploadService.UploadImageAsync(vm.ProjectImage!, "projects");
 
-        return result.Success
-           ? CreatedAtAction(nameof(AddProject), result.Data)
-           : Problem("Failed handling submit.");
+            var projectForm = vm.MapTo<AddProjectForm>();
+            projectForm.ClientId = vm.SelectedClientId;
+            projectForm.ProjectMembers = vm.SelectedProjectMemberIds;
+            projectForm.ImageURI = imagePath;
+
+            var result = await _projectService.AddProjectAsync(projectForm);
+
+            if (result.Success)
+                return CreatedAtAction(nameof(AddProject), result.Data);
+
+            if (imagePath != null)
+                _imageUploadService.DeleteImage(imagePath);
+            return Problem("Failed handling submit.");
+        }
+        catch (Exception)
+        {
+            if (imagePath != null)
+                _imageUploadService.DeleteImage(imagePath);
+            return Problem("Failed handling submit.");
+        }
     }
 
     [HttpGet("Projects/SearchClients/{searchTerm}")]
