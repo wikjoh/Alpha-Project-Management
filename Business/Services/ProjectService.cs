@@ -22,12 +22,11 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
 
         var projectEntity = form.MapTo<ProjectEntity>();
 
-        projectEntity.ProjectMembers = projectEntity.ProjectMembers ?? [];
-        foreach (var projectMember in form.ProjectMembers)
+        foreach (var memberId in form.SelectedMemberIds)
         {
             projectEntity.ProjectMembers.Add(new ProjectMemberEntity
             {
-                UserId = projectMember,
+                UserId = memberId,
                 ProjectId = projectEntity.Id
             });
         }
@@ -42,9 +41,9 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
             }
 
             var createdProjectEntityWithIncludes = await _projectRepository.GetAsync(x => x.Id == projectEntity.Id, x => x.Client!, x => x.ProjectMembers!);
-            var createdProjectWithInclues = createdProjectEntityWithIncludes.MapTo<ProjectModel>();
+            var createdProjectWithIncludes = createdProjectEntityWithIncludes.MapTo<ProjectModel>();
 
-            return ProjectResult<ProjectModel>.Created(createdProjectWithInclues);
+            return ProjectResult<ProjectModel>.Created(createdProjectWithIncludes);
         }
         catch (Exception ex)
         {

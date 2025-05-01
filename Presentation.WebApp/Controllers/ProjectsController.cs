@@ -47,7 +47,6 @@ public class ProjectsController(IMemberService memberService, IClientService cli
 
             var projectForm = vm.MapTo<AddProjectForm>();
             projectForm.ClientId = vm.SelectedClientId;
-            projectForm.ProjectMembers = vm.SelectedProjectMemberIds;
             projectForm.ImageURI = imagePath;
 
             var result = await _projectService.AddProjectAsync(projectForm);

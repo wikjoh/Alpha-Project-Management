@@ -26,7 +26,7 @@ public class AddProjectViewModel
     [DataType(DataType.Date)]
     public DateTime? EndDate { get; set; }
 
-    public List<string> SelectedProjectMemberIds { get; set; } = [];
+    public List<string> SelectedMemberIds { get; set; } = [];
 
     public decimal? Budget { get; set; }
 }
