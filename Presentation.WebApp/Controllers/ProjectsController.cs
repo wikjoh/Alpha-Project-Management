@@ -72,7 +72,7 @@ public class ProjectsController(IMemberService memberService, IClientService cli
     {
         var result = await _clientService.GetActiveClientsIdNameBySearchTerm(searchTerm);
         if (!result.Success)
-            return StatusCode(result.StatusCode, result.ErrorMessage);
+            return Problem("Failed retrieving clients.");
 
         return Ok(result.Data);
     }
@@ -82,7 +82,7 @@ public class ProjectsController(IMemberService memberService, IClientService cli
     {
         var result = await _memberService.GetMembersUseridNameBySearchTerm(searchTerm);
         if (!result.Success)
-            return StatusCode(result.StatusCode, result.ErrorMessage);
+            return Problem("Failed retrieving members.");
 
         return Ok(result.Data);
     }
