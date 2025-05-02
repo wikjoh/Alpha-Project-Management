@@ -1,6 +1,7 @@
 ﻿function initTagSelector(config) {
     let activeIndex = -1;
 
+
     const tagContainer = document.getElementById(config.containerId);
     const input = document.getElementById(config.inputId);
     const results = document.getElementById(config.resultsId);
@@ -12,6 +13,7 @@
     selectedInputIdsContainer = Array.from(tagContainer.children).find(c => c.classList.contains('selected-input-ids-container'));
 
     if (Array.isArray(config.preselected)) {
+        clearPreviousTags();
         config.preselected.forEach(item => addTag(item));
     }
 
@@ -121,7 +123,7 @@
                     resultItem.classList.add('search-item');
                     resultItem.dataset.id = item.id;
 
-                    if (config.tagClass === 'user-tag') {
+                    if (config.tagClass === 'user-tag' && item[config.imageProperty] != null) {
                         resultItem.innerHTML = `
                             <img class="user-avatar" src="${config.avatarFolder || ''}${item[config.imageProperty]}">
                             <span>${item[config.displayProperty]}</span>
@@ -147,8 +149,8 @@
 
         if (Array.from(selectedInputIdsContainer.querySelectorAll('input')).some(input => input.value == id)) return;
 
-        // if not multiSelect, wipe previous tags
-        if (!config.multiSelect) singleSelectWipePreviousTags();
+        // if not multiSelect, clear previous tags
+        if (!config.multiSelect) clearPreviousTags();
 
         let selectedInputItem = document.createElement('input');
         selectedInputItem.setAttribute("type", "text");
@@ -159,7 +161,7 @@
         const tag = document.createElement('div');
         tag.classList.add(config.tagClass || 'tag');
 
-        if (config.tagClass === 'user-tag') {
+        if (config.tagClass === 'user-tag' && item[config.imageProperty] != null) {
             tag.innerHTML = `
                 <img class="user-avatar" src="${config.avatarFolder || ''}${item[config.imageProperty]}">
                 <span>${item[config.displayProperty]}</span>
@@ -199,8 +201,8 @@
         lastTag.remove();
     }
 
-    function singleSelectWipePreviousTags() {
-        tagContainer.querySelectorAll('.tag').forEach(e => {
+    function clearPreviousTags() {
+        tagContainer.querySelectorAll(`.${config.tagClass}`).forEach(e => {
             e.remove();
         });
         selectedInputIdsContainer.innerHTML = '';

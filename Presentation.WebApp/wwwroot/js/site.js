@@ -1,4 +1,7 @@
-﻿document.addEventListener('DOMContentLoaded', () => {
+﻿// used for sharing fetched data with tags.js
+//let fetchedData;
+
+document.addEventListener('DOMContentLoaded', () => {
     const previewSize = 150
 
     // handle dropdown menus
@@ -61,6 +64,24 @@
                     }
                 } catch (error) {
                     console.error('Error fetching member data: ', error);
+                }
+            }
+
+            const projectId = button.getAttribute('data-project-id')
+            if (projectId) {
+                try {
+                    const response = await fetch(`/getProject/id/${projectId}`);
+                    if (response.ok) {
+                        const projectData = await response.json();
+                        populateEditProjectModal(projectData, modal)
+
+                        // dispatch event for tags.js
+                        document.dispatchEvent(new CustomEvent('projectDataLoaded', {
+                            detail: { projectData }
+                        }));
+                    }
+                } catch (error) {
+                    console.error('Error fetching project data: ', error);
                 }
             }
 
@@ -163,6 +184,7 @@
     })
 
     // load QuillJS
+    // addProject
     const addProjectDescriptionTextarea = document.querySelector('.add-project-description-model-field')
     const addProjectDescriptionQuill = new Quill('#add-project-description-wysiwyg-editor', {
         modules: {
@@ -177,6 +199,20 @@
         addProjectDescriptionTextarea.value = addProjectDescriptionQuill.root.innerHTML
     });
 
+    // editProject
+    const editProjectDescriptionTextarea = document.querySelector('.edit-project-description-model-field')
+    const editProjectDescriptionQuill = new Quill('#edit-project-description-wysiwyg-editor', {
+        modules: {
+            syntax: true,
+            toolbar: '#edit-project-description-wysiwyg-toolbar'
+        },
+        theme: 'snow',
+        placeholder: 'Type something...'
+    });
+
+    editProjectDescriptionQuill.on('text-change', () => {
+        editProjectDescriptionTextarea.value = editProjectDescriptionQuill.root.innerHTML
+    });
 })
 
 function clearErrorMessages(form) {
@@ -276,8 +312,8 @@ function populateEditMemberModal(member, modal) {
         form.querySelector('input[name="MemberAddress.City"]').value = member.memberAddress.city || '';
     }
 
-    // If client has an image, display it
-    if (client.imageURI) {
+    // If member has an image, display it
+    if (member.imageURI) {
         const imagePreview = form.querySelector('.image-preview');
         if (imagePreview) {
             imagePreview.src = member.imageURI;
@@ -285,3 +321,91 @@ function populateEditMemberModal(member, modal) {
         }
     }
 }
+
+// Function to populate the edit project modal with data
+function populateEditProjectModal(project, modal) {
+    const form = modal.querySelector('form');
+    if (!form) return;
+
+    // Set form values
+    form.querySelector('input[name="Id"]').value = project.id;
+    form.querySelector('input[name="Name"]').value = project.name;
+    form.querySelector('input[name="StartDate"]').value = project.startDate;
+    form.querySelector('input[name="EndDate"]').value = project.endDate;
+    form.querySelector('input[name="Budget"]').value = project.budget;
+    form.querySelector('textarea[name="Description"]').value = project.description;
+    const quillData = document.getElementById('edit-project-description-wysiwyg-editor').querySelector('.ql-editor');
+    quillData.innerHTML = project.description;
+
+    //// create selected input ids container
+    //let selectedInputIdsContainer = document.createElement('div');
+    //selectedInputIdsContainer.classList.add('selected-input-ids-container');
+    //selectedInputIdsContainer.setAttribute('style', 'display:none;');
+
+    //// handle clients input
+    //// add data to form
+    //const editTaggedClients = document.getElementById('edit-tagged-clients');
+    //editTaggedClients.appendChild(selectedInputIdsContainer);
+    //const editClientSelectedInputIdsContainer = editTaggedClients.querySelector('.selected-input-ids-container');
+    //populateEditFormSelectedIds(editClientSelectedInputIdsContainer, "SelectedClientId", project.client.id);
+
+
+    //// handle members input
+    //// add data to form
+    //const editTaggedMembers = document.getElementById('edit-tagged-members');
+    //editTaggedMembers.appendChild(selectedInputIdsContainer);
+    //const editMemberSelectedInputIdsContainer = editTaggedMembers.querySelector('.selected-input-ids-container');
+    //project.projectMembers.forEach(member => {
+    //    populateEditFormSelectedIds(editMemberSelectedInputIdsContainer, "SelectedMemberIds", member.userId)
+    //});
+
+    //// add tags for selected members/client
+    //populateEditFormTags(editTaggedClients, project.client.name, project.client.imageURI)
+    //project.projectMembers.forEach(projectMember => {
+    //    populateEditFormTags(editTaggedMembers, projectMember.memberProfile.fullName, projectMember.memberProfile.userId)
+    //})
+
+
+    // If client has an image, display it
+    if (project.imageURI) {
+        const imagePreview = form.querySelector('.image-preview');
+        if (imagePreview) {
+            imagePreview.src = project.imageURI;
+            form.querySelector('.image-previewer').classList.add('selected');
+        }
+    }
+}
+
+// utility function for retrieving cached data without fetetching
+function getProjectData(id) {
+    if (!fetchedData.projects || !fetchedData.projects[id]) {
+        return null;
+    }
+    return fetchedData.projects[id];
+}
+
+// make above function globally available
+window.getProjectData = getProjectData;
+
+// Helper function for populating edit project selected ids
+//function populateEditFormSelectedIds(inputIdsContainer, viewModelProperty, value) {
+//    let selectedInputItem = document.createElement('input');
+//    selectedInputItem.setAttribute("type", "text");
+//    selectedInputItem.setAttribute("name", viewModelProperty);
+//    selectedInputItem.setAttribute("value", value);
+
+//    inputIdsContainer.appendChild(selectedInputItem);
+//}
+
+//function populateEditFormTags(tagContainer, name, imgSrc) {
+//    const tag = document.createElement('div');
+//    tag.classList.add('user-tag');
+//    tag.innerHTML =
+//    `
+//        <img class="user-avatar" src="${imgSrc}">
+//        <span>${name}</span>
+//    `;
+
+//    const input = tagContainer.querySelector('input');
+//    tagContainer.insertBefore(tag, input);
+//}

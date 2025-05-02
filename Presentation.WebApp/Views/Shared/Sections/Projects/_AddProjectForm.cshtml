@@ -24,10 +24,10 @@
 
             <div class="form-group">
                 <div class="form-label">Client</div>
-                <div id="tagged-clients" class="form-input form-tag-select">
-                    <input type="text" id="client-search" class="form-tag-input" placeholder="Select client..." autocomplete="off" />
-                    <label for="client-search"></label>
-                    <div id="client-search-results" class="search-results"></div>
+                <div id="add-tagged-clients" class="form-input form-tag-select">
+                    <input type="text" id="add-client-search" class="form-tag-input" placeholder="Select client..." autocomplete="off" />
+                    <label for="add-client-search"></label>
+                    <div id="add-client-search-results" class="search-results"></div>
                 </div>
             </div>
 
@@ -79,10 +79,10 @@
 
             <div class="form-group">
                 <div class="form-label">Members</div>
-                <div id="tagged-members" class="form-input form-tag-select">
-                    <input type="text" id="member-search" class="form-tag-input" placeholder="Add members..." autocomplete="off" />
-                    <label for="member-search"></label>
-                    <div id="member-search-results" class="search-results"></div>
+                <div id="add-tagged-members" class="form-input form-tag-select">
+                    <input type="text" id="add-member-search" class="form-tag-input" placeholder="Add members..." autocomplete="off" />
+                    <label for="add-member-search"></label>
+                    <div id="add-member-search-results" class="search-results"></div>
                 </div>
             </div>
 
@@ -104,35 +104,35 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const preselectedMemberTags = [];
+        let preselectedMemberTags = [];
 
         initTagSelector({
-            containerId: 'tagged-members',
-            inputId: 'member-search',
-            resultsId: 'member-search-results',
+            containerId: 'add-tagged-members',
+            inputId: 'add-member-search',
+            resultsId: 'add-member-search-results',
             idKeyName: 'userId',
             idIsDataTypeInt: false,
             multiSelect: true,
             searchUrl: (query) => '@Url.Action("SearchMembers", "Projects")' + '/' + encodeURIComponent(query),
             displayProperty: 'fullName',
-            tagClass: 'tag',
+            tagClass: 'user-tag',
             emptyMessage: 'No members found.',
             preselected: preselectedMemberTags,
             viewModelProperty: 'SelectedMemberIds',
         });
 
-        const preselectedClientTag = [];
+        let preselectedClientTag = [];
 
         initTagSelector({
-            containerId: 'tagged-clients',
-            inputId: 'client-search',
-            resultsId: 'client-search-results',
+            containerId: 'add-tagged-clients',
+            inputId: 'add-client-search',
+            resultsId: 'add-client-search-results',
             idKeyName: 'id',
             idIsDataTypeInt: true,
             multiSelect: false,
             searchUrl: (query) => '@Url.Action("SearchClients", "Projects")' + '/' + encodeURIComponent(query),
             displayProperty: 'name',
-            tagClass: 'tag',
+            tagClass: 'user-tag',
             emptyMessage: 'No members found.',
             preselected: preselectedClientTag,
             viewModelProperty: 'SelectedClientId',

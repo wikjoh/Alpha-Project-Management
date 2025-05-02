@@ -5,7 +5,7 @@
         <img src="@Url.Content("~/images/project-image.svg")" width="56" height="56" class="project-image" />
         <h6 class="project-title">@Model.Name</h6>
         <span class="project-company">@Model.Client.Name</span>
-        <img src="@Url.Content("~/images/icons/more-dots.svg")" width="24" height="24" class="project-dots" />
+        <img src="@Url.Content("~/images/icons/more-dots.svg")" width="24" height="24" class="project-dots" data-modal="true" data-target="#editProjectModal" data-project-id="@Model.Id" />
     </div>
 
     <div class="content-spacer">
