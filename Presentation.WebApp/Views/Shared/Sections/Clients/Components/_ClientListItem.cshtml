@@ -3,9 +3,13 @@
 @if (Model != null && Model.ClientAddress != null)
 {
     <tr>
-        <td class="client-check"><input type="checkbox" /></td>
         <td class="client-info">
-            <img class="client-image" src="~/images/icons/usericon.svg" alt="" />
+            <div class="image-container">
+                @if (Model.ImageURI != null)
+                {
+                    <img class="client-image" src="@Model.ImageURI" alt="" />
+                }
+            </div>
             <div class="client-name">@Model.Name</div>
             <div class="client-email">@Model.Email</div>
         </td>

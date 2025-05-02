@@ -27,7 +27,7 @@ public static class DbInitializer
         var userManager = serviceProvider.GetRequiredService<UserManager<UserEntity>>();
         var defaultAdmin = new AddMemberForm {
             UserForm = new UserSignUpForm { Email = "hans@poweruser.ec", FirstName = "Hans", LastName = "Poweruser" },
-            JobTitle = "CTO",
+            JobTitle = "CTO", ImageURI = "/images/avatar150px.svg",
             MemberAddress = new MemberAddressForm { StreetAddress = "Testroad 00", PostalCode = "12345", City = "TestCity"}
         };
 

@@ -29,7 +29,7 @@ public class ImageUploadService(IWebHostEnvironment env) : IImageUploadService
             await file.CopyToAsync(stream);
         }
 
-        return Path.Combine("uploads", folderName, uniqueFileName).Replace("\\", "/");
+        return Path.Combine("/uploads", folderName, uniqueFileName).Replace("\\", "/");
     }
 
     public void DeleteImage(string imagePath)

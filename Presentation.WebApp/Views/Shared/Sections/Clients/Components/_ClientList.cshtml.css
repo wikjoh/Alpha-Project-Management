@@ -1,8 +1,4 @@
-﻿.client-check {
-    grid-area: check;
-}
-
-.client-info {
+﻿.client-info {
     grid-area: info;
 }
 
@@ -86,8 +82,8 @@ table {
 
     table tr {
         display: grid;
-        grid-template-areas: "check info location phone date status actions";
-        grid-template-columns: auto 3fr 3fr 2fr 2fr 2fr 50px;
+        grid-template-areas: "info location phone date status actions";
+        grid-template-columns: 3fr 3fr 2fr 2fr 2fr 50px;
         align-items: center;
         width: 100%;
         border-radius: 16px;
@@ -108,4 +104,8 @@ input[type="checkbox"] {
 
 .client-actions ::deep img {
     cursor: pointer;
+}
+
+thead .client-info {
+    margin-left: 54px;
 }

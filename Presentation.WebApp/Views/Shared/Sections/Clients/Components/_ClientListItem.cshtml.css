@@ -28,7 +28,7 @@ client-date {
 }
 
 /* Use ::deep to set grid-area on img since helper tag overwrites classes */
-::deep .client-info img {
+::deep .client-info .image-container {
     grid-area: image;
 }
 
@@ -55,6 +55,7 @@ client-date {
         grid-template-areas: "image name" "image email";
         column-gap: 1rem;
         align-items: center;
+/*        justify-content: center;*/
     }
 
 table {
@@ -86,8 +87,8 @@ table {
 
     table tr {
         display: grid;
-        grid-template-areas: "check info location phone date status actions";
-        grid-template-columns: auto 3fr 3fr 2fr 2fr 2fr 50px;
+        grid-template-areas: "info location phone date status actions";
+        grid-template-columns: 3fr 3fr 2fr 2fr 2fr 50px;
         align-items: center;
         width: 100%;
         border-radius: 16px;
@@ -108,4 +109,11 @@ input[type="checkbox"] {
 
 .client-actions ::deep img {
     cursor: pointer;
+}
+
+.image-container {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    overflow: hidden;
 }
