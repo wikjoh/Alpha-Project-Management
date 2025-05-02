@@ -186,33 +186,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // load QuillJS
     // addProject
     const addProjectDescriptionTextarea = document.querySelector('.add-project-description-model-field')
-    const addProjectDescriptionQuill = new Quill('#add-project-description-wysiwyg-editor', {
-        modules: {
-            syntax: true,
-            toolbar: '#add-project-description-wysiwyg-toolbar'
-        },
-        theme: 'snow',
-        placeholder: 'Type something...'
-    });
+    if (addProjectDescriptionTextarea) {
+        const addProjectDescriptionQuill = new Quill('#add-project-description-wysiwyg-editor', {
+            modules: {
+                syntax: true,
+                toolbar: '#add-project-description-wysiwyg-toolbar'
+            },
+            theme: 'snow',
+            placeholder: 'Type something...'
+        });
 
-    addProjectDescriptionQuill.on('text-change', () => {
-        addProjectDescriptionTextarea.value = addProjectDescriptionQuill.root.innerHTML
-    });
+        addProjectDescriptionQuill.on('text-change', () => {
+            addProjectDescriptionTextarea.value = addProjectDescriptionQuill.root.innerHTML
+        });
+    }
 
     // editProject
     const editProjectDescriptionTextarea = document.querySelector('.edit-project-description-model-field')
-    const editProjectDescriptionQuill = new Quill('#edit-project-description-wysiwyg-editor', {
-        modules: {
-            syntax: true,
-            toolbar: '#edit-project-description-wysiwyg-toolbar'
-        },
-        theme: 'snow',
-        placeholder: 'Type something...'
-    });
+        if (editProjectDescriptionTextarea) {
 
-    editProjectDescriptionQuill.on('text-change', () => {
-        editProjectDescriptionTextarea.value = editProjectDescriptionQuill.root.innerHTML
-    });
+        const editProjectDescriptionQuill = new Quill('#edit-project-description-wysiwyg-editor', {
+            modules: {
+                syntax: true,
+                toolbar: '#edit-project-description-wysiwyg-toolbar'
+            },
+            theme: 'snow',
+            placeholder: 'Type something...'
+        });
+
+        editProjectDescriptionQuill.on('text-change', () => {
+            editProjectDescriptionTextarea.value = editProjectDescriptionQuill.root.innerHTML
+        });
+    }
 })
 
 function clearErrorMessages(form) {
