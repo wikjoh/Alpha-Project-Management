@@ -150,6 +150,19 @@ public abstract class BaseRepository<TEntity, TMapTo>(AppDbContext context) : IB
         return RepositoryResult<TEntity>.Ok(entity);
     }
 
+    public virtual async Task<RepositoryResult<TEntity>> GetEntityByQueryAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>>? queryBuilder = null)
+    {
+        IQueryable<TEntity> query = _dbSet;
+
+        if (queryBuilder != null)
+            query = queryBuilder(query);
+
+        var entity = await query.FirstOrDefaultAsync();
+        if (entity == null)
+            return RepositoryResult<TEntity>.NotFound("Entity not found.");
+        return RepositoryResult<TEntity>.Ok(entity);
+    }
+
     public virtual async Task<RepositoryResult<bool?>> ExistsAsync(Expression<Func<TEntity, bool>> expression)
     {
         if (expression == null)

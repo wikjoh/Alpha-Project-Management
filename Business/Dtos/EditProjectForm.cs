@@ -1,16 +1,15 @@
-﻿namespace Domain.Models;
+﻿namespace Business.Dtos;
 
-public class ProjectModel
+public class EditProjectForm
 {
     public int Id { get; set; }
-    public DateTime Created { get; set; }
+    public DateTime Created { get; set; } = DateTime.Now;
     public string? ImageURI { get; set; }
     public string Name { get; set; } = null!;
     public int ClientId { get; set; }
-    public ClientModel? Client { get; set; } = null!;
-    public IEnumerable<ProjectMemberModel>? ProjectMembers { get; set; }
     public string? Description { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime? EndDate { get; set; }
+    public List<string> SelectedMemberIds { get; set; } = null!;
     public decimal? Budget { get; set; }
 }

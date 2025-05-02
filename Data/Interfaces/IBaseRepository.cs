@@ -16,6 +16,7 @@ public interface IBaseRepository<TEntity, TMapTo>
     //Task<RepositoryResult<IEnumerable<TSelect>>> GetAllAsync<TSelect>(Expression<Func<TEntity, TSelect>> selector, bool orderByDescending = false, Expression<Func<TEntity, object>>? sortBy = null, Expression<Func<TEntity, bool>>[]? wheres = null, params Expression<Func<TEntity, object>>[] includes);
     Task<RepositoryResult<TMapTo>> GetAsync(Expression<Func<TEntity, bool>> where, params Expression<Func<TEntity, object>>[] includes);
     Task<RepositoryResult<TEntity>> GetEntityAsync(Expression<Func<TEntity, bool>> where, params Expression<Func<TEntity, object>>[] includes);
+    Task<RepositoryResult<TEntity>> GetEntityByQueryAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>>? queryBuilder = null);
     Task RollbackTransactionAsync();
     Task<RepositoryResult<bool?>> SaveAsync();
     RepositoryResult<bool?> Update(TEntity entity);

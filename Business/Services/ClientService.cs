@@ -84,14 +84,14 @@ public class ClientService(IClientRepository clientRepository, IClientAddressSer
         return ClientResult<ClientModel>.Ok(clientModel);
     }
 
-    public async Task<ClientResult<IEnumerable<ClientIdName>>> GetActiveClientsIdNameBySearchTerm(string searchTerm)
+    public async Task<ClientResult<IEnumerable<ClientIdNameImg>>> GetActiveClientsIdNameImgBySearchTerm(string searchTerm)
     {
-        var repositoryResult = await _clientRepository.GetAllAsync<ClientIdName>(c => new ClientIdName { Name = c.Name, Id = c.Id }, true, c => c.Created, c => c.IsActive == true && c.Name.Contains(searchTerm));
+        var repositoryResult = await _clientRepository.GetAllAsync<ClientIdNameImg>(c => new ClientIdNameImg { Name = c.Name, Id = c.Id, ImageURI = c.ImageURI }, true, c => c.Created, c => c.IsActive == true && c.Name.Contains(searchTerm));
         if (!repositoryResult.Success)
-            return ClientResult<IEnumerable<ClientIdName>>.InternalServerErrror("Failed retriveing clients.");
+            return ClientResult<IEnumerable<ClientIdNameImg>>.InternalServerErrror("Failed retriveing clients.");
 
         var clientIdNameList = repositoryResult.Data!;
-        return ClientResult<IEnumerable<ClientIdName>>.Ok(clientIdNameList);
+        return ClientResult<IEnumerable<ClientIdNameImg>>.Ok(clientIdNameList);
     }
 
 

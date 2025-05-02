@@ -76,4 +76,74 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
 
         return ProjectResult<IEnumerable<ProjectModel>>.Ok(projects);
     }
+
+    public async Task<ProjectResult<ProjectModel>> GetProjectByIdAsync(int id)
+    {
+        var repositoryResult = await _projectRepository.GetEntityByQueryAsync(query => query
+            .Where(x => x.Id == id)
+            .Include(x => x.Client)
+            .Include(x => x.ProjectMembers)
+            .ThenInclude(x => x.MemberProfile)
+            .ThenInclude(x => x.User)
+            .OrderByDescending(x => x.Created));
+
+        if (!repositoryResult.Success || repositoryResult.Data == null)
+            return ProjectResult<ProjectModel>.InternalServerErrror("Failed retrieving entity.");
+
+        var projectEntity = repositoryResult.Data;
+        var project = projectEntity.MapTo<ProjectModel>();
+        project.ProjectMembers = projectEntity.ProjectMembers.Select(pm => pm.MapTo<ProjectMemberModel>()).ToList();
+
+        return ProjectResult<ProjectModel>.Ok(project);
+    }
+
+
+    // UPDATE
+    public async Task<ProjectResult<ProjectModel>> UpdateProjectAsync(EditProjectForm form)
+    {
+        if (form == null)
+            return ProjectResult<ProjectModel>.BadRequest("Form cannot be null.");
+
+        var projectEntity = (await _projectRepository.GetEntityAsync(x => x.Id == form.Id, x => x.Client!, x => x.ProjectMembers)).Data;
+        if (projectEntity == null)
+            return ProjectResult<ProjectModel>.NotFound("Project not found.");
+
+        projectEntity.ImageURI = form.ImageURI!;
+        projectEntity.Name = form.Name;
+        projectEntity.ClientId = form.ClientId;
+        projectEntity.Description = form.Description;
+        projectEntity.StartDate = form.StartDate;
+        projectEntity.EndDate = form.EndDate;
+        projectEntity.Budget = form.Budget;
+        projectEntity.ProjectMembers = []; // Wipe previous projectmembers
+
+        foreach (var memberId in form.SelectedMemberIds)
+        {
+            projectEntity.ProjectMembers.Add(new ProjectMemberEntity
+            {
+                UserId = memberId,
+                ProjectId = projectEntity.Id
+            });
+        }
+
+        _projectRepository.Update(projectEntity);
+        var result = await _projectRepository.SaveAsync();
+        if (!result.Success)
+            return ProjectResult<ProjectModel>.InternalServerErrror("Failed updating project.");
+
+        var updatedProjectEntity = (await _projectRepository.GetEntityByQueryAsync(query => query
+            .Where(x => x.Id == form.Id)
+            .Include(x => x.Client)
+            .Include(x => x.ProjectMembers)
+            .ThenInclude(x => x.MemberProfile)
+            .OrderByDescending(x => x.Created))).Data;
+
+        if (updatedProjectEntity == null)
+            return ProjectResult<ProjectModel>.InternalServerErrror("Retrieved null entity after update.");
+
+        var updatedProject = updatedProjectEntity.MapTo<ProjectModel>();
+        updatedProject.ProjectMembers = updatedProjectEntity.ProjectMembers.Select(pm => pm.MapTo<ProjectMemberModel>()).ToList();
+
+        return ProjectResult<ProjectModel>.Ok(updatedProject);
+    }
 }

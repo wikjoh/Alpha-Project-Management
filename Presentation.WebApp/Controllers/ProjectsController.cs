@@ -1,9 +1,12 @@
 ﻿using Business.Dtos;
+using Business.Dtos.API;
 using Business.Interfaces;
 using Domain.Extensions;
+using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.WebApp.Models.Client;
 using Presentation.WebApp.Models.Project;
 using Presentation.WebApp.Services.Interfaces;
 using System.Threading.Tasks;
@@ -66,10 +69,58 @@ public class ProjectsController(IMemberService memberService, IClientService cli
         }
     }
 
+    [Route("editProject")]
+    [HttpPost]
+    public async Task<IActionResult> EditProject(EditProjectViewModel vm)
+    {
+        if (!ModelState.IsValid)
+        {
+            var errors = ModelState
+                .Where(x => x.Value?.Errors.Count > 0)
+                .ToDictionary(kvp => kvp.Key, kvp => kvp.Value?.Errors.Select(x => x.ErrorMessage).ToArray());
+
+            return BadRequest(new { success = false, errors });
+
+        }
+
+        var projectForm = vm.MapTo<EditProjectForm>();
+        var result = await _projectService.UpdateProjectAsync(projectForm);
+
+        return result.Success
+           ? Ok(nameof(EditProject))
+           : Problem("Failed handling submit.");
+    }
+
+    [HttpGet("getProject/id/{id}")]
+    public async Task<IActionResult> GetProject(int id)
+    {
+        var result = await _projectService.GetProjectByIdAsync(id);
+        if (!result.Success || result.Data == null)
+            return NotFound();
+
+        var project = result.Data;
+
+        var projectViewModel = project.MapTo<EditProjectViewModel>();
+        //projectViewModel.SelectedClientId = project.ClientId;
+        if (project.ProjectMembers != null)
+        {
+            //projectViewModel.SelectedProjectMemberIds.AddRange(project.ProjectMembers.Select(pm => pm.UserId));
+            //projectViewModel.ProjectMembers = project.ProjectMembers.Select(pm => pm.MapTo<ProjectMemberProfileNavOnly>()).ToList();
+            projectViewModel.ProjectMembers = project.ProjectMembers.Select(pm =>
+            {
+                var simplified = pm.MapTo<ProjectMemberProfileNavOnly>();
+                simplified.MemberProfile!.FullName = pm.MemberProfile!.User.FullName;
+                return simplified;
+            });
+        }
+
+        return Ok(projectViewModel);
+    }
+
     [HttpGet("Projects/SearchClients/{searchTerm}")]
     public async Task<IActionResult> SearchClients(string searchTerm)
     {
-        var result = await _clientService.GetActiveClientsIdNameBySearchTerm(searchTerm);
+        var result = await _clientService.GetActiveClientsIdNameImgBySearchTerm(searchTerm);
         if (!result.Success)
             return Problem("Failed retrieving clients.");
 
@@ -79,7 +130,7 @@ public class ProjectsController(IMemberService memberService, IClientService cli
     [HttpGet("Projects/SearchMembers/{searchTerm}")]
     public async Task<IActionResult> SearchMembers(string searchTerm)
     {
-        var result = await _memberService.GetMembersUseridNameBySearchTerm(searchTerm);
+        var result = await _memberService.GetMembersUseridNameImgBySearchTerm(searchTerm);
         if (!result.Success)
             return Problem("Failed retrieving members.");
 

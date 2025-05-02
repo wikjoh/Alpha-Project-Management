@@ -115,14 +115,14 @@ public class MemberService(IMemberProfileRepository memberProfileRepository, IUs
         return MemberProfileResult<MemberProfileModel>.Ok(memberProfileModel);
     }
 
-    public async Task<MemberProfileResult<IEnumerable<MemberUseridName>>> GetMembersUseridNameBySearchTerm(string searchTerm)
+    public async Task<MemberProfileResult<IEnumerable<MemberUseridNameImg>>> GetMembersUseridNameImgBySearchTerm(string searchTerm)
     {
-        var repositoryResult = await _memberProfileRepository.GetAllAsync<MemberUseridName>(m => new MemberUseridName { FullName = m.User.FullName, UserId = m.UserId }, true, m => m.User.Created, m => (m.User.FirstName + " " + m.User.LastName).Contains(searchTerm), x => x.User);
+        var repositoryResult = await _memberProfileRepository.GetAllAsync<MemberUseridNameImg>(m => new MemberUseridNameImg { FullName = m.User.FullName, UserId = m.UserId, ImageURI = m.ImageURI }, true, m => m.User.Created, m => (m.User.FirstName + " " + m.User.LastName).Contains(searchTerm), x => x.User);
         if (!repositoryResult.Success)
-            return MemberProfileResult<IEnumerable<MemberUseridName>>.InternalServerErrror("Failed retrieving members.");
+            return MemberProfileResult<IEnumerable<MemberUseridNameImg>>.InternalServerErrror("Failed retrieving members.");
 
         var memberUseridNameList = repositoryResult.Data!;
-        return MemberProfileResult<IEnumerable<MemberUseridName>>.Ok(memberUseridNameList);
+        return MemberProfileResult<IEnumerable<MemberUseridNameImg>>.Ok(memberUseridNameList);
     }
 
 
