@@ -6,17 +6,19 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.WebApp.Models.Client;
 using Presentation.WebApp.Models.Member;
+using Presentation.WebApp.Services.Interfaces;
 using System.Threading.Tasks;
 
 namespace Presentation.WebApp.Controllers;
 
 [Authorize(Roles = "Admin")]
 [Route("admin")]
-public class AdminController(IClientService clientService, IMemberProfileService memberProfileService, IMemberService memberService) : Controller
+public class AdminController(IClientService clientService, IMemberProfileService memberProfileService, IMemberService memberService, IImageUploadService imageUploadService) : Controller
 {
     private readonly IClientService _clientService = clientService;
     private readonly IMemberProfileService _memberProfileService = memberProfileService;
     private readonly IMemberService _memberService = memberService;
+    private readonly IImageUploadService _imageUploadService = imageUploadService;
 
     [Route("members")]
     public async Task<IActionResult> Members()
@@ -40,12 +42,30 @@ public class AdminController(IClientService clientService, IMemberProfileService
             return BadRequest(new { success = false, errors });
         }
 
-        var memberForm = vm.MapTo<AddMemberForm>();
-        var result = await _memberService.AddMemberAsync(memberForm);
+        string? imagePath = null;
 
-        return result.Success
-           ? CreatedAtAction(nameof(AddMember), result.Data)
-           : Problem("Failed handling submit.");
+        // Wrap in trycatch in order to delete image in case something unexpected occurs
+        try
+        {
+            imagePath = await _imageUploadService.UploadImageAsync(vm.MemberImage!, "members");
+
+            var memberForm = vm.MapTo<AddMemberForm>();
+            memberForm.ImageURI = imagePath;
+
+            var result = await _memberService.AddMemberAsync(memberForm);
+            if (result.Success)
+                return CreatedAtAction(nameof(AddMember), result.Data);
+
+            if (imagePath != null)
+                _imageUploadService.DeleteImage(imagePath);
+            return Problem("Failed handling submit.");
+        }
+        catch (Exception)
+        {
+            if (imagePath != null)
+                _imageUploadService.DeleteImage(imagePath);
+            return Problem("Failed handling submit.");
+        }
     }
 
     [Route("editMember")]
@@ -104,12 +124,31 @@ public class AdminController(IClientService clientService, IMemberProfileService
             return BadRequest(new { success = false, errors });
         }
 
-        var clientForm = vm.MapTo<AddClientForm>();
-        var result = await _clientService.CreateClientAsync(clientForm);
+        string? imagePath = null;
 
-        return result.Success
-           ? CreatedAtAction(nameof(AddClient), result.Data)
-           : Problem("Failed handling submit.");
+        // Wrap in trycatch in order to delete image in case something unexpected occurs
+        try
+        {
+            imagePath = await _imageUploadService.UploadImageAsync(vm.ClientImage!, "clients");
+
+            var clientForm = vm.MapTo<AddClientForm>();
+            clientForm.ImageURI = imagePath;
+
+            var result = await _clientService.CreateClientAsync(clientForm);
+            if (result.Success)
+                return CreatedAtAction(nameof(AddClient), result.Data);
+
+            if (imagePath != null)
+                _imageUploadService.DeleteImage(imagePath);
+            return Problem("Failed handling submit.");
+        }
+        catch (Exception)
+        {
+            if (imagePath != null)
+                _imageUploadService.DeleteImage(imagePath);
+            return Problem("Failed handling submit.");
+        }
+        
     }
 
     [Route("editClient")]
