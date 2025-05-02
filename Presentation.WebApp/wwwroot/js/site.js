@@ -1,7 +1,4 @@
-﻿// used for sharing fetched data with tags.js
-//let fetchedData;
-
-document.addEventListener('DOMContentLoaded', () => {
+﻿document.addEventListener('DOMContentLoaded', () => {
     const previewSize = 150
 
     // handle dropdown menus
@@ -342,35 +339,6 @@ function populateEditProjectModal(project, modal) {
     const quillData = document.getElementById('edit-project-description-wysiwyg-editor').querySelector('.ql-editor');
     quillData.innerHTML = project.description;
 
-    //// create selected input ids container
-    //let selectedInputIdsContainer = document.createElement('div');
-    //selectedInputIdsContainer.classList.add('selected-input-ids-container');
-    //selectedInputIdsContainer.setAttribute('style', 'display:none;');
-
-    //// handle clients input
-    //// add data to form
-    //const editTaggedClients = document.getElementById('edit-tagged-clients');
-    //editTaggedClients.appendChild(selectedInputIdsContainer);
-    //const editClientSelectedInputIdsContainer = editTaggedClients.querySelector('.selected-input-ids-container');
-    //populateEditFormSelectedIds(editClientSelectedInputIdsContainer, "SelectedClientId", project.client.id);
-
-
-    //// handle members input
-    //// add data to form
-    //const editTaggedMembers = document.getElementById('edit-tagged-members');
-    //editTaggedMembers.appendChild(selectedInputIdsContainer);
-    //const editMemberSelectedInputIdsContainer = editTaggedMembers.querySelector('.selected-input-ids-container');
-    //project.projectMembers.forEach(member => {
-    //    populateEditFormSelectedIds(editMemberSelectedInputIdsContainer, "SelectedMemberIds", member.userId)
-    //});
-
-    //// add tags for selected members/client
-    //populateEditFormTags(editTaggedClients, project.client.name, project.client.imageURI)
-    //project.projectMembers.forEach(projectMember => {
-    //    populateEditFormTags(editTaggedMembers, projectMember.memberProfile.fullName, projectMember.memberProfile.userId)
-    //})
-
-
     // If client has an image, display it
     if (project.imageURI) {
         const imagePreview = form.querySelector('.image-preview');
@@ -380,37 +348,3 @@ function populateEditProjectModal(project, modal) {
         }
     }
 }
-
-// utility function for retrieving cached data without fetetching
-function getProjectData(id) {
-    if (!fetchedData.projects || !fetchedData.projects[id]) {
-        return null;
-    }
-    return fetchedData.projects[id];
-}
-
-// make above function globally available
-window.getProjectData = getProjectData;
-
-// Helper function for populating edit project selected ids
-//function populateEditFormSelectedIds(inputIdsContainer, viewModelProperty, value) {
-//    let selectedInputItem = document.createElement('input');
-//    selectedInputItem.setAttribute("type", "text");
-//    selectedInputItem.setAttribute("name", viewModelProperty);
-//    selectedInputItem.setAttribute("value", value);
-
-//    inputIdsContainer.appendChild(selectedInputItem);
-//}
-
-//function populateEditFormTags(tagContainer, name, imgSrc) {
-//    const tag = document.createElement('div');
-//    tag.classList.add('user-tag');
-//    tag.innerHTML =
-//    `
-//        <img class="user-avatar" src="${imgSrc}">
-//        <span>${name}</span>
-//    `;
-
-//    const input = tagContainer.querySelector('input');
-//    tagContainer.insertBefore(tag, input);
-//}
