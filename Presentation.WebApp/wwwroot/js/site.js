@@ -332,8 +332,8 @@ function populateEditProjectModal(project, modal) {
     // Set form values
     form.querySelector('input[name="Id"]').value = project.id;
     form.querySelector('input[name="Name"]').value = project.name;
-    form.querySelector('input[name="StartDate"]').value = project.startDate;
-    form.querySelector('input[name="EndDate"]').value = project.endDate;
+    form.querySelector('input[name="StartDate"]').value = new Date(project.startDate).toISOString().split('T')[0];
+    form.querySelector('input[name="EndDate"]').value = new Date(project.endDate).toISOString().split('T')[0];
     form.querySelector('input[name="Budget"]').value = project.budget;
     form.querySelector('textarea[name="Description"]').value = project.description;
     const quillData = document.getElementById('edit-project-description-wysiwyg-editor').querySelector('.ql-editor');
