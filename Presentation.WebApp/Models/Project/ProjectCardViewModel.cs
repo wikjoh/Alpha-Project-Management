@@ -25,7 +25,7 @@ public class ProjectCardViewModel
 
         int daysRemaining = ((DateTime)EndDate - DateTime.Today).Days;
         if (daysRemaining > 7)
-            return ((daysRemaining % 7).ToString(), daysRemaining % 7 > 1 ? "weeks left" : "week left");
+            return ((daysRemaining / 7).ToString(), daysRemaining / 7 > 1 ? "weeks left" : "week left");
         else
             return (daysRemaining.ToString(), daysRemaining > 1 ? "days left" : "day left");
     }
