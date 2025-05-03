@@ -22,7 +22,7 @@ public class EditProjectViewModel
 
     [Required]
     public int SelectedClientId { get; set; }
-    public ClientIdNameImg Client { get; set; } = null!;
+    public ClientIdNameImg? Client { get; set; }
 
     [Display(Name = "Description")]
     [DataType(DataType.Text)]
@@ -34,7 +34,7 @@ public class EditProjectViewModel
     [DataType(DataType.Date)]
     public DateTime? EndDate { get; set; }
 
-    public List<string> SelectedProjectMemberIds { get; set; } = [];
+    public List<string> SelectedMemberIds { get; set; } = [];
     public IEnumerable<ProjectMemberProfileNavOnly>? ProjectMembers { get; set; }
 
     public decimal? Budget { get; set; }

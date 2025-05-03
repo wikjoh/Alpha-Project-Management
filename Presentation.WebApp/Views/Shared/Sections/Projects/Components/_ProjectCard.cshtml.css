@@ -24,6 +24,7 @@
 .project-image {
     grid-area: project-image;
     margin-right: 1rem;
+    border-radius: 14px;
 }
 
 .project-title {

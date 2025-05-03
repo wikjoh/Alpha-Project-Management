@@ -50,7 +50,7 @@ public class ProjectsController(IMemberService memberService, IClientService cli
 
             var projectForm = vm.MapTo<AddProjectForm>();
             projectForm.ClientId = vm.SelectedClientId;
-            projectForm.ImageURI = imagePath != null ? imagePath : "/images/projectDefaultAvatar.svg"; // set default image if none chosen
+            projectForm.ImageURI = imagePath ?? "/images/projectDefaultAvatar.svg"; // set default image if none chosen
 
             var result = await _projectService.AddProjectAsync(projectForm);
 
@@ -80,15 +80,34 @@ public class ProjectsController(IMemberService memberService, IClientService cli
                 .ToDictionary(kvp => kvp.Key, kvp => kvp.Value?.Errors.Select(x => x.ErrorMessage).ToArray());
 
             return BadRequest(new { success = false, errors });
-
         }
 
-        var projectForm = vm.MapTo<EditProjectForm>();
-        var result = await _projectService.UpdateProjectAsync(projectForm);
+        string? imagePath = null;
+        string? currentImage = (await _projectService.GetProjectByIdAsync(vm.Id)).Data?.ImageURI;
 
-        return result.Success
-           ? Ok(nameof(EditProject))
-           : Problem("Failed handling submit.");
+        // Wrap in trycatch in order to delete image in case something unexpected occurs
+        try
+        {
+            imagePath = await _imageUploadService.UpdateImageAsync(vm.ProjectImage!, "projects", currentImage!);
+
+            var projectForm = vm.MapTo<EditProjectForm>();
+            projectForm.ClientId = vm.SelectedClientId;
+            projectForm.ImageURI = imagePath ?? "/images/projectDefaultAvatar.svg"; // set default image if none chosen
+
+            var result = await _projectService.UpdateProjectAsync(projectForm);
+            if (result.Success)
+                return Ok(nameof(EditProject));
+
+            if (imagePath != null)
+                _imageUploadService.DeleteImage(imagePath);
+            return Problem("Failed handling submit.");
+        }
+        catch (Exception)
+        {
+            if (imagePath != null)
+                _imageUploadService.DeleteImage(imagePath);
+            return Problem("Failed handling submit.");
+        }
     }
 
     [HttpGet("getProject/id/{id}")]
