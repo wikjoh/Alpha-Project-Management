@@ -8,8 +8,34 @@
         let clickedDropdown = null
 
         dropdowns.forEach(dropdown => {
-            const targetId = dropdown.getAttribute('data-target')
-            const targetElement = document.querySelector(targetId)
+            const targetSelector = dropdown.getAttribute('data-target')
+            let targetElement = null
+
+            // handle multi-level DOM traversal relative to clicked element, like "parent parent .dropdown-to-open"
+            if (targetSelector.includes(' ')) {
+                // split targetSelector into segments using space as delimiter
+                const segments = targetSelector.split(' ').filter(s => s.trim() !== '');
+                let currentElement = dropdown;
+
+                // loop through segments and build DOM query
+                for (const segment of segments) {
+                    if (!currentElement) break;
+
+                    if (segment === 'parent') {
+                        currentElement = currentElement.parentElement;
+                    } else if (segment.startsWith('.') || segment.startsWith('#')) {
+                        currentElement = currentElement.querySelector(segment);
+                    }
+                }
+
+                targetElement = currentElement;
+
+                // old/single target selector
+            } else if (targetSelector.startsWith('.') || targetSelector.startsWith('#')) {
+                targetElement = document.querySelector(targetSelector)
+            }
+
+            if (!targetElement) return // skip if target not found
 
             if (dropdown.contains(e.target)) {
                 clickedDropdown = targetElement
