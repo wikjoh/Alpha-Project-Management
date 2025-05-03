@@ -215,7 +215,7 @@ form {
         border-radius: 12px;
     }
 
-.user-avatar {
+::deep .user-avatar {
     width: 24px;
     height: 24px;
     border-radius: 50%;
@@ -236,7 +236,7 @@ form {
 
 ::deep .tag,
 ::deep .user-tag {
-    display: inline-block;
+    display: flex;
     align-items: center;
     gap: .5rem;
     background-color: var(--color-tag-bg);
@@ -244,4 +244,10 @@ form {
     padding: .3rem .6rem;
     font-size: .9em;
     flex-grow: 0;
+}
+
+.image-preview {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
 }

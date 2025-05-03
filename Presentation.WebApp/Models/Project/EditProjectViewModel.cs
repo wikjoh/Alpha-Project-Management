@@ -13,6 +13,8 @@ public class EditProjectViewModel
     [DataType(DataType.Upload)]
     public IFormFile? ProjectImage { get; set; }
 
+    public string? ImageURI { get; set; }
+
     [Display(Name = "Project Name", Prompt = "Project Name")]
     [DataType(DataType.Text)]
     [Required(ErrorMessage = "Required")]
