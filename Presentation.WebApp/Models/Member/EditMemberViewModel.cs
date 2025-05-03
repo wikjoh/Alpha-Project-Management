@@ -11,6 +11,8 @@ public class EditMemberViewModel
     [DataType(DataType.Upload)]
     public IFormFile? MemberImage { get; set; }
 
+    public string? ImageURI { get; set; }
+
     [Display(Name = "PhoneNumber", Prompt = "Enter phone number")]
     [DataType(DataType.PhoneNumber)]
     public string? PhoneNumber { get; set; }

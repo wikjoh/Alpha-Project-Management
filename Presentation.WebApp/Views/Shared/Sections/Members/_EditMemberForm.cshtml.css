@@ -147,3 +147,10 @@ form {
     display: flex;
     gap: 1rem;
 }
+
+
+.image-preview {
+    object-fit: contain;
+    height: 100%;
+    width: 100%;
+}
