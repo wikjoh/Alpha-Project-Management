@@ -139,6 +139,12 @@ form {
         border-radius: 16px;
     }
 
+    .image-preview {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+    }
+
 
 .city-postalcode-container {
     display: flex;

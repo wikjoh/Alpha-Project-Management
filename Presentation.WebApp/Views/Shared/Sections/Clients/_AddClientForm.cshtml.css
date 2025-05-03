@@ -112,6 +112,13 @@ form .field-group {
     cursor: pointer;
     overflow: hidden;
     position: relative;
+
+
+    .image-preview {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+    }
 }
 
 .image-previewer::after {
