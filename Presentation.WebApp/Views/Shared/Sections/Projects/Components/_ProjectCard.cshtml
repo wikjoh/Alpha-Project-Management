@@ -5,7 +5,8 @@
         <img src="@Model.ImageURI" width="56" height="56" class="project-image" />
         <h6 class="project-title">@Model.Name</h6>
         <span class="project-company">@Model.Client.Name</span>
-        <img src="@Url.Content("~/images/icons/more-dots.svg")" width="24" height="24" class="project-dots" data-modal="true" data-target="#editProjectModal" data-project-id="@Model.Id" />
+        @* <img src="@Url.Content("~/images/icons/more-dots.svg")" width="24" height="24" class="project-dots" data-modal="true" data-target="#editProjectModal" data-project-id="@Model.Id" /> *@
+        <img src="@Url.Content("~/images/icons/more-dots.svg")" width="24" height="24" class="project-dots" data-type="dropdown" data-target="parent parent .dropdown" id="test" />
     </div>
 
     <div class="content-spacer">
@@ -39,6 +40,18 @@
                 }
             </div>
         </div>
+    </div>
+
+    <div class="dropdown">
+        <button type="button" class="edit-button">
+            <img src="@Url.Content("~/images/icons/edit-pen.svg")" class="edit-icon" />
+            <span>Edit</span>
+        </button>
+        <div class="dropdown-divider"></div>
+        <button type="button" class="delete-button">
+            <img src="@Url.Content("~/images/icons/delete-bin.svg")" class="delete-icon" />
+            <span>Delete</span>
+        </button>
     </div>
 </div>
 
