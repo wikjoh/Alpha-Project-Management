@@ -79,15 +79,33 @@ public class AdminController(IClientService clientService, IMemberProfileService
                 .ToDictionary(kvp => kvp.Key, kvp => kvp.Value?.Errors.Select(x => x.ErrorMessage).ToArray());
 
             return BadRequest(new { success = false, errors });
-
         }
 
-        var memberForm = vm.MapTo<EditMemberForm>();
-        var result = await _memberService.UpdateMemberAsync(memberForm);
+        string? imagePath = null;
+        string? currentImage = (await _memberService.GetMemberByIdAsync(vm.UserId)).Data?.ImageURI;
 
-        return result.Success
-           ? Ok(nameof(EditMember))
-           : Problem("Failed handling submit.");
+        // Wrap in trycatch in order to delete image in case something unexpected occurs
+        try
+        {
+            imagePath = await _imageUploadService.UpdateImageAsync(vm.MemberImage!, "members", currentImage!);
+
+            var memberForm = vm.MapTo<EditMemberForm>();
+            memberForm.ImageURI = imagePath ?? "/images/memberDefaultAvatar.svg"; // set default image if none chosen
+
+            var result = await _memberService.UpdateMemberAsync(memberForm);
+            if (result.Success)
+                return Ok(nameof(EditMember));
+
+            if (imagePath != null)
+                _imageUploadService.DeleteImage(imagePath);
+            return Problem("Failed handling submit.");
+        }
+        catch (Exception)
+        {
+            if (imagePath != null)
+                _imageUploadService.DeleteImage(imagePath);
+            return Problem("Failed handling submit.");
+        }
     }
 
     [HttpGet("getMember/id/{id}")]
