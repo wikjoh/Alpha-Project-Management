@@ -90,7 +90,8 @@
 
             <div class="form-group">
                 <label asp-for="Budget">Budget</label>
-                <div class="field-group">
+                <div class="field-group budget-container">
+                    <img src="@Url.Content("~/images/icons/dollar.svg")" class="dollar-icon" />
                     <input asp-for="Budget" />
                     <span asp-validation-for="Budget"></span>
                 </div>

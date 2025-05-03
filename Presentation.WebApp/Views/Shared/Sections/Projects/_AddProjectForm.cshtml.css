@@ -250,3 +250,18 @@ form {
     font-size: .9em;
     flex-grow: 0;
 }
+
+.budget-container {
+    position: relative;
+}
+
+.dollar-icon {
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    left: 1rem;
+}
+
+::deep input#Budget {
+    padding-left: 2.5rem;
+}
