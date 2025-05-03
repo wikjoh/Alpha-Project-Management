@@ -9,7 +9,7 @@
     cursor: pointer;
 }
 
-img {
+::deep img {
     position: absolute;
     object-fit: contain;
     height: 100%;

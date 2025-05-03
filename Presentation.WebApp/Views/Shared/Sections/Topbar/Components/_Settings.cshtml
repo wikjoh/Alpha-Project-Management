@@ -1,4 +1,10 @@
-﻿<div id="settings-container">
+﻿@inject UserManager<UserEntity> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<div id="settings-container">
     <button type="button" data-type="dropdown" data-target="#settings-dropdown" class="button-settings">
         <img src="@Url.Content("~/images/icons/cogwheel.svg")" />
     </button>
@@ -6,9 +12,12 @@
     <div id="settings-dropdown" class="dropdown">
         <div class="dropdown-header">
             <div class="img-container">
-                <img src="@Url.Content("~/images/icons/usersquare.jpg")" />
+                @await Component.InvokeAsync("UserAvatar")
             </div>
-            <h6 class="name">Wiktor Johnsson</h6>
+            @if (user != null)
+            {
+                <h6 class="name">@user.FullName</h6>
+            }
         </div>
 
         <div class="darkmode item">
