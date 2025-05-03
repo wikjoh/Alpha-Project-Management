@@ -158,6 +158,7 @@ form {
     border: 1px solid #ececec;
     border-radius: 16px;
     position: relative;
+    padding-right: 3rem;
 }
 
 ::deep .form-tag-select label {
@@ -260,6 +261,10 @@ form {
     position: relative;
 }
 
+::deep input#Budget {
+    padding-left: 2.5rem;
+}
+
 .dollar-icon {
     position: absolute;
     transform: translateY(-50%);
@@ -267,6 +272,9 @@ form {
     left: 1rem;
 }
 
-::deep input#Budget {
-    padding-left: 2.5rem;
+.search-icon {
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    right: 1rem;
 }
