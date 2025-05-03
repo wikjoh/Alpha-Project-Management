@@ -140,6 +140,7 @@ public class MemberService(IMemberProfileRepository memberProfileRepository, IUs
         member.User.UserName = form.User.Email;
         member.User.FirstName = form.User.FirstName;
         member.User.LastName = form.User.LastName;
+        member.ImageURI = form.ImageURI;
         member.PhoneNumber = form.PhoneNumber;
         member.JobTitle = form.JobTitle;
         member.DateOfBirth = form.DateOfBirth;
