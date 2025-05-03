@@ -132,7 +132,7 @@ public class AdminController(IClientService clientService, IMemberProfileService
             imagePath = await _imageUploadService.UploadImageAsync(vm.ClientImage!, "clients");
 
             var clientForm = vm.MapTo<AddClientForm>();
-            clientForm.ImageURI = imagePath != null ? imagePath : "/images/clientDefaultAvatar.svg"; // set default image if none chosen
+            clientForm.ImageURI = imagePath ?? "/images/clientDefaultAvatar.svg"; // set default image if none chosen
 
             var result = await _clientService.CreateClientAsync(clientForm);
             if (result.Success)
@@ -165,12 +165,31 @@ public class AdminController(IClientService clientService, IMemberProfileService
 
         }
 
-        var clientForm = vm.MapTo<EditClientForm>();
-        var result = await _clientService.UpdateClientAsync(clientForm);
+        string? imagePath = null;
+        string? currentImage = (await _clientService.GetClientByIdAsync(vm.Id)).Data?.ImageURI;
 
-        return result.Success
-           ? Ok(nameof(EditClient))
-           : Problem("Failed handling submit.");
+        // Wrap in trycatch in order to delete image in case something unexpected occurs
+        try
+        {
+            imagePath = await _imageUploadService.UpdateImageAsync(vm.ClientImage!, "clients", currentImage!);
+
+            var clientForm = vm.MapTo<EditClientForm>();
+            clientForm.ImageURI = imagePath ?? "/images/clientDefaultAvatar.svg"; // set default image if none chosen
+
+            var result = await _clientService.UpdateClientAsync(clientForm);
+            if (result.Success)
+                return Ok(nameof(EditClient));
+
+            if (imagePath != null)
+                _imageUploadService.DeleteImage(imagePath);
+            return Problem("Failed handling submit.");
+        }
+        catch (Exception)
+        {
+            if (imagePath != null)
+                _imageUploadService.DeleteImage(imagePath);
+            return Problem("Failed handling submit.");
+        }
     }
 
     [HttpGet("getClient/id/{id}")]

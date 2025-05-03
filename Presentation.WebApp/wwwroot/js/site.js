@@ -257,6 +257,7 @@ async function processImage(file, imagePreview, previewer, previewSize = 150) {
         const ctx = canvas.getContext('2d')
         ctx.drawImage(img, 0, 0, previewSize, previewSize)
         imagePreview.src = canvas.toDataURL('image/jpeg')
+        imagePreview.classList.remove('hide')
         previewer.classList.add('selected')
     }
     catch (error) {

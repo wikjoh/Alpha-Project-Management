@@ -34,10 +34,22 @@ public class ImageUploadService(IWebHostEnvironment env) : IImageUploadService
 
     public void DeleteImage(string imagePath)
     {
-        var fullPath = Path.Combine(_env.WebRootPath, imagePath);
+        var fullPath = Path.Combine(_env.WebRootPath, imagePath.TrimStart('/').Replace("/", "\\"));
         if (File.Exists(fullPath))
         {
             File.Delete(fullPath);
         }
+    }
+
+    public async Task<string?> UpdateImageAsync(IFormFile file, string folderName, string oldImagePath)
+    {
+        string[] defaultAvatars = ["/images/clientDefaultAvatar.svg", "/images/memberDefaultAvatar.svg", "/images/projectDefaultAvatar.svg"];
+        var result = await UploadImageAsync(file, folderName);
+
+        // if current image is not default avatar, delete it
+        if (oldImagePath != null && !Array.Exists(defaultAvatars, defaultAvatar => defaultAvatar == oldImagePath))
+            DeleteImage(oldImagePath);
+
+        return result;
     }
 }
