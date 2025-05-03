@@ -12,8 +12,12 @@
             @Model.User.FullName
         </h4>
     </div>
-    <div class="job-title">@Model.JobTitle</div>
-    <div class="email">@Model.User.Email</div>
-    <div class="phonenumber">@Model.PhoneNumber</div>
-    <button class="message-button" type="button">Message</button>
+    <div class="container">
+        <div class="details-container">
+            <div class="job-title">@Model.JobTitle</div>
+            <div class="email">@Model.User.Email</div>
+            <div class="phonenumber">@Model.PhoneNumber</div>
+        </div>
+        <button class="message-button" type="button">Message</button>
+    </div>
 </div>
