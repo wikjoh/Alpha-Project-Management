@@ -77,7 +77,15 @@
 
             case 'Backspace':
                 if (input.value === '') {
-                    removeLastTag();
+                    // Debounce to prevent accidentally deleting more than one tag
+                    if (!input.dataset.backspaceDebounce) {
+                        input.dataset.backspaceDebounce = 'true';
+                        removeLastTag();
+                        
+                        setTimeout(() => {
+                            input.dataset.backspaceDebounce = '';
+                        }, 300);
+                    }
                 }
                 break;
 
