@@ -139,8 +139,12 @@ form {
     }
 
 .date-container {
+    width: 100%;
     display: flex;
     gap: 1.5rem;
+    .form-group {
+        flex: 1;
+    }
 }
 
 /* Tags CSS */
