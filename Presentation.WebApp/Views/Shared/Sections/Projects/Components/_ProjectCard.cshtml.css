@@ -81,7 +81,21 @@
     display: flex;
     gap: .5rem;
 
-    img {
-            height: 30px;
-        }
+/*    img {
+        height: 30px;
+        width: 30px;
+    }*/
+}
+
+.avatar-container {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatar-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }

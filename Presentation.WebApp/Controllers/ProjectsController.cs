@@ -50,7 +50,7 @@ public class ProjectsController(IMemberService memberService, IClientService cli
 
             var projectForm = vm.MapTo<AddProjectForm>();
             projectForm.ClientId = vm.SelectedClientId;
-            projectForm.ImageURI = imagePath;
+            projectForm.ImageURI = imagePath != null ? imagePath : "/images/projectDefaultAvatar.svg"; // set default image if none chosen
 
             var result = await _projectService.AddProjectAsync(projectForm);
 

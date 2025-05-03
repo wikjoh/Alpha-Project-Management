@@ -5,10 +5,8 @@
     <tr>
         <td class="client-info">
             <div class="image-container">
-                @if (Model.ImageURI != null)
-                {
-                    <img class="client-image" src="@Model.ImageURI" alt="" />
-                }
+                @* <img class="client-image" src="@(Model.ImageURI != null ? Model.ImageURI : Url.Content("~/images/avatar150px.svg"))" alt="" /> *@
+                <img class="client-image" src="@Model.ImageURI" alt="" />
             </div>
             <div class="client-name">@Model.Name</div>
             <div class="client-email">@Model.Email</div>

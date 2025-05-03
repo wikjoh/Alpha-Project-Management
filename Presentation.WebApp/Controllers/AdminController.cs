@@ -50,7 +50,7 @@ public class AdminController(IClientService clientService, IMemberProfileService
             imagePath = await _imageUploadService.UploadImageAsync(vm.MemberImage!, "members");
 
             var memberForm = vm.MapTo<AddMemberForm>();
-            memberForm.ImageURI = imagePath;
+            memberForm.ImageURI = imagePath != null ? imagePath : "/images/memberDefaultAvatar.svg"; // set default image if none chosen
 
             var result = await _memberService.AddMemberAsync(memberForm);
             if (result.Success)
@@ -132,7 +132,7 @@ public class AdminController(IClientService clientService, IMemberProfileService
             imagePath = await _imageUploadService.UploadImageAsync(vm.ClientImage!, "clients");
 
             var clientForm = vm.MapTo<AddClientForm>();
-            clientForm.ImageURI = imagePath;
+            clientForm.ImageURI = imagePath != null ? imagePath : "/images/clientDefaultAvatar.svg"; // set default image if none chosen
 
             var result = await _clientService.CreateClientAsync(clientForm);
             if (result.Success)
