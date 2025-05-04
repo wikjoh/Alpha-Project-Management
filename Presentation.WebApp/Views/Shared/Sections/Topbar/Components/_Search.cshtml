@@ -1,6 +1,6 @@
-﻿<form class="search-form" method="get" asp-controller="" asp-action="" novalidate>
+﻿<form class="search-form" onsubmit="return handleSearch(event)" novalidate>
     <div class="search-container">
         <img src="@Url.Content("~/images/icons/search.svg")" width="22" height="22" />
-        <input type="search" autocomplete="off" placeholder="Search anything..." name="search">
+        <input id="globalSearch" type="search" autocomplete="off" placeholder="Search anything..." name="search">
     </div>
 </form>
