@@ -307,6 +307,34 @@
         })
     })
 
+    // project tab filtering
+    const projectNavTabs = document.querySelectorAll('.project-nav-tabs .tab-item');
+    const projectCards = document.querySelectorAll('.project-list .project');
+
+    projectNavTabs.forEach(navTab => {
+        navTab.addEventListener('click', () => {
+            projectNavTabs.forEach(navTab => navTab.classList.remove('active'));
+            navTab.classList.add('active');
+
+            const filter = navTab.getAttribute('data-project-tab-filter');
+
+            projectCards.forEach(card => {
+                const cardStatus = card.getAttribute('data-project-status');
+                if (filter === 'all') {
+                    card.style.display = 'block';
+                } else if (filter === 'completed' && cardStatus === 'completed') {
+                    console.log(`filter = ${filter}, cardStatus = ${cardStatus}, display block`)
+                    card.style.display = 'block';
+                } else if (filter === 'started' && cardStatus === 'started') {
+                    console.log(`filter = ${filter}, cardStatus = ${cardStatus}, display block`)
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            })
+        })
+    })
+
 })
 
 function clearErrorMessages(form) {

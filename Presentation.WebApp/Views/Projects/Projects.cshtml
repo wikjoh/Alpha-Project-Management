@@ -18,21 +18,14 @@
         </div>
     </header>
 
+    <partial name="Sections/Projects/Components/_ProjectsNavTabs" />
+
     <div class="project-list">
         @foreach (var project in @Model)
         {
-            <div class="card">
+            <div class="project" data-project-status="@(project.EndDate <= DateTime.Now ? "completed" : (project.StartDate <= DateTime.Now && project.EndDate == null ? "started" : ""))">
                 @await Html.PartialAsync("Sections/Projects/Components/_ProjectCard", project.MapTo<ProjectCardViewModel>())
             </div>
         }
-        @* <div class="card"> *@
-        @*     @await Html.PartialAsync("Sections/Projects/Components/_ProjectCard", new ProjectCardViewModel *@
-        @*     { *@
-        @*         Name = "Website Redesign", *@
-        @*         Client = "GitLab Inc.", *@
-        @*         Description = "It is necessary to develop a website redesign in a corporate style.", *@
-        @*         DueTime = "1 week left" *@
-        @*     }) *@
-        @* </div> *@
     </div>
 </section>

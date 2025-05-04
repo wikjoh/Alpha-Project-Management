@@ -1,0 +1,9 @@
+﻿@model IEnumerable<ProjectModel>
+
+<div class="project-nav-tabs">
+    <ul class="project-tab-navigation">
+        <li class="tab-item active" data-project-tab-filter="all">ALL [@Model.Count()]</li>
+        <li class="tab-item" data-project-tab-filter="started">STARTED [@Model.Count(project => project.StartDate <= DateTime.Now && project.EndDate == null)]</li>
+        <li class="tab-item" data-project-tab-filter="completed">COMPLETED [@Model.Count(project => project.EndDate <= DateTime.Now)]</li>
+    </ul>
+</div>
