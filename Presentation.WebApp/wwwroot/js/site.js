@@ -157,6 +157,26 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault()
 
+            // check for empty fields and add errors if any
+            const emptyRequiredFields = Array.from(form.querySelectorAll('[data-val-required]')).filter(input => !input.value.trim())
+            if (emptyRequiredFields.length > 0) {
+                emptyRequiredFields.forEach(field => {
+                    field.classList.add('input-validation-error')
+                    const errorSpan = form.querySelector(`[data-valmsg-for="${field.name}"]`)
+                    if (errorSpan) {
+                        errorSpan.innerText = field.getAttribute('data-val-required') || 'Required'
+                        errorSpan.classList.add('field-validation-error')
+                    }
+                })
+            }
+
+            // check for errors and exit loop if found
+            const formHasErrors = form.querySelectorAll('.input-validation-error').length > 0
+            if (formHasErrors) {
+                console.log("Form contains validation errors. Returning.")
+                return
+            }
+
             clearErrorMessages(form)
 
             const formData = new FormData(form)
