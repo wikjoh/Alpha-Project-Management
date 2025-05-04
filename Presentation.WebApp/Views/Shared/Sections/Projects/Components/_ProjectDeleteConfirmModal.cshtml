@@ -1,0 +1,15 @@
+﻿@model ProjectCardViewModel
+
+<div class="project-deletion-modal modal" id="@($"project-deletion-modal-{Model.Id}")">
+    <h4>Confirm Deletion</h4>
+    <span>Are you sure you would like to delete</span>
+    <p>@Model.Name?</p>
+    <div class="buttons">
+        <div class="project-delete-button" data-project-delete-id="@Model.Id">
+            @await Html.PartialAsync("Components/Buttons/_BaseButton", new ButtonModel { Title = "DELETE" })
+        </div>
+        <div class="project-cancel-button">
+            @await Html.PartialAsync("Components/Buttons/_BaseButton", new ButtonModel { Title = "Cancel" })
+        </div>
+    </div>
+</div>

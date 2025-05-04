@@ -57,6 +57,7 @@
         }
     })
 
+
     // open modal (and populate if needed)
     const modalButtons = document.querySelectorAll('[data-modal="true"]')
     modalButtons.forEach(button => {
@@ -241,6 +242,28 @@
             editProjectDescriptionTextarea.value = editProjectDescriptionQuill.root.innerHTML
         });
     }
+
+    // handle project deletion
+    const projectDeleteButtons = document.querySelectorAll('.project-delete-button');
+    projectDeleteButtons.forEach(button => {
+        button.addEventListener('click', async () => {
+            const projectId = button.getAttribute('data-project-delete-id');
+
+            if (projectId) {
+                try {
+                    const response = await fetch(`deleteProject/id/${projectId}`, {
+                        method: 'DELETE'
+                });
+                    if (response.ok) {
+                        window.location.reload()
+                    }
+                } catch (error) {
+                    console.error('Error deleting project: ', error);
+                }
+            }
+        })
+    })
+
 })
 
 function clearErrorMessages(form) {

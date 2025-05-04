@@ -132,7 +132,7 @@
     }
 }
 
-.delete-button {
+.project-delete-button {
     color: var(--color-red);
 }
 
@@ -141,4 +141,12 @@
     width: 100%;
     background-color: var(--color-border-100);
     margin: 4px;
+}
+
+::deep .project-deletion-modal {
+    display: none;
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
 }

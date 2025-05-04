@@ -146,4 +146,20 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
 
         return ProjectResult<ProjectModel>.Ok(updatedProject);
     }
+
+
+    // DELETE
+    public async Task<ProjectResult<bool>> DeleteProjectAsync(int projectId)
+    {
+        var projectEntity = (await _projectRepository.GetEntityAsync(x => x.Id == projectId)).Data;
+        if (projectEntity == null)
+            return ProjectResult<bool>.NotFound("Project not found.");
+
+        _projectRepository.Delete(projectEntity);
+        var result = await _projectRepository.SaveAsync();
+        if (!result.Success)
+            return ProjectResult<bool>.InternalServerErrror("Failed deleting project.");
+
+        return ProjectResult<bool>.Ok(true);
+    }
 }

@@ -110,6 +110,17 @@ public class ProjectsController(IMemberService memberService, IClientService cli
         }
     }
 
+
+    [HttpDelete("deleteProject/id/{id}")]
+    public async Task<IActionResult> DeleteProject(int id)
+    {
+        var result = await _projectService.DeleteProjectAsync(id);
+        if (!result.Success)
+            return Problem("Failed deleting project.");
+
+        return Ok($"Project with id {id} successfully deleted.");
+    }
+
     [HttpGet("getProject/id/{id}")]
     public async Task<IActionResult> GetProject(int id)
     {

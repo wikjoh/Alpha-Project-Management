@@ -47,11 +47,13 @@
             <span>Edit</span>
         </button>
         <div class="dropdown-divider"></div>
-        <button type="button" class="delete-button">
+        <button type="button" class="project-delete-button" data-modal="true" data-target="@($"#project-deletion-modal-{Model.Id}")">
             <img src="@Url.Content("~/images/icons/delete-bin.svg")" class="delete-icon" />
             <span>Delete</span>
         </button>
     </div>
+
+    <partial name="Sections/Projects/Components/_ProjectDeleteConfirmModal" model="Model" />
 </div>
 
 
