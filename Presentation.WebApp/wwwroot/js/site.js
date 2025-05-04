@@ -199,6 +199,29 @@
         })
     })
 
+    // hide validation errors on input change
+    document.querySelectorAll('form.ajax [data-val="true"]').forEach(input => {
+        ['input', 'change'].forEach(eventType => {
+            input.addEventListener(eventType, () => {
+                // Remove error class from the input
+                input.classList.remove('input-validation-error');
+
+                // Find the field name to locate the error message span
+                const fieldName = input.name;
+                if (fieldName) {
+                    const form = input.closest('form');
+                    if (form) {
+                        const errorSpan = form.querySelector(`[data-valmsg-for="${fieldName}"]`);
+                        if (errorSpan) {
+                            errorSpan.innerText = '';
+                            errorSpan.classList.remove('field-validation-error');
+                        }
+                    }
+                }
+            });
+        });
+    });
+
     // hide form notification errors if they do not have an inner text
     const errorSpans = document.querySelectorAll('form .notification-error span');
     errorSpans.forEach(span => {
