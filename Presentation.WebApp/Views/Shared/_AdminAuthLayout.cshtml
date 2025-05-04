@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alpha - @ViewData["Title"]</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Presentation.WebApp.styles.css" asp-append-version="true" />
+</head>
+<body>
+
+    <main role="main" class="vertical-divider">
+        <div class="content-left">
+            <div class="side-image">
+                <div class="header">
+                    <h1>Welcome to</h1>
+                    <h1 class="lower">Admin Panel</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ullamcorper nisl erat, vel convallis elit fermentum pellentesque. Sed mollis velit facilisis facilisis viverra.</p>
+                </div>
+            </div>
+        </div>
+        <div class="content-right">
+            <div class="wrapper">
+                @RenderBody()
+            </div>
+        </div>
+    </main>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+
+
+
+<partial name="Utils/_ValidationScripts" />

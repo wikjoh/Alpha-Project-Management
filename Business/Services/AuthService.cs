@@ -25,6 +25,22 @@ public class AuthService(SignInManager<UserEntity> signInManager, IUserService u
         return AuthResult<string>.Unauthorized("User authentication failed.");
     }
 
+    public async Task<AuthResult<string>> AdminLoginAsync(AdminSignInForm form)
+    {
+        if (form == null)
+            return AuthResult<string>.BadRequest("Login form cannot be null.");
+
+        var isAdmin = await _userService.IsUserAdminAsync(form.Email);
+        if (isAdmin.Data == false)
+            return AuthResult<string>.Unauthorized("No admin with given email.");
+
+        var result = await _signInManager.PasswordSignInAsync(form.Email, form.Password, form.RememberMe, true);
+        if (result.Succeeded)
+            return AuthResult<string>.Ok("User successfully authenticated.");
+
+        return AuthResult<string>.Unauthorized("User authentication failed.");
+    }
+
     public async Task<AuthResult<string?>> LogoutAsync()
     {
         try

@@ -37,9 +37,9 @@
             @await Html.PartialAsync("Sections/Sidebar/Components/_SidebarItem", new SidebarItemModel
             {
                 ImgUrl = "~/images/icons/project-briefcase.svg",
-                Name = "Admin-Login",
-                AspController = "Admin",
-                AspAction = "Login"
+                Name = "Admin Panel",
+                AspController = "Auth",
+                AspAction = "AdminSignIn"
             })
         }
     </div>

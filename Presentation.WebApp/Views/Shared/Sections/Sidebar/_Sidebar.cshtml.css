@@ -4,3 +4,7 @@
     justify-content: space-between;
     height: calc(100% - 80px);
 }
+
+.bottom {
+    margin-bottom: 2rem;
+}

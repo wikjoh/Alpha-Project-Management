@@ -5,6 +5,7 @@ using Domain.Models;
 namespace Business.Interfaces;
 public interface IAuthService
 {
+    Task<AuthResult<string>> AdminLoginAsync(AdminSignInForm form);
     Task<AuthResult<string>> LoginAsync(UserSignInForm form);
     Task<AuthResult<string?>> LogoutAsync();
     Task<AuthResult<UserModel>> SignUpAsync(UserSignUpForm form, string password);

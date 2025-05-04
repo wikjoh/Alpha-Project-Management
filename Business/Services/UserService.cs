@@ -145,4 +145,14 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
         return UserResult<UserModel>.Ok(user);
     }
 
+    public async Task<UserResult<bool>> IsUserAdminAsync(string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user == null)
+            return UserResult<bool>.NotFound($"User with email {email} not found.");
+
+        var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+
+        return UserResult<bool>.Ok(isAdmin);
+    }
 }

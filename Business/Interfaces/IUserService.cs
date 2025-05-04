@@ -9,4 +9,5 @@ public interface IUserService
     Task<UserResult<UserModel>> CreateUserAsync(UserSignUpForm form, string password);
     Task<UserResult<UserModel>> CreateUserWithoutPasswordAsync(UserSignUpForm form);
     Task<UserResult<UserModel>> GetUserByEmailAsync(string email);
+    Task<UserResult<bool>> IsUserAdminAsync(string email);
 }
