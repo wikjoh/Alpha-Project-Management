@@ -14,10 +14,12 @@ public class UserAvatarViewComponent(UserManager<UserEntity> userManager, IMembe
     {
         var result = await _memberService.GetMemberByIdAsync(_userManager.GetUserId(HttpContext.User)!);
         var memberProfile = result.Data;
+        string imageURI;
 
-        var imageURI = !string.IsNullOrEmpty(memberProfile!.ImageURI)
-            ? Url.Content($"~{memberProfile.ImageURI}")
-            : Url.Content("~/images/memberDefaultAvatar.svg");
+        if (memberProfile == null || string.IsNullOrEmpty(memberProfile?.ImageURI))
+            imageURI = Url.Content("~/images/memberDefaultAvatar.svg");
+        else
+            imageURI = Url.Content($"~{memberProfile.ImageURI}");
 
         return View("Default", imageURI);
     }
