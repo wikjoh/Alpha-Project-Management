@@ -23,6 +23,12 @@ builder.Services.AddIdentity<UserEntity, IdentityRole>(x =>
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.CheckConsentNeeded = context => !context.Request.Cookies.ContainsKey("cookieConsent");
+    options.MinimumSameSitePolicy = SameSiteMode.Lax;
+});
+
 builder.Services.ConfigureApplicationCookie(x =>
 {
     x.LoginPath = "/auth/signin";
@@ -70,6 +76,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+
+app.UseCookiePolicy();
 app.UseAuthentication();
 app.UseAuthorization();
 
