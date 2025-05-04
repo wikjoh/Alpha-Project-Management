@@ -87,10 +87,14 @@ public class AdminController(IClientService clientService, IMemberProfileService
         // Wrap in trycatch in order to delete image in case something unexpected occurs
         try
         {
-            imagePath = await _imageUploadService.UpdateImageAsync(vm.MemberImage!, "members", currentImage!);
-
             var memberForm = vm.MapTo<EditMemberForm>();
-            memberForm.ImageURI = imagePath ?? "/images/memberDefaultAvatar.svg"; // set default image if none chosen
+            memberForm.ImageURI = currentImage;
+
+            if (vm.MemberImage != null)
+            {
+                imagePath = await _imageUploadService.UpdateImageAsync(vm.MemberImage!, "projects", currentImage!);
+                memberForm.ImageURI = imagePath;
+            }
 
             var result = await _memberService.UpdateMemberAsync(memberForm);
             if (result.Success)
@@ -189,10 +193,14 @@ public class AdminController(IClientService clientService, IMemberProfileService
         // Wrap in trycatch in order to delete image in case something unexpected occurs
         try
         {
-            imagePath = await _imageUploadService.UpdateImageAsync(vm.ClientImage!, "clients", currentImage!);
-
             var clientForm = vm.MapTo<EditClientForm>();
-            clientForm.ImageURI = imagePath ?? "/images/clientDefaultAvatar.svg"; // set default image if none chosen
+            clientForm.ImageURI = currentImage;
+
+            if (vm.ClientImage != null)
+            {
+                imagePath = await _imageUploadService.UpdateImageAsync(vm.ClientImage!, "projects", currentImage!);
+                clientForm.ImageURI = imagePath;
+            }
 
             var result = await _clientService.UpdateClientAsync(clientForm);
             if (result.Success)

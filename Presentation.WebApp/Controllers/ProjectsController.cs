@@ -88,11 +88,15 @@ public class ProjectsController(IMemberService memberService, IClientService cli
         // Wrap in trycatch in order to delete image in case something unexpected occurs
         try
         {
-            imagePath = await _imageUploadService.UpdateImageAsync(vm.ProjectImage!, "projects", currentImage!);
-
             var projectForm = vm.MapTo<EditProjectForm>();
+            projectForm.ImageURI = currentImage;
             projectForm.ClientId = vm.SelectedClientId;
-            projectForm.ImageURI = imagePath ?? "/images/projectDefaultAvatar.svg"; // set default image if none chosen
+
+            if (vm.ProjectImage != null)
+            {
+                imagePath = await _imageUploadService.UpdateImageAsync(vm.ProjectImage!, "projects", currentImage!);
+                projectForm.ImageURI = imagePath;
+            }
 
             var result = await _projectService.UpdateProjectAsync(projectForm);
             if (result.Success)
