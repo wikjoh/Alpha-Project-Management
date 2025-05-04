@@ -19,7 +19,7 @@ public class EditMemberViewModel
 
     [Display(Name = "Job Title", Prompt = "Enter job title")]
     [DataType(DataType.Text)]
-    [Required]
+    [Required(ErrorMessage = "Required")]
     public string JobTitle { get; set; } = null!;
 
     public MemberAddressViewModel MemberAddress { get; set; } = new();
