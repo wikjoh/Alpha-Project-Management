@@ -335,6 +335,15 @@
         })
     })
 
+    // fix project dropdown menu not closing when clicking on an option
+    document.querySelectorAll('.project-list .project button').forEach(button => {
+        button.addEventListener('click', () => {
+            document.querySelectorAll('.project-list .project .dropdown').forEach(dropdown => {
+                dropdown.classList.remove('dropdown-show')
+            })
+        })
+    })
+
 })
 
 function clearErrorMessages(form) {
