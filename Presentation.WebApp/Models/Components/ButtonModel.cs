@@ -7,6 +7,7 @@ public class ButtonModel
     public string Title { get; set; } = null!;
 
     public bool DataModal { get; set; }
+    public bool DataModalClose { get; set; }
 
     public string? DataTarget { get; set; }
 

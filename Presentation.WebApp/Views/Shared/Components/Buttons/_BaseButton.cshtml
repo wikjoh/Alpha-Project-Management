@@ -2,12 +2,14 @@
 @model ButtonModel
 @{
     string dataModal = Model.DataModal ? "data-modal=true" : "";
+    string dataModalClose = Model.DataModalClose ? "data-close=true" : "";
     string dataTarget = !string.IsNullOrWhiteSpace(Model.DataTarget) ? ("data-target=" + Model.DataTarget) : "";
     string name = !string.IsNullOrWhiteSpace(Model.Name) ? $"name={Model.Name}" : "";
     string value = !string.IsNullOrWhiteSpace(Model.Value) ? $"value={Model.Value}" : "";
+
 }
 
-<button type="@Model.Type" @dataModal @dataTarget @name @value>
+<button type="@Model.Type" @dataModal @dataTarget @name @value @dataModalClose>
 @if (!string.IsNullOrWhiteSpace(Model.IconUri))
 {
     <img src="@Url.Content(@Model.IconUri)" />

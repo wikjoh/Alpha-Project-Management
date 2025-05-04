@@ -9,7 +9,7 @@
             @await Html.PartialAsync("Components/Buttons/_BaseButton", new ButtonModel { Title = "DELETE" })
         </div>
         <div class="project-cancel-button">
-            @await Html.PartialAsync("Components/Buttons/_BaseButton", new ButtonModel { Title = "Cancel" })
+            @await Html.PartialAsync("Components/Buttons/_BaseButton", new ButtonModel { Title = "Cancel", DataModalClose = true })
         </div>
     </div>
 </div>
