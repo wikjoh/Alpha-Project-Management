@@ -5,6 +5,7 @@ using Data.Contexts;
 using Data.Entities;
 using Data.Interfaces;
 using Data.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Presentation.WebApp.Services;
@@ -26,7 +27,7 @@ builder.Services.AddIdentity<UserEntity, IdentityRole>(x =>
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
     options.CheckConsentNeeded = context => !context.Request.Cookies.ContainsKey("cookieConsent");
-    options.MinimumSameSitePolicy = SameSiteMode.Lax;
+    options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
 });
 
 builder.Services.ConfigureApplicationCookie(x =>
@@ -38,6 +39,19 @@ builder.Services.ConfigureApplicationCookie(x =>
     x.Cookie.IsEssential = true;
     x.ExpireTimeSpan = TimeSpan.FromHours(1);
     x.SlidingExpiration = true;
+    x.Cookie.SameSite = SameSiteMode.None;
+    x.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+});
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+.AddCookie()
+.AddGoogle(options =>
+{
+    options.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
 });
 
 builder.Services.AddScoped<IClientRepository, ClientRepository>();

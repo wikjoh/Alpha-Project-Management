@@ -4,12 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 using Presentation.WebApp.Models;
 using Domain.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Data.Entities;
+using System.Security.Claims;
 
 namespace Presentation.WebApp.Controllers;
 
-public class AuthController(IAuthService authService) : Controller
+public class AuthController(IAuthService authService, SignInManager<UserEntity> signInManager, UserManager<UserEntity> userManager) : Controller
 {
     private readonly IAuthService _authService = authService;
+    private readonly SignInManager<UserEntity> _signInManager = signInManager;
+    private readonly UserManager<UserEntity> _userManager = userManager;
 
     public IActionResult SignUp()
     {
@@ -124,5 +129,127 @@ public class AuthController(IAuthService authService) : Controller
 
         ViewBag.ErrorMessage = "Incorrect email or password";
         return View(vm);
+    }
+
+
+    [HttpPost]
+    public IActionResult ExternalSignIn(string provider, string returnUrl = null!)
+    {
+        if (string.IsNullOrEmpty(provider))
+        {
+            ModelState.AddModelError("", "Invalid provider");
+            return View("SignIn");
+        }
+
+        var redirectUrl = Url.Action("ExternalSignInCallBack", "Auth", new { returnUrl });
+        var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+        return Challenge(properties, provider);
+    }
+
+    public async Task<IActionResult> ExternalSignInCallback(string returnUrl = null!, string remoteError = null!)
+    {
+        returnUrl ??= Url.Content("~/");
+
+        if (!string.IsNullOrEmpty(remoteError))
+        {
+            ModelState.AddModelError("", $"Error from external provider: {remoteError}");
+            return View("SignIn");
+        }
+
+        var info = await _signInManager.GetExternalLoginInfoAsync();
+        if (info == null)
+            return RedirectToAction("SignIn");
+
+        var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+        if (signInResult.Succeeded)
+        {
+            return LocalRedirect(returnUrl);
+        }
+        else
+        {
+            string firstName = "";
+            string lastName = "";
+
+            try
+            {
+                firstName = info.Principal.FindFirstValue(ClaimTypes.GivenName)!;
+                lastName = info.Principal.FindFirstValue(ClaimTypes.Surname)!;
+            }
+            catch { }
+
+            string email = info.Principal.FindFirstValue(ClaimTypes.Email)!;
+            string username = $"ext_{info.LoginProvider.ToLower()}_{email}";
+
+            var user = new UserEntity { UserName = username, Email = email, FirstName = firstName, LastName = lastName };
+
+            var identityResult = await _userManager.CreateAsync(user);
+            if (identityResult.Succeeded)
+            {
+                await _userManager.AddLoginAsync(user, info);
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return LocalRedirect(returnUrl);
+            }
+
+            foreach (var error in identityResult.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View("SignIn");
+        }
+    }
+
+    [HttpPost]
+    public IActionResult AdminExternalSignIn(string provider, string returnUrl = null!)
+    {
+        if (string.IsNullOrEmpty(provider))
+        {
+            ModelState.AddModelError("", "Invalid provider");
+            return View("AdminSignIn");
+        }
+
+        var redirectUrl = Url.Action("AdminExternalSignInCallback", "Auth", new { returnUrl });
+        var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+        return Challenge(properties, provider);
+    }
+
+    public async Task<IActionResult> AdminExternalSignInCallback(string returnUrl = null!, string remoteError = null!)
+    {
+        returnUrl ??= Url.Content("~/");
+
+        if (!string.IsNullOrEmpty(remoteError))
+        {
+            ModelState.AddModelError("", $"Error from external provider: {remoteError}");
+            return View("AdminSignIn");
+        }
+
+        var info = await _signInManager.GetExternalLoginInfoAsync();
+        if (info == null)
+            return RedirectToAction("AdminSignIn");
+
+        var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+        if (signInResult.Succeeded)
+        {
+            var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+            if (user == null)
+            {
+                await _signInManager.SignOutAsync();
+                ModelState.AddModelError("", "User not authorized as admin.");
+                return View("AdminSignIn");
+            }
+
+            var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+            if (!isAdmin)
+            {
+                await _signInManager.SignOutAsync();
+                ModelState.AddModelError("", "You do not have admin rights.");
+                return View("AdminSignIn");
+            }
+
+            return LocalRedirect(returnUrl);
+        }
+
+        ModelState.AddModelError("", "Admin account creation using external login is not allowed.");
+        return View("AdminSignIn");
     }
 }

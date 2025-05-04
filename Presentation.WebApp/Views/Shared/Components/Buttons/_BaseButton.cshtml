@@ -3,9 +3,11 @@
 @{
     string dataModal = Model.DataModal ? "data-modal=true" : "";
     string dataTarget = !string.IsNullOrWhiteSpace(Model.DataTarget) ? ("data-target=" + Model.DataTarget) : "";
+    string name = !string.IsNullOrWhiteSpace(Model.Name) ? $"name={Model.Name}" : "";
+    string value = !string.IsNullOrWhiteSpace(Model.Value) ? $"value={Model.Value}" : "";
 }
 
-<button type="@Model.Type" @dataModal @dataTarget>
+<button type="@Model.Type" @dataModal @dataTarget @name @value>
 @if (!string.IsNullOrWhiteSpace(Model.IconUri))
 {
     <img src="@Url.Content(@Model.IconUri)" />

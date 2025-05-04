@@ -8,7 +8,10 @@
 <h1>Login</h1>
 
 <div class="google-signup-container">
-    <partial name="Components/Buttons/_GoogleButton" model="@("Login with Google")" />
+    <form asp-controller="Auth" asp-action="AdminExternalSignIn" method="post" class="external-account" novalidate>
+        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+        <partial name="Components/Buttons/_GoogleButton" model="@("Login with Google")" />
+    </form>
 </div>
 
 <div class="divider">OR</div>

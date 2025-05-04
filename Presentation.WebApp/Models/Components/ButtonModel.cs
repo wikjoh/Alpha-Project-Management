@@ -11,4 +11,8 @@ public class ButtonModel
     public string? DataTarget { get; set; }
 
     public string? Type { get; set; } = "button";
+
+    public string? Name { get; set; }
+
+    public string? Value { get; set; }
 }

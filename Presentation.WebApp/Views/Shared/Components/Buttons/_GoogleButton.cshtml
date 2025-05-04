@@ -1,5 +1,5 @@
 ﻿@model string
 
 <div class="google-button-container" style="display: contents">
-    @await Html.PartialAsync("Components/Buttons/_BaseButton", new ButtonModel { IconUri = "~/images/icons/google-icon.svg", Title = @Model, Type = "button" })
+    @await Html.PartialAsync("Components/Buttons/_BaseButton", new ButtonModel { IconUri = "~/images/icons/google-icon.svg", Title = @Model, Type = "submit", Name = "provider", Value = "Google" })
 </div>
